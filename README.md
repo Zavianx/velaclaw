@@ -1,153 +1,104 @@
-# Velaclaw
+<p align="center">
+  <img src="pic/banner.jpg" alt="Velaclaw — A better way for teams to work with AI" width="100%" />
+</p>
+
+<h1 align="center">Velaclaw</h1>
 
 <p align="center">
-  <strong>Control plane for team AI</strong>
+  <strong>A better way for teams to work with AI.</strong><br/>
+  <sub>Shared where it should be. Private where it must be.</sub>
 </p>
 
 <p align="center">
-  Shared intelligence • Private runtimes • Governed execution
-</p>
-
-<p align="center">
-  <img alt="Status" src="https://img.shields.io/badge/status-early%20development-2ea44f">
-  <img alt="Runtime" src="https://img.shields.io/badge/runtime-Docker-2496ED">
-  <img alt="Foundation" src="https://img.shields.io/badge/foundation-OpenClaw-orange">
+  <img alt="Status" src="https://img.shields.io/badge/status-early--access-orange" />
+  <img alt="Runtime" src="https://img.shields.io/badge/runtime-Docker-blue" />
+  <img alt="Built on" src="https://img.shields.io/badge/built%20on-OpenClaw-black" />
 </p>
 
 ---
 
-## ✨ What is Velaclaw?
+> Teams are already using AI.
+> Velaclaw gives them a better way to work together.
 
-Velaclaw is a **team AI control-plane concept** built on top of OpenClaw.
+Velaclaw gives teams a shared system for working with AI together — while keeping assets, runtimes, and boundaries clear.
 
-It is designed for teams that want to share AI capabilities **without collapsing privacy, credential, and runtime boundaries**.
+---
 
-Instead of treating AI agents like isolated chatbots, Velaclaw treats them like a governed team:
+## ✨ What Velaclaw is
 
-- 🧠 **shared team intelligence**
-- 👤 **private member runtimes**
-- 🐳 **isolated execution environments**
-- 🗂️ **shared assets and private assets split by default**
-- ✅ **approval-oriented handling for high-risk actions**
+Velaclaw is built around four ideas:
+
+- **shared assets** the team can build on together
+- **private member runtimes** for work that should stay isolated
+- **agent workflows** that can be split, coordinated, and managed over time
+- **approvals and boundaries** for actions that carry real risk
+
+In Velaclaw, memory, skills, tools, workflows, documents, and bindings are all treated as **assets**.
+Some belong to the team. Others belong to the member.
 
 ---
 
 ## 🧭 Why it exists
 
-Most team AI products focus on chat, dashboards, or orchestration.
+Most teams already use AI across chat windows, scripts, agents, and tools.
+What they usually do not have is a shared system the whole team can work from together.
 
-Velaclaw focuses on a harder problem:
+Velaclaw gives teams a shared system they can actually build on together.
+It is designed not just for one-off agent runs, but for AI work that can be split, coordinated, and managed over time.
 
-> How do you let a team share AI capabilities **without turning the whole system into one giant shared trust boundary**?
+It helps teams:
 
-Velaclaw is built around that question.
-
----
-
-## 🏗️ Core ideas
-
-### 1. Control plane + member runtimes
-A primary control layer governs a set of member runtimes, instead of placing everything into one shared assistant context.
-
-### 2. Shared assets + private assets
-Velaclaw treats digital assets explicitly:
-
-- shared team memory
-- private member memory
-- shared skills and workflows
-- private bindings and credentials
-- controlled snapshots for distribution
-
-### 3. Isolation first
-Member execution environments are intended to run with strong Docker isolation defaults:
-
-- independent runtime directories
-- no host Docker socket exposure
-- read-only snapshot distribution where possible
-- reduced privileges
-- approval-gated high-risk actions
-
-### 4. Governance over chaos
-Velaclaw is designed around:
-
-- policies
-- approval flow
-- clear asset boundaries
-- runtime containment
-- reproducible provisioning
+- build on shared assets over time
+- keep member-specific work private where it should be
+- introduce structure without turning collaboration into chaos
+- put approvals around high-risk actions
 
 ---
 
-## 🧩 Planned architecture
+## 🧩 Core capabilities
+
+- **Shared assets** the team can keep building on together
+- **Private runtimes** for member-specific execution
+- **Agent workflows** for work that needs to split, coordinate, and run over time
+- **Read-only asset distribution** for controlled sharing
+- **Approval-aware operations** for higher-risk actions
+- **Docker-based isolation** for practical deployment today
+
+---
+
+## 🏗️ Architecture
 
 ```text
-                ┌─────────────────────────────┐
-                │        Velaclaw Core        │
-                │      (Control Plane)        │
-                ├─────────────────────────────┤
-                │ - team policies             │
-                │ - shared memory             │
-                │ - shared skills/tools       │
-                │ - approvals / governance    │
-                │ - snapshot distribution     │
-                └──────────────┬──────────────┘
-                               │
-              ┌────────────────┼────────────────┐
-              │                │                │
-              ▼                ▼                ▼
-      ┌─────────────┐  ┌─────────────┐  ┌─────────────┐
-      │ Member A    │  │ Member B    │  │ Member C    │
-      │ Runtime     │  │ Runtime     │  │ Runtime     │
-      ├─────────────┤  ├─────────────┤  ├─────────────┤
-      │ private mem │  │ private mem │  │ private mem │
-      │ private cfg │  │ private cfg │  │ private cfg │
-      │ private sec │  │ private sec │  │ private sec │
-      │ isolated ws │  │ isolated ws │  │ isolated ws │
-      └─────────────┘  └─────────────┘  └─────────────┘
+    ┌─────────────────────────────────────────────────┐
+    │              Control Plane (Host)                │
+    │                                                  │
+    │   policies  ·  shared-assets  ·  approvals       │
+    │   asset-distribution  ·  audit                   │
+    └──────────┬──────────┬──────────┬─────────────────┘
+               │          │          │
+         ┌─────▼────┐┌────▼─────┐┌──▼───────┐
+         │ Member A ││ Member B ││ Member C │
+         │ (Docker) ││ (Docker) ││ (Docker) │
+         │          ││          ││          │
+         │ private  ││ private  ││ private  │
+         │ assets   ││ assets   ││ assets   │
+         │ runtime  ││ runtime  ││ runtime  │
+         │ secrets  ││ secrets  ││ secrets  │
+         └──────────┘└──────────┘└──────────┘
 ```
 
 ---
 
-## 🚧 Current focus
+## 🌱 Status
 
-Velaclaw is currently in **early development**.
-
-Current work areas:
-
-- team control-plane architecture
-- isolated member runtime templates
-- shared/private asset registry model
-- provisioning workflows
-- snapshot distribution model
-- approval-oriented operation model
+Velaclaw is in active development.
+The public repository is intended to communicate the product direction, architecture, and design principles as the system takes shape.
 
 ---
 
-## 🎯 Product direction
-
-Velaclaw is intended to sit at the intersection of:
-
-- **team AI control plane**
-- **shared/private asset governance**
-- **isolated runtime management for OpenClaw-based teams**
-
----
-
-## 💬 Taglines
-
-- **Shared intelligence. Private runtimes.**
-- **Govern your AI team, don’t just chat with it.**
-- **Control plane for team AI.**
-
----
-
-## 🌱 Status note
-
-Velaclaw is still young by design.
-
-The goal right now is to build the foundations well:
-
-- a clean control-plane model
-- strong runtime boundaries
-- clear team/private asset separation
-- a product shape that can scale without becoming chaotic
+<p align="center">
+  <strong>Built on <a href="https://github.com/openclaw/openclaw">OpenClaw</a></strong>
+</p>
+<p align="center">
+  <em>A better way for teams to work with AI.</em>
+</p>
