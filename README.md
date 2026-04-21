@@ -390,8 +390,8 @@ See `velaclaw onboard --help` for the full flag list, including Codex CLI, Anthr
 <br/>
 
 ```bash
-git clone https://github.com/Zavianx/velaclaw-dev.git
-cd velaclaw-dev
+git clone https://github.com/Zavianx/velaclaw.git
+cd velaclaw
 pnpm install && pnpm build && pnpm link --global
 ```
 
@@ -497,5 +497,5 @@ velaclaw team assets approve <slug> <id>
   <sub>Released under the <a href="LICENSE">MIT License</a> &nbsp;·&nbsp; Built on the shoulders of the <b>OpenClaw</b> project.</sub>
 </p>
 <p align="center">
-  <sub>If VelaClaw is useful to you, consider giving it a ⭐ on <a href="https://github.com/Zavianx/velaclaw-dev">GitHub</a>.</sub>
+  <sub>If VelaClaw is useful to you, consider giving it a ⭐ on <a href="https://github.com/Zavianx/velaclaw">GitHub</a>.</sub>
 </p>

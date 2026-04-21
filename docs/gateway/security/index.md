@@ -132,7 +132,7 @@ Before opening a GHSA, verify all of these:
 1. Repro still works on latest `main` or latest release.
 2. Report includes exact code path (`file`, function, line range) and tested version/commit.
 3. Impact crosses a documented trust boundary (not just prompt injection).
-4. Claim is not listed in [Out of Scope](https://github.com/Zavianx/velaclaw-dev/blob/main/SECURITY.md#out-of-scope).
+4. Claim is not listed in [Out of Scope](https://github.com/Zavianx/velaclaw/blob/main/SECURITY.md#out-of-scope).
 5. Existing advisories were checked for duplicates (reuse canonical GHSA when applicable).
 6. Deployment assumptions are explicit (loopback/local vs exposed, trusted vs untrusted operators).
 

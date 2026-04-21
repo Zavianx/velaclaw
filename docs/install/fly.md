@@ -28,7 +28,7 @@ read_when:
   <Step title="Create the Fly app">
     ```bash
     # Clone the repo
-    git clone https://github.com/Zavianx/velaclaw-dev.git
+    git clone https://github.com/Zavianx/velaclaw.git
     cd velaclaw
 
     # Create a new Fly app (pick your own name)

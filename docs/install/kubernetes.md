@@ -139,7 +139,7 @@ VELACLAW_NAMESPACE=my-namespace ./scripts/k8s/deploy.sh
 Edit the `image` field in `scripts/k8s/manifests/deployment.yaml`:
 
 ```yaml
-image: ghcr.io/Zavianx/velaclaw-dev:latest # or pin to a specific version from https://github.com/Zavianx/velaclaw-dev/releases
+image: ghcr.io/Zavianx/velaclaw-dev:latest # or pin to a specific version from https://github.com/Zavianx/velaclaw/releases
 ```
 
 ### Expose beyond port-forward

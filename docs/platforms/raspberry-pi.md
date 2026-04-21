@@ -118,7 +118,7 @@ curl -fsSL https://velaclaw.ai/install.sh | bash
 ### Option B: Hackable Install (For tinkering)
 
 ```bash
-git clone https://github.com/Zavianx/velaclaw-dev.git
+git clone https://github.com/Zavianx/velaclaw.git
 cd velaclaw
 npm install
 npm run build
