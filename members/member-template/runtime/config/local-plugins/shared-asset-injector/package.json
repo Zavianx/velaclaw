@@ -1,0 +1,10 @@
+{
+  "name": "@local/shared-asset-injector",
+  "version": "0.1.0",
+  "type": "module",
+  "velaclaw": {
+    "extensions": [
+      "./index.js"
+    ]
+  }
+}

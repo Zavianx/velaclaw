@@ -1,0 +1,56 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "velaclaw/extension-api": ["../src/extensionAPI.ts"],
+      "velaclaw/plugin-sdk": ["../dist/plugin-sdk/src/plugin-sdk/index.d.ts"],
+      "velaclaw/plugin-sdk/*": ["../dist/plugin-sdk/src/plugin-sdk/*.d.ts"],
+      "velaclaw/plugin-sdk/account-id": ["../dist/plugin-sdk/src/plugin-sdk/account-id.d.ts"],
+      "velaclaw/plugin-sdk/channel-entry-contract": [
+        "../packages/plugin-sdk/dist/src/plugin-sdk/channel-entry-contract.d.ts"
+      ],
+      "velaclaw/plugin-sdk/browser-maintenance": [
+        "../packages/plugin-sdk/dist/extensions/browser/browser-maintenance.d.ts"
+      ],
+      "velaclaw/plugin-sdk/browser-config-runtime": [
+        "../dist/plugin-sdk/src/plugin-sdk/browser-config-runtime.d.ts"
+      ],
+      "velaclaw/plugin-sdk/browser-node-runtime": [
+        "../dist/plugin-sdk/src/plugin-sdk/browser-node-runtime.d.ts"
+      ],
+      "velaclaw/plugin-sdk/browser-setup-tools": [
+        "../dist/plugin-sdk/src/plugin-sdk/browser-setup-tools.d.ts"
+      ],
+      "velaclaw/plugin-sdk/browser-security-runtime": [
+        "../dist/plugin-sdk/src/plugin-sdk/browser-security-runtime.d.ts"
+      ],
+      "velaclaw/plugin-sdk/channel-secret-basic-runtime": [
+        "../packages/plugin-sdk/dist/src/plugin-sdk/channel-secret-basic-runtime.d.ts"
+      ],
+      "velaclaw/plugin-sdk/channel-secret-runtime": [
+        "../dist/plugin-sdk/src/plugin-sdk/channel-secret-runtime.d.ts"
+      ],
+      "velaclaw/plugin-sdk/channel-secret-tts-runtime": [
+        "../packages/plugin-sdk/dist/src/plugin-sdk/channel-secret-tts-runtime.d.ts"
+      ],
+      "velaclaw/plugin-sdk/channel-streaming": [
+        "../dist/plugin-sdk/src/plugin-sdk/channel-streaming.d.ts"
+      ],
+      "velaclaw/plugin-sdk/error-runtime": ["../dist/plugin-sdk/src/plugin-sdk/error-runtime.d.ts"],
+      "velaclaw/plugin-sdk/provider-catalog-shared": [
+        "../packages/plugin-sdk/dist/src/plugin-sdk/provider-catalog-shared.d.ts"
+      ],
+      "velaclaw/plugin-sdk/provider-entry": [
+        "../packages/plugin-sdk/dist/src/plugin-sdk/provider-entry.d.ts"
+      ],
+      "velaclaw/plugin-sdk/secret-ref-runtime": [
+        "../dist/plugin-sdk/src/plugin-sdk/secret-ref-runtime.d.ts"
+      ],
+      "velaclaw/plugin-sdk/ssrf-runtime": ["../dist/plugin-sdk/src/plugin-sdk/ssrf-runtime.d.ts"],
+      "@velaclaw/qa-channel/api.js": ["../dist/plugin-sdk/extensions/qa-channel/api.d.ts"],
+      "@velaclaw/*.js": ["../packages/plugin-sdk/dist/extensions/*.d.ts", "../extensions/*"],
+      "@velaclaw/*": ["../packages/plugin-sdk/dist/extensions/*", "../extensions/*"],
+      "@velaclaw/plugin-sdk/*": ["../dist/plugin-sdk/src/plugin-sdk/*.d.ts"]
+    }
+  }
+}

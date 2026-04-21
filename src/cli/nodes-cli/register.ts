@@ -1,0 +1,42 @@
+import type { Command } from "commander";
+import { formatDocsLink } from "../../terminal/links.js";
+import { theme } from "../../terminal/theme.js";
+import { formatHelpExamples } from "../help-format.js";
+import { registerNodesCameraCommands } from "./register.camera.js";
+import { registerNodesCanvasCommands } from "./register.canvas.js";
+import { registerNodesInvokeCommands } from "./register.invoke.js";
+import { registerNodesLocationCommands } from "./register.location.js";
+import { registerNodesNotifyCommand } from "./register.notify.js";
+import { registerNodesPairingCommands } from "./register.pairing.js";
+import { registerNodesPushCommand } from "./register.push.js";
+import { registerNodesScreenCommands } from "./register.screen.js";
+import { registerNodesStatusCommands } from "./register.status.js";
+
+export function registerNodesCli(program: Command) {
+  const nodes = program
+    .command("nodes")
+    .description("Manage gateway-owned nodes (pairing, status, invoke, and media)")
+    .addHelpText(
+      "after",
+      () =>
+        `\n${theme.heading("Examples:")}\n${formatHelpExamples([
+          ["velaclaw nodes status", "List known nodes with live status."],
+          ["velaclaw nodes pairing pending", "Show pending node pairing requests."],
+          [
+            'velaclaw nodes invoke --node <id> --command system.which --params \'{"name":"uname"}\'',
+            "Invoke a node command directly.",
+          ],
+          ["velaclaw nodes camera snap --node <id>", "Capture a photo from a node camera."],
+        ])}\n\n${theme.muted("Docs:")} ${formatDocsLink("/cli/nodes", "docs.velaclaw.ai/cli/nodes")}\n`,
+    );
+
+  registerNodesStatusCommands(nodes);
+  registerNodesPairingCommands(nodes);
+  registerNodesInvokeCommands(nodes);
+  registerNodesNotifyCommand(nodes);
+  registerNodesPushCommand(nodes);
+  registerNodesCanvasCommands(nodes);
+  registerNodesCameraCommands(nodes);
+  registerNodesScreenCommands(nodes);
+  registerNodesLocationCommands(nodes);
+}

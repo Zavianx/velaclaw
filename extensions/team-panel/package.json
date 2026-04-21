@@ -1,0 +1,15 @@
+{
+  "name": "@velaclaw/team-panel-plugin",
+  "version": "2026.4.15-beta.1",
+  "private": true,
+  "description": "Velaclaw Telegram team panel plugin",
+  "type": "module",
+  "devDependencies": {
+    "@velaclaw/plugin-sdk": "workspace:*"
+  },
+  "velaclaw": {
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}

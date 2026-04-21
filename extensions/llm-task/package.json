@@ -1,0 +1,19 @@
+{
+  "name": "@velaclaw/llm-task",
+  "version": "2026.4.15-beta.1",
+  "private": true,
+  "description": "Velaclaw JSON-only LLM task plugin",
+  "type": "module",
+  "dependencies": {
+    "@sinclair/typebox": "0.34.49",
+    "ajv": "^8.18.0"
+  },
+  "devDependencies": {
+    "@velaclaw/plugin-sdk": "workspace:*"
+  },
+  "velaclaw": {
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}

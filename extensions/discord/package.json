@@ -1,0 +1,68 @@
+{
+  "name": "@velaclaw/discord",
+  "version": "2026.4.15-beta.1",
+  "description": "Velaclaw Discord channel plugin",
+  "type": "module",
+  "dependencies": {
+    "@buape/carbon": "0.15.0",
+    "@discordjs/voice": "^0.19.2",
+    "@snazzah/davey": "^0.1.11",
+    "discord-api-types": "^0.38.45",
+    "https-proxy-agent": "^9.0.0",
+    "opusscript": "^0.1.1"
+  },
+  "devDependencies": {
+    "@velaclaw/plugin-sdk": "workspace:*",
+    "velaclaw": "workspace:*"
+  },
+  "peerDependencies": {
+    "velaclaw": ">=2026.4.15-beta.1"
+  },
+  "peerDependenciesMeta": {
+    "velaclaw": {
+      "optional": true
+    }
+  },
+  "optionalDependencies": {
+    "@discordjs/opus": "^0.10.0"
+  },
+  "velaclaw": {
+    "extensions": [
+      "./index.ts"
+    ],
+    "setupEntry": "./setup-entry.ts",
+    "channel": {
+      "id": "discord",
+      "label": "Discord",
+      "selectionLabel": "Discord (Bot API)",
+      "detailLabel": "Discord Bot",
+      "docsPath": "/channels/discord",
+      "docsLabel": "discord",
+      "blurb": "very well supported right now.",
+      "systemImage": "bubble.left.and.bubble.right",
+      "markdownCapable": true,
+      "configuredState": {
+        "specifier": "./configured-state",
+        "exportName": "hasDiscordConfiguredState"
+      }
+    },
+    "install": {
+      "npmSpec": "@velaclaw/discord",
+      "defaultChoice": "npm",
+      "minHostVersion": ">=2026.4.10"
+    },
+    "compat": {
+      "pluginApi": ">=2026.4.15-beta.1"
+    },
+    "build": {
+      "velaclawVersion": "2026.4.15-beta.1"
+    },
+    "bundle": {
+      "stageRuntimeDependencies": true
+    },
+    "release": {
+      "publishToClawHub": true,
+      "publishToNpm": true
+    }
+  }
+}

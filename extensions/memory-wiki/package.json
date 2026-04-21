@@ -1,0 +1,27 @@
+{
+  "name": "@velaclaw/memory-wiki",
+  "version": "2026.4.15-beta.1",
+  "private": true,
+  "description": "Velaclaw persistent wiki plugin",
+  "type": "module",
+  "dependencies": {
+    "yaml": "^2.8.3"
+  },
+  "devDependencies": {
+    "@velaclaw/plugin-sdk": "workspace:*",
+    "velaclaw": "workspace:*"
+  },
+  "peerDependencies": {
+    "velaclaw": ">=2026.4.15-beta.1"
+  },
+  "peerDependenciesMeta": {
+    "velaclaw": {
+      "optional": true
+    }
+  },
+  "velaclaw": {
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}

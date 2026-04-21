@@ -1,0 +1,37 @@
+{
+  "id": "team-panel",
+  "enabledByDefault": true,
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "controlBaseUrl": {
+        "type": "string"
+      },
+      "adminToken": {
+        "type": "string"
+      },
+      "accessToken": {
+        "type": "string"
+      },
+      "teamSlug": {
+        "type": "string"
+      },
+      "allowTeamListing": {
+        "type": "boolean"
+      },
+      "allowEvolutionTrigger": {
+        "type": "boolean"
+      },
+      "allowMemberRemoval": {
+        "type": "boolean"
+      },
+      "memberId": {
+        "type": "string"
+      },
+      "runtimeAccessToken": {
+        "type": "string"
+      }
+    }
+  }
+}

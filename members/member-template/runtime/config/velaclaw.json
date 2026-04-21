@@ -1,0 +1,7 @@
+{
+  "name": "velaclaw-member",
+  "version": "1",
+  "gateway": {
+    "bind": "loopback"
+  }
+}

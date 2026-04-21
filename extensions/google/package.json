@@ -1,0 +1,21 @@
+{
+  "name": "@velaclaw/google-plugin",
+  "version": "2026.4.15-beta.1",
+  "private": true,
+  "description": "Velaclaw Google plugin",
+  "type": "module",
+  "dependencies": {
+    "@google/genai": "^1.49.0"
+  },
+  "devDependencies": {
+    "@velaclaw/plugin-sdk": "workspace:*"
+  },
+  "velaclaw": {
+    "bundle": {
+      "stageRuntimeDependencies": true
+    },
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}

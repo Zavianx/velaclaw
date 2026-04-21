@@ -1,0 +1,17 @@
+{
+  "id": "member-quota-guard",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "policyPath": {
+        "type": "string",
+        "default": "/home/node/.velaclaw/team-policy.json"
+      },
+      "usagePath": {
+        "type": "string",
+        "default": "/home/node/.velaclaw/team-usage.json"
+      }
+    }
+  }
+}

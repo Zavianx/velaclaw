@@ -1,0 +1,18 @@
+{
+  "name": "@velaclaw/openai-provider",
+  "version": "2026.4.15-beta.1",
+  "private": true,
+  "description": "Velaclaw OpenAI provider plugins",
+  "type": "module",
+  "dependencies": {
+    "ws": "^8.20.0"
+  },
+  "devDependencies": {
+    "@velaclaw/plugin-sdk": "workspace:*"
+  },
+  "velaclaw": {
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}

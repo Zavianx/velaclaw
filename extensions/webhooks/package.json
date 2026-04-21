@@ -1,0 +1,21 @@
+{
+  "name": "@velaclaw/webhooks",
+  "version": "2026.4.15-beta.1",
+  "private": true,
+  "description": "Velaclaw webhook bridge plugin",
+  "type": "module",
+  "dependencies": {
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@velaclaw/plugin-sdk": "workspace:*"
+  },
+  "velaclaw": {
+    "bundle": {
+      "stageRuntimeDependencies": true
+    },
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}

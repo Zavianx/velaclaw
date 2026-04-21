@@ -1,0 +1,24 @@
+{
+  "name": "@velaclaw/memory-core",
+  "version": "2026.4.15-beta.1",
+  "private": true,
+  "description": "Velaclaw core memory search plugin",
+  "type": "module",
+  "devDependencies": {
+    "@velaclaw/plugin-sdk": "workspace:*",
+    "velaclaw": "workspace:*"
+  },
+  "peerDependencies": {
+    "velaclaw": ">=2026.4.15-beta.1"
+  },
+  "peerDependenciesMeta": {
+    "velaclaw": {
+      "optional": true
+    }
+  },
+  "velaclaw": {
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}

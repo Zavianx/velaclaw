@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: velaclaw-config
+  labels:
+    app: velaclaw
+data:
+  velaclaw.json: |
+    {
+      "gateway": {
+        "mode": "local",
+        "bind": "loopback",
+        "port": 18789,
+        "auth": {
+          "mode": "token"
+        },
+        "controlUi": {
+          "enabled": true
+        }
+      },
+      "agents": {
+        "defaults": {
+          "workspace": "~/.velaclaw/workspace"
+        },
+        "list": [
+          {
+            "id": "default",
+            "name": "Velaclaw Assistant",
+            "workspace": "~/.velaclaw/workspace"
+          }
+        ]
+      },
+      "cron": { "enabled": false }
+    }
+  AGENTS.md: |
+    # Velaclaw Assistant
+
+    You are a helpful AI assistant running in Kubernetes.

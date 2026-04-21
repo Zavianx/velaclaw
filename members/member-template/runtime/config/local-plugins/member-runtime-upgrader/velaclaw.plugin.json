@@ -1,0 +1,25 @@
+{
+  "id": "member-runtime-upgrader",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "apiBaseUrl": {
+        "type": "string",
+        "default": "http://host.docker.internal:4318"
+      },
+      "teamSlug": {
+        "type": "string"
+      },
+      "memberId": {
+        "type": "string"
+      },
+      "accessToken": {
+        "type": "string"
+      },
+      "policyPath": {
+        "type": "string"
+      }
+    }
+  }
+}

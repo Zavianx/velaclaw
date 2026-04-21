@@ -1,0 +1,31 @@
+{
+  "id": "shared-asset-injector",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "assetServerBaseUrl": {
+        "type": "string"
+      },
+      "assetServerToken": {
+        "type": "string"
+      },
+      "workspaceRoot": {
+        "type": "string",
+        "default": "/home/node/.velaclaw/workspace"
+      },
+      "statePath": {
+        "type": "string",
+        "default": "/home/node/.velaclaw/shared-assets-state.json"
+      },
+      "syncTtlMs": {
+        "type": "integer",
+        "default": 30000
+      },
+      "resolveLimitPerKind": {
+        "type": "integer",
+        "default": 2
+      }
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "name": "@velaclaw/whatsapp",
+  "version": "2026.4.15-beta.1",
+  "description": "Velaclaw WhatsApp channel plugin",
+  "type": "module",
+  "dependencies": {
+    "@whiskeysockets/baileys": "7.0.0-rc.9",
+    "jimp": "^1.6.1",
+    "qrcode-terminal": "^0.12.0"
+  },
+  "devDependencies": {
+    "@velaclaw/plugin-sdk": "workspace:*",
+    "velaclaw": "workspace:*"
+  },
+  "peerDependencies": {
+    "velaclaw": ">=2026.4.15-beta.1"
+  },
+  "peerDependenciesMeta": {
+    "velaclaw": {
+      "optional": true
+    }
+  },
+  "velaclaw": {
+    "extensions": [
+      "./index.ts"
+    ],
+    "setupEntry": "./setup-entry.ts",
+    "channel": {
+      "id": "whatsapp",
+      "label": "WhatsApp",
+      "selectionLabel": "WhatsApp (QR link)",
+      "detailLabel": "WhatsApp Web",
+      "docsPath": "/channels/whatsapp",
+      "docsLabel": "whatsapp",
+      "blurb": "works with your own number; recommend a separate phone + eSIM.",
+      "systemImage": "message",
+      "persistedAuthState": {
+        "specifier": "./auth-presence",
+        "exportName": "hasAnyWhatsAppAuth"
+      }
+    },
+    "install": {
+      "npmSpec": "@velaclaw/whatsapp",
+      "defaultChoice": "npm",
+      "minHostVersion": ">=2026.4.10"
+    },
+    "compat": {
+      "pluginApi": ">=2026.4.15-beta.1"
+    },
+    "bundle": {
+      "stageRuntimeDependencies": true
+    },
+    "build": {
+      "velaclawVersion": "2026.4.15-beta.1"
+    },
+    "release": {
+      "publishToClawHub": true,
+      "publishToNpm": true
+    }
+  }
+}
