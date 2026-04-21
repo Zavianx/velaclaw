@@ -1,0 +1,55 @@
+# Default owner for the whole repository.
+* @Zavianx
+
+# Protect the ownership rules themselves.
+/.github/CODEOWNERS @Zavianx
+
+# Security-sensitive code, config, and docs.
+/SECURITY.md @Zavianx
+/.github/dependabot.yml @Zavianx
+/.github/codeql/ @Zavianx
+/.github/workflows/codeql.yml @Zavianx
+/src/security/ @Zavianx
+/src/secrets/ @Zavianx
+/src/config/*secret*.ts @Zavianx
+/src/config/**/*secret*.ts @Zavianx
+/src/gateway/*auth*.ts @Zavianx
+/src/gateway/**/*auth*.ts @Zavianx
+/src/gateway/*secret*.ts @Zavianx
+/src/gateway/**/*secret*.ts @Zavianx
+/src/gateway/security-path*.ts @Zavianx
+/src/gateway/resolve-configured-secret-input-string*.ts @Zavianx
+/src/gateway/protocol/**/*secret*.ts @Zavianx
+/src/gateway/server-methods/secrets*.ts @Zavianx
+/src/agents/*auth*.ts @Zavianx
+/src/agents/**/*auth*.ts @Zavianx
+/src/agents/auth-profiles*.ts @Zavianx
+/src/agents/auth-health*.ts @Zavianx
+/src/agents/auth-profiles/ @Zavianx
+/src/agents/sandbox.ts @Zavianx
+/src/agents/sandbox-*.ts @Zavianx
+/src/agents/sandbox/ @Zavianx
+/src/infra/secret-file*.ts @Zavianx
+/src/cron/stagger.ts @Zavianx
+/src/cron/service/jobs.ts @Zavianx
+/docs/security/ @Zavianx
+/docs/gateway/authentication.md @Zavianx
+/docs/gateway/sandbox-vs-tool-policy-vs-elevated.md @Zavianx
+/docs/gateway/sandboxing.md @Zavianx
+/docs/gateway/secrets-plan-contract.md @Zavianx
+/docs/gateway/secrets.md @Zavianx
+/docs/gateway/security/ @Zavianx
+/docs/cli/approvals.md @Zavianx
+/docs/cli/sandbox.md @Zavianx
+/docs/cli/security.md @Zavianx
+/docs/cli/secrets.md @Zavianx
+/docs/reference/secretref-credential-surface.md @Zavianx
+/docs/reference/secretref-user-supplied-credentials-matrix.json @Zavianx
+
+# Release workflows and their supporting checks.
+/.github/workflows/velaclaw-npm-release.yml @Zavianx
+/.github/workflows/velaclaw-release-checks.yml @Zavianx
+/docs/reference/RELEASING.md @Zavianx
+/scripts/velaclaw-npm-publish.sh @Zavianx
+/scripts/velaclaw-npm-release-check.ts @Zavianx
+/scripts/release-check.ts @Zavianx
