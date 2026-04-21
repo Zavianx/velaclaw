@@ -9,7 +9,6 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Zavianx/velaclaw-dev"><img src="https://img.shields.io/badge/github-Zavianx%2Fvelaclaw--dev-181717?style=for-the-badge&logo=github" alt="GitHub" /></a>
   <a href="https://www.npmjs.com/package/velaclaw-dev"><img src="https://img.shields.io/npm/v/velaclaw-dev?style=for-the-badge&color=cb3837&logo=npm&logoColor=white" alt="npm" /></a>
   <img src="https://img.shields.io/badge/node-22%2B-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node 22+" />
   <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
