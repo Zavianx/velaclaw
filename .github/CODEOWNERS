@@ -1,5 +1,5 @@
 # Default owner for the whole repository.
-* @Zavianx
+* @Zavianx @YuRongHao2233
 
 # Protect the ownership rules themselves.
 /.github/CODEOWNERS @Zavianx
