@@ -36,12 +36,12 @@
     "links": [
       {
         "label": "GitHub",
-        "href": "https://github.com/Zavianx/velaclaw-dev",
+        "href": "https://github.com/Zavianx/velaclaw",
         "icon": "github"
       },
       {
         "label": "Releases",
-        "href": "https://github.com/Zavianx/velaclaw-dev/releases",
+        "href": "https://github.com/Zavianx/velaclaw/releases",
         "icon": "package"
       },
       {

@@ -108,7 +108,7 @@ For the generic Docker flow, see [Docker](/install/docker).
 
   <Step title="Clone the Velaclaw repository">
     ```bash
-    git clone https://github.com/Zavianx/velaclaw-dev.git
+    git clone https://github.com/Zavianx/velaclaw.git
     cd velaclaw
     ```
 

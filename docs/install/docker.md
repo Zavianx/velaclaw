@@ -43,7 +43,7 @@ Docker is **optional**. Use it only if you want a containerized gateway or to va
     ```
 
     Pre-built images are published at the
-    [GitHub Container Registry](https://github.com/Zavianx/velaclaw-dev/pkgs/container/velaclaw).
+    [GitHub Container Registry](https://github.com/Zavianx/velaclaw/pkgs/container/velaclaw).
     Common tags: `main`, `latest`, `<version>` (e.g. `2026.2.26`).
 
   </Step>
@@ -190,7 +190,7 @@ and rolling file logs under `/tmp/velaclaw/`.
 For easier day-to-day Docker management, install `ClawDock`:
 
 ```bash
-mkdir -p ~/.clawdock && curl -sL https://raw.githubusercontent.com/Zavianx/velaclaw-dev/main/scripts/clawdock/clawdock-helpers.sh -o ~/.clawdock/clawdock-helpers.sh
+mkdir -p ~/.clawdock && curl -sL https://raw.githubusercontent.com/Zavianx/velaclaw/main/scripts/clawdock/clawdock-helpers.sh -o ~/.clawdock/clawdock-helpers.sh
 echo 'source ~/.clawdock/clawdock-helpers.sh' >> ~/.zshrc && source ~/.zshrc
 ```
 
@@ -353,7 +353,7 @@ scripts/sandbox-setup.sh
 <AccordionGroup>
   <Accordion title="Image missing or sandbox container not starting">
     Build the sandbox image with
-    [`scripts/sandbox-setup.sh`](https://github.com/Zavianx/velaclaw-dev/blob/main/scripts/sandbox-setup.sh)
+    [`scripts/sandbox-setup.sh`](https://github.com/Zavianx/velaclaw/blob/main/scripts/sandbox-setup.sh)
     or set `agents.defaults.sandbox.docker.image` to your custom image.
     Containers are auto-created per session on demand.
   </Accordion>

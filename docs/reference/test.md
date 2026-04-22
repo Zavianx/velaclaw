@@ -49,7 +49,7 @@ If `pnpm test` flakes on a loaded host, rerun once before treating it as a regre
 
 ## Model latency bench (local keys)
 
-Script: [`scripts/bench-model.ts`](https://github.com/Zavianx/velaclaw-dev/blob/main/scripts/bench-model.ts)
+Script: [`scripts/bench-model.ts`](https://github.com/Zavianx/velaclaw/blob/main/scripts/bench-model.ts)
 
 Usage:
 
@@ -64,7 +64,7 @@ Last run (2025-12-31, 20 runs):
 
 ## CLI startup bench
 
-Script: [`scripts/bench-cli-startup.ts`](https://github.com/Zavianx/velaclaw-dev/blob/main/scripts/bench-cli-startup.ts)
+Script: [`scripts/bench-cli-startup.ts`](https://github.com/Zavianx/velaclaw/blob/main/scripts/bench-cli-startup.ts)
 
 Usage:
 

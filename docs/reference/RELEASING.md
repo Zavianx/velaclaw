@@ -168,12 +168,12 @@ documented and operator-visible.
 
 ## Public references
 
-- [`.github/workflows/velaclaw-npm-release.yml`](https://github.com/Zavianx/velaclaw-dev/blob/main/.github/workflows/velaclaw-npm-release.yml)
-- [`.github/workflows/velaclaw-release-checks.yml`](https://github.com/Zavianx/velaclaw-dev/blob/main/.github/workflows/velaclaw-release-checks.yml)
-- [`.github/workflows/velaclaw-cross-os-release-checks-reusable.yml`](https://github.com/Zavianx/velaclaw-dev/blob/main/.github/workflows/velaclaw-cross-os-release-checks-reusable.yml)
-- [`scripts/velaclaw-npm-release-check.ts`](https://github.com/Zavianx/velaclaw-dev/blob/main/scripts/velaclaw-npm-release-check.ts)
-- [`scripts/package-mac-dist.sh`](https://github.com/Zavianx/velaclaw-dev/blob/main/scripts/package-mac-dist.sh)
-- [`scripts/make_appcast.sh`](https://github.com/Zavianx/velaclaw-dev/blob/main/scripts/make_appcast.sh)
+- [`.github/workflows/velaclaw-npm-release.yml`](https://github.com/Zavianx/velaclaw/blob/main/.github/workflows/velaclaw-npm-release.yml)
+- [`.github/workflows/velaclaw-release-checks.yml`](https://github.com/Zavianx/velaclaw/blob/main/.github/workflows/velaclaw-release-checks.yml)
+- [`.github/workflows/velaclaw-cross-os-release-checks-reusable.yml`](https://github.com/Zavianx/velaclaw/blob/main/.github/workflows/velaclaw-cross-os-release-checks-reusable.yml)
+- [`scripts/velaclaw-npm-release-check.ts`](https://github.com/Zavianx/velaclaw/blob/main/scripts/velaclaw-npm-release-check.ts)
+- [`scripts/package-mac-dist.sh`](https://github.com/Zavianx/velaclaw/blob/main/scripts/package-mac-dist.sh)
+- [`scripts/make_appcast.sh`](https://github.com/Zavianx/velaclaw/blob/main/scripts/make_appcast.sh)
 
 Maintainers use the private release docs in
 [`velaclaw/maintainers/release/README.md`](https://github.com/velaclaw/maintainers/blob/main/release/README.md)

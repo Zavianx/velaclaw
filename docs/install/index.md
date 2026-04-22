@@ -113,7 +113,7 @@ SHARP_IGNORE_GLOBAL_LIBVIPS=1 npm install -g velaclaw@latest
 For contributors or anyone who wants to run from a local checkout:
 
 ```bash
-git clone https://github.com/Zavianx/velaclaw-dev.git
+git clone https://github.com/Zavianx/velaclaw.git
 cd velaclaw
 pnpm install && pnpm ui:build && pnpm build
 pnpm link --global

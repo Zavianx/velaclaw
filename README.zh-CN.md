@@ -390,8 +390,8 @@ velaclaw onboard --non-interactive --accept-risk \
 <br/>
 
 ```bash
-git clone https://github.com/Zavianx/velaclaw-dev.git
-cd velaclaw-dev
+git clone https://github.com/Zavianx/velaclaw.git
+cd velaclaw
 pnpm install && pnpm build && pnpm link --global
 ```
 
@@ -497,5 +497,5 @@ velaclaw team assets approve <slug> <id>
   <sub>以 <a href="LICENSE">MIT 协议</a> 发布 &nbsp;·&nbsp; 基于 <b>OpenClaw</b> 项目构建</sub>
 </p>
 <p align="center">
-  <sub>如果 VelaClaw 对你有用，欢迎在 <a href="https://github.com/Zavianx/velaclaw-dev">GitHub</a> 上点一个 ⭐。</sub>
+  <sub>如果 VelaClaw 对你有用，欢迎在 <a href="https://github.com/Zavianx/velaclaw">GitHub</a> 上点一个 ⭐。</sub>
 </p>

@@ -3,15 +3,15 @@
   "version": "2026.4.15-beta.1",
   "description": "Multi-channel AI gateway with extensible messaging integrations",
   "keywords": [],
-  "homepage": "https://github.com/Zavianx/velaclaw-dev#readme",
+  "homepage": "https://github.com/Zavianx/velaclaw#readme",
   "bugs": {
-    "url": "https://github.com/Zavianx/velaclaw-dev/issues"
+    "url": "https://github.com/Zavianx/velaclaw/issues"
   },
   "license": "MIT",
   "author": "",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Zavianx/velaclaw-dev.git"
+    "url": "git+https://github.com/Zavianx/velaclaw.git"
   },
   "bin": {
     "velaclaw": "velaclaw.mjs"

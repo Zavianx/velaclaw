@@ -37,13 +37,13 @@ services:
     plan: starter
     healthCheckPath: /health
     envVars:
-      - key: OPENCLAW_GATEWAY_PORT
+      - key: VELACLAW_GATEWAY_PORT
         value: "8080"
-      - key: OPENCLAW_STATE_DIR
-        value: /data/.openclaw
-      - key: OPENCLAW_WORKSPACE_DIR
+      - key: VELACLAW_STATE_DIR
+        value: /data/.velaclaw
+      - key: VELACLAW_WORKSPACE_DIR
         value: /data/workspace
-      - key: OPENCLAW_GATEWAY_TOKEN
+      - key: VELACLAW_GATEWAY_TOKEN
         generateValue: true # auto-generates a secure token
     disk:
       name: openclaw-data
@@ -79,7 +79,7 @@ resets on each deploy).
 The web dashboard is available at `https://<your-service>.onrender.com/`.
 
 Connect using the configured shared secret. This deploy template auto-generates
-`OPENCLAW_GATEWAY_TOKEN` (find it in **Dashboard → your service →
+`VELACLAW_GATEWAY_TOKEN` (find it in **Dashboard → your service →
 Environment**); if you replace it with password auth, use that password
 instead.
 
@@ -139,8 +139,8 @@ workspace. See [Backup](/cli/backup) for details.
 
 Check the deploy logs in the Render Dashboard. Common issues:
 
-- Missing `OPENCLAW_GATEWAY_TOKEN` — verify it is set in **Dashboard → Environment**
-- Port mismatch — ensure `OPENCLAW_GATEWAY_PORT=8080` is set so the gateway binds to the port Render expects
+- Missing `VELACLAW_GATEWAY_TOKEN` — verify it is set in **Dashboard → Environment**
+- Port mismatch — ensure `VELACLAW_GATEWAY_PORT=8080` is set so the gateway binds to the port Render expects
 
 ### Slow cold starts (free tier)
 
