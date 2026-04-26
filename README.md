@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/velaclaw-dev"><img src="https://img.shields.io/npm/v/velaclaw-dev?style=for-the-badge&color=cb3837&logo=npm&logoColor=white" alt="npm" /></a>
+  <a href="https://www.npmjs.com/package/velaclaw"><img src="https://img.shields.io/npm/v/velaclaw?style=for-the-badge&color=cb3837&logo=npm&logoColor=white" alt="npm" /></a>
   <img src="https://img.shields.io/badge/node-22%2B-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node 22+" />
   <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
   <img src="https://img.shields.io/badge/license-MIT-22c55e?style=for-the-badge" alt="MIT" />
@@ -31,6 +31,7 @@
   <a href="#-install">Install</a> &nbsp;·&nbsp;
   <a href="#-evolution-engine">Evolution</a> &nbsp;·&nbsp;
   <a href="#-team-collaboration">Team</a> &nbsp;·&nbsp;
+  <a href="#-skills-research-and-clawhub">ClawHub</a> &nbsp;·&nbsp;
   <a href="MANIFESTO.md">Manifesto</a> &nbsp;·&nbsp;
   <a href="README.zh-CN.md">中文</a>
 </p>
@@ -157,11 +158,9 @@ VelaClaw is designed so knowledge can be shared while member runtimes remain iso
 
 This demo takes you from a clean install to the browser Control UI. It is the fastest way to verify that VelaClaw can run locally, connect to a model provider, and keep a usable chat session through the gateway.
 
-> Current beta note: the `velaclaw` npm package is a public placeholder. Install `velaclaw-dev` for the current testable build.
-
 ```bash
 npm uninstall -g velaclaw
-npm install -g velaclaw-dev
+npm install -g velaclaw
 velaclaw setup --wizard
 ```
 
@@ -345,7 +344,7 @@ The important contract is that raw private chats are not copied into the shared 
 
 ```bash
 npm uninstall -g velaclaw
-npm install -g velaclaw-dev
+npm install -g velaclaw
 velaclaw setup --wizard
 velaclaw gateway run
 ```
@@ -366,7 +365,7 @@ The wizard guides you through the full setup and covers every decision you'd oth
 | **6. Channels, skills, plugins** | Optional. Skippable. Configurable later.                                                                                                                                            |
 | **7. Health probe**              | The wizard connects to the gateway you just configured and confirms it is reachable before exiting.                                                                                 |
 
-Everything lands in `~/.Zavianx/velaclaw-dev.json`. Re-running the wizard is safe — keep existing values, update specific sections, or reset. Run `velaclaw configure` any time to adjust credentials, channels, gateway, or agent defaults.
+Everything lands in your active Velaclaw config path. Set `VELACLAW_CONFIG_PATH` when you want an explicit location; otherwise the CLI uses its default local config path. Re-running the wizard is safe — keep existing values, update specific sections, or reset. Run `velaclaw configure` any time to adjust credentials, channels, gateway, or agent defaults.
 
 <details>
 <summary><b>Non-interactive setup</b> (CI or scripts)</summary>
@@ -401,6 +400,29 @@ Requires Node.js 22+ and pnpm 9+.
 
 <br/>
 
+## 🧩 Skills, research, and ClawHub
+
+VelaClaw can load local skills, install registry skills from [ClawHub](https://clawhub.ai), and expose curated skills as team shared assets.
+
+```bash
+velaclaw skills search "financial research"
+velaclaw skills install <skill-slug>
+velaclaw skills update --all
+```
+
+For teams, the control plane can bridge ClawHub into the same shared-asset system used by `shared-skills`. Members receive materialized skill files in their isolated workspace; they do **not** receive the ClawHub token.
+
+```bash
+VELACLAW_TEAM_CLAWHUB_SKILLS_ENABLED=1
+VELACLAW_CLAWHUB_TOKEN=clh_...
+```
+
+Current research workflows are handled through `research_task`, `web_search`, and `web_fetch`. In Docker, TUN, or fake-IP proxy environments, enable `tools.web.fetch.useEnvProxy` and pass trusted proxy environment variables to the member runtime so external site fetches go through the operator-controlled proxy instead of local DNS pinning.
+
+See [ClawHub](docs/tools/clawhub.md), [Skills](docs/tools/skills.md), and [Web Fetch](docs/tools/web-fetch.md) for detailed configuration.
+
+<br/>
+
 ## 👥 Team setup
 
 <sub>Stand up a team in four commands. Capability details live in <a href="#-team-collaboration">Team collaboration</a> above.</sub>
@@ -422,6 +444,15 @@ velaclaw team invitations create my-team \
 velaclaw team invitations accept <invite-code>
 ```
 
+For a production-style team, keep these defaults aligned:
+
+- Run one explicit team control plane and point members at it with `VELACLAW_TEAM_CONTROL_BASE_URL`.
+- Keep upstream model/API credentials on the control plane side; member runtimes should use the team model gateway, not direct provider keys.
+- Build or publish a stable member runtime image before accepting members.
+- If members need public web fetching from Docker, pass trusted `HTTP_PROXY` / `HTTPS_PROXY` env vars and set `tools.web.fetch.useEnvProxy: true`.
+- If you use ClawHub shared skills, set `VELACLAW_TEAM_CLAWHUB_SKILLS_ENABLED=1` and keep `VELACLAW_CLAWHUB_TOKEN` only on the control plane.
+- Use `velaclaw team members remove <slug> <memberId>` to remove a member, stop its runtime, and delete its workspace.
+
 <br/>
 
 ## 📚 Reference
@@ -431,13 +462,21 @@ velaclaw team invitations accept <invite-code>
 
 <br/>
 
-| Variable               | Description              | Default           |
-| :--------------------- | :----------------------- | :---------------- |
-| `VELACLAW_ROOT`        | Workspace root           | auto-detected     |
-| `VELACLAW_ADMIN_TOKEN` | Control plane auth token | open on localhost |
-| `OPENAI_API_KEY`       | OpenAI                   | —                 |
-| `ANTHROPIC_API_KEY`    | Anthropic                | —                 |
-| `PORT`                 | Control plane port       | `4318`            |
+| Variable                                | Description                                      | Default           |
+| :-------------------------------------- | :----------------------------------------------- | :---------------- |
+| `VELACLAW_ROOT`                         | Workspace root                                   | auto-detected     |
+| `VELACLAW_CONFIG_PATH`                  | Override the active config file                  | CLI default       |
+| `VELACLAW_ADMIN_TOKEN`                  | Control plane auth token                         | open on localhost |
+| `VELACLAW_TEAM_CONTROL_BASE_URL`        | Base URL members use to reach the control plane  | auto-generated    |
+| `VELACLAW_TEAM_CLAWHUB_SKILLS_ENABLED`  | Expose ClawHub skills through team shared assets | disabled          |
+| `VELACLAW_CLAWHUB_TOKEN`                | ClawHub token used by the control plane          | —                 |
+| `VELACLAW_MEMBER_INHERIT_PROXY`         | Bake trusted proxy env vars into member runtime  | disabled          |
+| `HTTP_PROXY` / `HTTPS_PROXY`            | Trusted proxy for web fetching                   | —                 |
+| `OPENAI_API_KEY`                        | OpenAI                                           | —                 |
+| `ANTHROPIC_API_KEY`                     | Anthropic                                        | —                 |
+| `BRAVE_API_KEY`                         | Brave Search provider for `web_search`           | —                 |
+| `FIRECRAWL_API_KEY`                     | Optional `web_fetch` fallback provider           | —                 |
+| `PORT`                                  | Control plane port                               | `4318`            |
 
 </details>
 
@@ -464,6 +503,7 @@ velaclaw team restore <archive>
 # Members
 velaclaw team members list <slug>
 velaclaw team members quota <slug> <id> [--daily-messages N] [--status active|paused]
+velaclaw team members remove <slug> <id>
 
 # Invitations
 velaclaw team invitations create <slug> --invitee-label "Name" --member-email email
