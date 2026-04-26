@@ -92,6 +92,10 @@ function resolveFetchReadabilityEnabled(fetch?: WebFetchConfig): boolean {
   return true;
 }
 
+function resolveFetchUseEnvProxy(fetch?: WebFetchConfig): boolean {
+  return fetch?.useEnvProxy === true;
+}
+
 function resolveFetchMaxCharsCap(fetch?: WebFetchConfig): number {
   const raw =
     fetch && "maxCharsCap" in fetch && typeof fetch.maxCharsCap === "number"
@@ -247,6 +251,7 @@ type WebFetchRuntimeParams = {
   cacheTtlMs: number;
   userAgent: string;
   readabilityEnabled: boolean;
+  useEnvProxy: boolean;
   ssrfPolicy?: {
     allowRfc2544BenchmarkRange?: boolean;
   };
@@ -365,7 +370,7 @@ async function maybeFetchProviderWebFetchPayload(
 async function runWebFetch(params: WebFetchRuntimeParams): Promise<Record<string, unknown>> {
   const allowRfc2544BenchmarkRange = params.ssrfPolicy?.allowRfc2544BenchmarkRange === true;
   const cacheKey = normalizeCacheKey(
-    `fetch:${params.url}:${params.extractMode}:${params.maxChars}${allowRfc2544BenchmarkRange ? ":allow-rfc2544" : ""}`,
+    `fetch:${params.url}:${params.extractMode}:${params.maxChars}${params.useEnvProxy ? ":env-proxy" : ""}${allowRfc2544BenchmarkRange ? ":allow-rfc2544" : ""}`,
   );
   const cached = readCache(FETCH_CACHE, cacheKey);
   if (cached) {
@@ -391,6 +396,7 @@ async function runWebFetch(params: WebFetchRuntimeParams): Promise<Record<string
       url: params.url,
       maxRedirects: params.maxRedirects,
       timeoutSeconds: params.timeoutSeconds,
+      useEnvProxy: params.useEnvProxy,
       lookupFn: params.lookupFn,
       policy: allowRfc2544BenchmarkRange ? { allowRfc2544BenchmarkRange } : undefined,
       init: {
@@ -578,6 +584,7 @@ export function createWebFetchTool(options?: {
     return null;
   }
   const readabilityEnabled = resolveFetchReadabilityEnabled(fetch);
+  const useEnvProxy = resolveFetchUseEnvProxy(fetch);
   const userAgent =
     (fetch && "userAgent" in fetch && typeof fetch.userAgent === "string" && fetch.userAgent) ||
     DEFAULT_FETCH_USER_AGENT;
@@ -622,6 +629,7 @@ export function createWebFetchTool(options?: {
         cacheTtlMs: resolveCacheTtlMs(fetch?.cacheTtlMinutes, DEFAULT_CACHE_TTL_MINUTES),
         userAgent,
         readabilityEnabled,
+        useEnvProxy,
         ssrfPolicy: fetch?.ssrfPolicy,
         lookupFn: options?.lookupFn,
         resolveProviderFallback,

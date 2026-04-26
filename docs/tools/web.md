@@ -1,9 +1,10 @@
 ---
 title: "Web Search"
 sidebarTitle: "Web Search"
-summary: "web_search, x_search, and web_fetch -- search the web, search X posts, or fetch page content"
+summary: "research_task, web_search, x_search, and web_fetch -- structured research, web search, X search, or page fetching"
 read_when:
   - You want to enable or configure web_search
+  - You want agents to do structured research with source status
   - You want to enable or configure x_search
   - You need to choose a search provider
   - You want to understand auto-detection and provider fallback
@@ -11,15 +12,19 @@ read_when:
 
 # Web Search
 
-The `web_search` tool searches the web using your configured provider and
-returns results. Results are cached by query for 15 minutes (configurable).
+The `research_task` tool runs structured two-pass research on top of
+`web_search` and `web_fetch`: it tries likely primary sources first, expands
+discovery when needed, and returns a source ledger with used / blocked / error
+status. The lower-level `web_search` tool searches the web using your
+configured provider and returns results. Results are cached by query for 15
+minutes (configurable).
 
 Velaclaw also includes `x_search` for X (formerly Twitter) posts and
 `web_fetch` for lightweight URL fetching. In this phase, `web_fetch` stays
 local while `web_search` and `x_search` can use xAI Responses under the hood.
 
 <Info>
-  `web_search` is a lightweight HTTP tool, not browser automation. For
+  `research_task`, `web_search`, and `web_fetch` are lightweight HTTP tools, not browser automation. For
   JS-heavy sites or logins, use the [Web Browser](/tools/browser). For
   fetching a specific URL, use [Web Fetch](/tools/web-fetch).
 </Info>
@@ -41,7 +46,17 @@ local while `web_search` and `x_search` can use xAI Responses under the hood.
     providers.
   </Step>
   <Step title="Use it">
-    The agent can now call `web_search`:
+    The agent can now call `research_task` for structured current research:
+
+    ```javascript
+    await research_task({
+      query: "NVIDIA official announcement today",
+      mode: "official_announcement",
+      freshness: "today",
+    });
+    ```
+
+    It can also call `web_search` directly:
 
     ```javascript
     await web_search({ query: "Velaclaw plugin SDK" });
@@ -398,13 +413,13 @@ await web_search({
 
 ## Tool profiles
 
-If you use tool profiles or allowlists, add `web_search`, `x_search`, or `group:web`:
+If you use tool profiles or allowlists, add `research_task`, `web_search`, `x_search`, or `group:web`:
 
 ```json5
 {
   tools: {
-    allow: ["web_search", "x_search"],
-    // or: allow: ["group:web"]  (includes web_search, x_search, and web_fetch)
+    allow: ["research_task", "web_search", "x_search"],
+    // or: allow: ["group:web"]  (includes research_task, web_search, x_search, and web_fetch)
   },
 }
 ```

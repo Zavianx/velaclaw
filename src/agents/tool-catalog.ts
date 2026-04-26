@@ -102,6 +102,14 @@ const CORE_TOOL_DEFINITIONS: CoreToolDefinition[] = [
     includeInVelaclawGroup: true,
   },
   {
+    id: "research_task",
+    label: "research_task",
+    description: "Run structured two-pass web research with a source ledger",
+    sectionId: "web",
+    profiles: ["coding"],
+    includeInVelaclawGroup: true,
+  },
+  {
     id: "web_search",
     label: "web_search",
     description: "Search the web",

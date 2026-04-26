@@ -69,6 +69,7 @@ await web_fetch({ url: "https://example.com/article" });
         cacheTtlMinutes: 15,
         maxRedirects: 3,
         readability: true, // use Readability extraction
+        useEnvProxy: true, // optional; route through trusted HTTP(S)_PROXY env vars
         userAgent: "Mozilla/5.0 ...", // override User-Agent
       },
     },
@@ -129,6 +130,11 @@ Current runtime behavior:
   provider from available credentials. Today the bundled provider is Firecrawl.
 - If Readability is disabled, `web_fetch` skips straight to the selected
   provider fallback. If no provider is available, it fails closed.
+- `tools.web.fetch.useEnvProxy: true` routes requests through trusted
+  `HTTP_PROXY` / `HTTPS_PROXY` env vars while still rejecting direct
+  `localhost`, `.local`, `.internal`, and literal private-IP targets. Use this
+  when fake-IP or TUN proxy setups make local DNS pinning misclassify external
+  websites.
 
 ## Limits and safety
 
@@ -136,6 +142,8 @@ Current runtime behavior:
 - Response body is capped at `maxResponseBytes` before parsing; oversized
   responses are truncated with a warning
 - Private/internal hostnames are blocked
+- `useEnvProxy` skips local DNS pinning, so it is for operator-controlled proxy
+  environments only; it does not turn `web_fetch` into a general private-network fetch tool
 - Redirects are checked and limited by `maxRedirects`
 - `web_fetch` is best-effort -- some sites need the [Web Browser](/tools/browser)
 
@@ -147,7 +155,7 @@ If you use tool profiles or allowlists, add `web_fetch` or `group:web`:
 {
   tools: {
     allow: ["web_fetch"],
-    // or: allow: ["group:web"]  (includes web_fetch, web_search, and x_search)
+    // or: allow: ["group:web"]  (includes research_task, web_fetch, web_search, and x_search)
   },
 }
 ```
