@@ -343,6 +343,8 @@ velaclaw team assets list product-team
 
 ## 🚀 安装
 
+### 已发布包
+
 ```bash
 npm uninstall -g velaclaw
 npm install -g velaclaw-dev
@@ -395,7 +397,34 @@ cd velaclaw
 pnpm install && pnpm build && pnpm link --global
 ```
 
-需要 Node.js 22+ 和 pnpm 9+。
+需要 Node.js 22+ 和 pnpm 10+。
+
+</details>
+
+<details>
+<summary><b>直接从源码仓库运行</b></summary>
+
+<br/>
+
+Git checkout 是源码树，不是预构建发行包。`./velaclaw.mjs` 默认要求 `dist/` 已经存在。
+
+如果你想直接在仓库里运行，而不是先做完整安装，可以这样：
+
+```bash
+git clone https://github.com/Zavianx/velaclaw.git
+cd velaclaw
+pnpm install
+
+# 先 build 一次，再走普通 CLI wrapper
+pnpm build
+node ./velaclaw.mjs --help
+
+# 或者开发时直接跑 TypeScript 入口
+node --import tsx src/entry.ts --help
+node --import tsx src/entry.ts --dev gateway run
+```
+
+如果你在做源码开发，`tsx` 这条路径通常最稳，因为它不依赖本地 `dist/` 是否已经同步。
 
 </details>
 
@@ -410,6 +439,9 @@ pnpm install && pnpm build && pnpm link --global
 docker build -t velaclaw-member-runtime:local .
 
 # 2. 初始化团队 workspace 并启动控制平面
+# 注意：team control-plane 这组命令在 public CLI 里还在收敛。
+# 如果你安装的版本没有暴露 `velaclaw init` / `velaclaw start`，
+# 请使用最新构建包，或在开发态直接从源码运行。
 velaclaw init my-workspace && cd my-workspace
 velaclaw start                                   # 控制平面在 :4318
 
