@@ -1,14 +1,12 @@
 export {
   createCliRuntimeCapture,
-  createTempHomeEnv,
-  expectGeneratedTokenPersistedToGatewayAuth,
   type CliMockOutputRuntime,
   type CliRuntimeCapture,
-  type FetchMock,
-  type TempHomeEnv,
-  withEnv,
-  withEnvAsync,
-  withFetchPreconnect,
-  isLiveTestEnabled,
   type VelaclawConfig,
 } from "velaclaw/plugin-sdk/testing";
+
+export function withFetchPreconnect(
+  fetchMock: (input: unknown, init?: RequestInit) => Promise<Response>,
+): typeof fetch {
+  return ((input: RequestInfo | URL, init?: RequestInit) => fetchMock(input, init)) as typeof fetch;
+}

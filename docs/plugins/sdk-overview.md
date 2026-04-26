@@ -255,7 +255,7 @@ explicitly promotes one as public.
     | `plugin-sdk/webhook-path` | Webhook path normalization helpers |
     | `plugin-sdk/web-media` | Shared remote/local media loading helpers |
     | `plugin-sdk/zod` | Re-exported `zod` for plugin SDK consumers |
-    | `plugin-sdk/testing` | `installCommonResolveTargetErrorCases`, `shouldAckReaction` |
+    | `plugin-sdk/testing` | `shouldAckReaction`, `buildDispatchInboundCaptureMock`, `createCliRuntimeCapture` |
   </Accordion>
 
   <Accordion title="Memory subpaths">

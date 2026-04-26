@@ -27,19 +27,20 @@ The testing subpath exports a narrow set of helpers for plugin authors:
 
 ```typescript
 import {
-  installCommonResolveTargetErrorCases,
+  buildDispatchInboundCaptureMock,
   shouldAckReaction,
   removeAckReactionAfterReply,
 } from "velaclaw/plugin-sdk/testing";
 ```
 
-### Available exports
+### Common exports
 
-| Export                                 | Purpose                                                |
-| -------------------------------------- | ------------------------------------------------------ |
-| `installCommonResolveTargetErrorCases` | Shared test cases for target resolution error handling |
-| `shouldAckReaction`                    | Check whether a channel should add an ack reaction     |
-| `removeAckReactionAfterReply`          | Remove ack reaction after reply delivery               |
+| Export                            | Purpose                                            |
+| --------------------------------- | -------------------------------------------------- |
+| `shouldAckReaction`               | Check whether a channel should add an ack reaction |
+| `removeAckReactionAfterReply`     | Remove ack reaction after reply delivery           |
+| `buildDispatchInboundCaptureMock` | Capture inbound dispatch calls in channel tests    |
+| `createCliRuntimeCapture`         | Capture CLI runtime output in plugin command tests |
 
 ### Types
 
@@ -52,30 +53,23 @@ import type {
   VelaclawConfig,
   PluginRuntime,
   RuntimeEnv,
-  MockFn,
 } from "velaclaw/plugin-sdk/testing";
 ```
 
 ## Testing target resolution
 
-Use `installCommonResolveTargetErrorCases` to add standard error cases for
-channel target resolution:
+Target resolution tests should live with your plugin and cover your channel's
+supported target syntax, `allowFrom` behavior, and error cases:
 
 ```typescript
 import { describe } from "vitest";
-import { installCommonResolveTargetErrorCases } from "velaclaw/plugin-sdk/testing";
 
 describe("my-channel target resolution", () => {
-  installCommonResolveTargetErrorCases({
-    resolveTarget: ({ to, mode, allowFrom }) => {
-      // Your channel's target resolution logic
-      return myChannelResolveTarget({ to, mode, allowFrom });
-    },
-    implicitAllowFrom: ["user1", "user2"],
+  it("should resolve @username targets", () => {
+    // ...
   });
 
-  // Add channel-specific test cases
-  it("should resolve @username targets", () => {
+  it("should reject senders outside allowFrom", () => {
     // ...
   });
 });
