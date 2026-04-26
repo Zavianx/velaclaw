@@ -19,6 +19,15 @@ import {
   isValidEnvSecretRefId,
   normalizeSecretInputString,
 } from "../config/types.secrets.js";
+import {
+  downloadClawHubSkillArchive,
+  fetchClawHubSkillDetail,
+  resolveClawHubAuthToken,
+  searchClawHubSkills,
+  type ClawHubSkillDetail,
+  type ClawHubSkillSearchResult,
+} from "../infra/clawhub.js";
+import { withExtractedArchiveRoot } from "../infra/install-flow.js";
 import { safeEqualSecret } from "../security/secret-equal.js";
 import { buildAssetServerKindList, resolveTeamAssetTypeRuntime } from "./asset-types.js";
 import {
@@ -35,6 +44,7 @@ import type {
   AcceptInvitationResult,
   AssetChangeEvent,
   AssetServerBundle,
+  AssetServerFile,
   AssetServerItem,
   AssetServerKind,
   AssetServerManifest,
@@ -120,6 +130,71 @@ const DEFAULT_ALLOWED_MODEL_IDS = process.env.VELACLAW_TEAM_ALLOWED_MODEL_IDS?.s
   .filter(Boolean) || [DEFAULT_MANAGER_LOCAL_MODEL_ID];
 const DEFAULT_DEFAULT_MODEL_ID =
   process.env.VELACLAW_TEAM_DEFAULT_MODEL_ID?.trim() || DEFAULT_ALLOWED_MODEL_IDS[0];
+const CLAWHUB_SKILL_ASSET_ID_PREFIX = "clawhub-skill:";
+const CLAWHUB_SKILL_HUB_ASSET_ID = "clawhub-skill-hub";
+const CLAWHUB_SKILL_SEARCH_LIMIT = Math.max(
+  1,
+  Math.min(
+    10,
+    Number.parseInt(process.env.VELACLAW_TEAM_CLAWHUB_SKILLS_SEARCH_LIMIT ?? "8", 10) || 8,
+  ),
+);
+const CLAWHUB_SKILL_LOCAL_RELEVANCE_MIN_SCORE = 7;
+const CLAWHUB_SKILL_FILE_LIMIT = Math.max(
+  1,
+  Math.min(
+    300,
+    Number.parseInt(process.env.VELACLAW_TEAM_CLAWHUB_SKILLS_FILE_LIMIT ?? "160", 10) || 160,
+  ),
+);
+const CLAWHUB_SKILL_FILE_MAX_BYTES = Math.max(
+  4096,
+  Math.min(
+    512_000,
+    Number.parseInt(process.env.VELACLAW_TEAM_CLAWHUB_SKILLS_FILE_MAX_BYTES ?? "262144", 10) ||
+      262_144,
+  ),
+);
+const CLAWHUB_SKILL_TOTAL_MAX_BYTES = Math.max(
+  32_768,
+  Math.min(
+    2_000_000,
+    Number.parseInt(process.env.VELACLAW_TEAM_CLAWHUB_SKILLS_TOTAL_MAX_BYTES ?? "1048576", 10) ||
+      1_048_576,
+  ),
+);
+const ASSET_ROUTER_MODE_DYNAMIC_LLM = "dynamic-llm";
+const ASSET_ROUTER_MODE_LEXICAL = "lexical";
+const ASSET_ROUTER_TOP_K = Math.max(
+  1,
+  Math.min(40, Number.parseInt(process.env.VELACLAW_TEAM_ASSET_ROUTER_TOP_K ?? "12", 10) || 12),
+);
+const ASSET_ROUTER_TIMEOUT_MS = Math.max(
+  250,
+  Math.min(
+    30_000,
+    Number.parseInt(process.env.VELACLAW_TEAM_ASSET_ROUTER_TIMEOUT_MS ?? "2000", 10) || 2000,
+  ),
+);
+const ASSET_ROUTER_DISCOVERY_QUERY_LIMIT = Math.max(
+  1,
+  Math.min(
+    5,
+    Number.parseInt(process.env.VELACLAW_TEAM_ASSET_ROUTER_QUERY_LIMIT ?? "3", 10) || 3,
+  ),
+);
+const ASSET_ROUTER_MIN_CONFIDENCE = Math.max(
+  0,
+  Math.min(
+    1,
+    Number.isFinite(Number.parseFloat(process.env.VELACLAW_TEAM_ASSET_ROUTER_MIN_CONFIDENCE ?? ""))
+      ? Number.parseFloat(process.env.VELACLAW_TEAM_ASSET_ROUTER_MIN_CONFIDENCE ?? "0.45")
+      : 0.45,
+  ),
+);
+const ASSET_ROUTER_THINK_LEVEL =
+  process.env.VELACLAW_TEAM_ASSET_ROUTER_THINK_LEVEL?.trim().toLowerCase() || "low";
+const ASSET_ROUTER_MODEL = process.env.VELACLAW_TEAM_ASSET_ROUTER_MODEL?.trim();
 
 type ResolvedUpstreamRequestConfig = {
   baseUrl: string;
@@ -136,6 +211,26 @@ let resolvedModelProviderInflight: Promise<Record<string, ModelProviderConfig> |
   null;
 
 export const assetChangeEmitter = new EventEmitter();
+
+type AssetRouterMode = typeof ASSET_ROUTER_MODE_DYNAMIC_LLM | typeof ASSET_ROUTER_MODE_LEXICAL;
+
+type AssetRouterPlan = {
+  needsAssets: boolean;
+  confidence?: number;
+  searchQueries: string[];
+  reason?: string;
+};
+
+type AssetRouterSelection = {
+  id: string;
+  confidence?: number;
+  reason?: string;
+};
+
+type AssetRouterCandidate = {
+  match: AssetServerResolveMatch;
+  source: "local" | "clawhub";
+};
 
 // ============ Utilities ============
 
@@ -2958,9 +3053,59 @@ const STOP_WORDS = new Set([
   "from",
   "this",
   "that",
+  "a",
+  "an",
+  "are",
+  "as",
+  "at",
+  "be",
+  "by",
+  "can",
+  "do",
+  "does",
+  "explain",
+  "help",
+  "how",
+  "is",
+  "it",
+  "me",
+  "need",
+  "of",
+  "or",
+  "please",
+  "to",
+  "use",
+  "what",
+  "why",
+  "you",
   "team",
   "shared",
   "asset",
+  "一下",
+  "一些",
+  "为什么",
+  "什么",
+  "使用",
+  "做",
+  "先",
+  "分类",
+  "帮我",
+  "怎么",
+  "我想",
+  "找",
+  "产品",
+  "整理",
+  "是否",
+  "用",
+  "自动",
+  "解释",
+  "请",
+  "这波",
+  "这个",
+  "这些",
+  "需要",
+  "为什",
+  "什么",
 ]);
 
 function tokenizeAssetText(value: string): string[] {
@@ -3002,6 +3147,496 @@ function topKeywordsFromText(...parts: string[]): string[] {
     .toSorted((a, b) => b[1] - a[1])
     .slice(0, 24)
     .map(([t]) => t);
+}
+
+function parseBooleanEnvFlag(value: string | undefined): boolean | undefined {
+  const normalized = value?.trim().toLowerCase();
+  if (!normalized) {
+    return undefined;
+  }
+  if (["1", "true", "yes", "on", "enabled"].includes(normalized)) {
+    return true;
+  }
+  if (["0", "false", "no", "off", "disabled"].includes(normalized)) {
+    return false;
+  }
+  return undefined;
+}
+
+function isTeamClawHubSkillsEnabled(env: NodeJS.ProcessEnv = process.env): boolean {
+  const explicit = parseBooleanEnvFlag(
+    env.VELACLAW_TEAM_CLAWHUB_SKILLS_ENABLED ?? env.VELACLAW_SHARED_CLAWHUB_SKILLS_ENABLED,
+  );
+  return explicit === true;
+}
+
+function resolveAssetRouterMode(env: NodeJS.ProcessEnv = process.env): AssetRouterMode {
+  const raw = env.VELACLAW_TEAM_ASSET_ROUTER_MODE?.trim().toLowerCase();
+  if (raw === ASSET_ROUTER_MODE_LEXICAL) {
+    return ASSET_ROUTER_MODE_LEXICAL;
+  }
+  return ASSET_ROUTER_MODE_DYNAMIC_LLM;
+}
+
+function encodeClawHubSkillAssetId(slug: string): string {
+  return `${CLAWHUB_SKILL_ASSET_ID_PREFIX}${slug}`;
+}
+
+function decodeClawHubSkillAssetId(id: string): string | null {
+  if (!id.startsWith(CLAWHUB_SKILL_ASSET_ID_PREFIX)) {
+    return null;
+  }
+  const slug = id.slice(CLAWHUB_SKILL_ASSET_ID_PREFIX.length).trim();
+  return slug || null;
+}
+
+function formatClawHubTimestamp(value: number | undefined): string {
+  if (typeof value !== "number" || !Number.isFinite(value) || value <= 0) {
+    return nowIso();
+  }
+  const ms = value < 10_000_000_000 ? value * 1000 : value;
+  return new Date(ms).toISOString();
+}
+
+function buildClawHubSkillKeywords(...parts: string[]): string[] {
+  return Array.from(new Set(["clawhub", "skill", "skills", ...topKeywordsFromText(...parts)]));
+}
+
+function isMarketOrFinancialAssetQuery(query: string): boolean {
+  const normalized = normalizeAssetPhrase(query);
+  return (
+    hasLikelyMarketTicker(query) ||
+    /\b(stock|stocks|equity|equities|financial|finance|valuation|earnings|revenue|profitability|market cap|market driver|price target|analyst|catalyst)\b/i.test(
+      query,
+    ) ||
+    /股票|股价|涨|上涨|跌|下跌|财报|估值|基本面|投研|催化|公告|美股|港股|a股|板块|分析师|目标价|市值/.test(
+      normalized,
+    )
+  );
+}
+
+function hasLikelyMarketTicker(query: string): boolean {
+  const ignored = new Set([
+    "AI",
+    "AM",
+    "API",
+    "CST",
+    "CPU",
+    "GMT",
+    "GPU",
+    "GPT",
+    "HTML",
+    "HTTP",
+    "JSON",
+    "LLM",
+    "OK",
+    "PM",
+    "SQL",
+    "URL",
+    "UTC",
+  ]);
+  return (query.match(/\b[A-Z]{1,5}(?:\.[A-Z]{1,4})?\b/g) ?? []).some((match) => !ignored.has(match));
+}
+
+function isUsStockAssetQuery(query: string): boolean {
+  return (
+    hasLikelyMarketTicker(query) ||
+    /\b(us stock|american stocks|nasdaq|nyse|wall street|s&p 500)\b/i.test(query) ||
+    /美股/.test(normalizeAssetPhrase(query))
+  );
+}
+
+function isStockSelectionAssetQuery(query: string): boolean {
+  const normalized = normalizeAssetPhrase(query);
+  return (
+    /\b(stock picking|stock screener|screen stocks|pick stocks|sector picks|watchlist|portfolio shortlist|recommend stocks)\b/i.test(
+      query,
+    ) ||
+    /选股|帮我选几个|股票池|值得盯|哪几只|哪些股票|买哪些|行业股票|主题股票|筛选.*股票|股票.*筛选/.test(
+      normalized,
+    )
+  );
+}
+
+function isMarketCatalystAssetQuery(query: string): boolean {
+  return (
+    isMarketOrFinancialAssetQuery(query) &&
+    (/\b(why|reason|driver|catalyst|announcement|news|headline|moved|up|down|rally|selloff)\b/i.test(
+      query,
+    ) ||
+      /为什么|原因|驱动|催化|公告|新闻|消息|涨|上涨|跌|下跌|这波|归因/.test(
+        normalizeAssetPhrase(query),
+      ))
+  );
+}
+
+function isTradingOrTechnicalAssetQuery(query: string): boolean {
+  return (
+    /\b(trade|trading|buy|sell|hold|signal|technical|chart|rsi|moving average|support|resistance)\b/i.test(
+      query,
+    ) || /买入|卖出|持有|交易|技术|指标|均线|支撑|阻力|rsi/.test(normalizeAssetPhrase(query))
+  );
+}
+
+function buildClawHubSkillSearchQueries(query: string): string[] {
+  const trimmed = query.trim();
+  if (!trimmed) {
+    return [];
+  }
+  const queries = [trimmed];
+  if (isMarketOrFinancialAssetQuery(trimmed)) {
+    queries.push(
+      `${trimmed} stock analysis financial analysis equity research market driver earnings valuation catalyst stock price 股票 股价 基本面 投研 财报 估值`,
+    );
+  }
+  if (isMarketCatalystAssetQuery(trimmed)) {
+    queries.push(
+      `${trimmed} equity research event driven stock catalyst fundamental analysis market sentiment buy-side research`,
+      `${trimmed} 个股基本面 深度研究 投研 新闻催化 市场情绪 催化剂日历 买方基金经理 事件驱动 归因`,
+      `${trimmed} 消息面 事件驱动 公司公告 行业事件 舆情 情绪 影响股价 归因`,
+    );
+  }
+  if (isUsStockAssetQuery(trimmed)) {
+    queries.push(`${trimmed} US stock analysis American stocks 美股 financial metrics`);
+  }
+  return Array.from(new Set(queries));
+}
+
+function boostClawHubSkillMatch(query: string, match: AssetServerResolveMatch): AssetServerResolveMatch {
+  const text = normalizeAssetPhrase(
+    [
+      match.id,
+      match.title,
+      match.summary,
+      ...(Array.isArray(match.keywords) ? match.keywords : []),
+      ...(Array.isArray(match.capability?.tags) ? match.capability.tags : []),
+      ...(Array.isArray(match.capability?.activationHints) ? match.capability.activationHints : []),
+      ...(Array.isArray(match.capability?.triggerTerms) ? match.capability.triggerTerms : []),
+    ].join(" "),
+  );
+  let boost = 0;
+  if (isMarketOrFinancialAssetQuery(query)) {
+    if (/stock|financial|finance|equity|valuation|earnings|财报|估值|基本面|投研|股票|股价|美股|港股|a股/.test(text)) {
+      boost += 16;
+    }
+    if (/research|analysis|analyst|分析|研究|投研/.test(text)) {
+      boost += 8;
+    }
+  }
+  if (isMarketCatalystAssetQuery(query)) {
+    if (/equity|fundamental|stock analysis|financial analyst|event driven|market news|catalyst|news|driver|个股基本面|深度研究|催化|市场情绪|事件驱动|消息面|行业事件|舆情|影响股价|归因/.test(text)) {
+      boost += 24;
+    }
+    if (/data api|api key|tushare|akshare|price checker|数据接口|行情数据/.test(text)) {
+      boost -= 18;
+    }
+    if (!isTradingOrTechnicalAssetQuery(query) && /trade signal|trading signal|buy\/sell|technical analysis|rsi|moving averages|均线|技术指标/.test(text)) {
+      boost -= 22;
+    }
+  }
+  if (isUsStockAssetQuery(query)) {
+    if (/us stock|american stocks|美股/.test(text)) {
+      boost += 28;
+    }
+    if (/china stock|a-shares|a股|港股|hk stocks/.test(text) && !/腾讯|港股|a股|中国|china|hong kong|hk/i.test(query)) {
+      boost -= 90;
+    }
+    if (/\b(vn|vietnam)\b|越南/.test(text) && !/越南|vietnam|\bvn\b/i.test(query)) {
+      boost -= 120;
+    }
+  }
+  return boost === 0 ? match : { ...match, score: Math.max(1, match.score + boost) };
+}
+
+function buildClawHubSkillHubItem(team: TeamState): AssetServerItem {
+  const content = [
+    "---",
+    'name: clawhub-skill-hub',
+    'description: Discover and activate ClawHub skills as team shared assets when a task needs an external open-source capability.',
+    'tags: ["clawhub", "skills", "open-source", "shared-assets"]',
+    'activationHints: ["need an external skill", "find an open source skill", "ClawHub skill", "shared skill hub"]',
+    'triggerTerms: ["clawhub", "skill hub", "skills hub", "open source skill", "共享 skill", "技能市场"]',
+    "---",
+    "",
+    "# ClawHub Skill Hub",
+    "",
+    "This team treats ClawHub skills as shared assets. When a task may benefit from an external skill, rely on the active shared asset selection first. If a ClawHub skill has been materialized under `skills/team-shared-active-*`, read its `SKILL.md` and follow it.",
+    "",
+    "Do not expose ClawHub credentials. The control plane resolves and downloads skill assets; members only consume materialized files.",
+    "",
+  ].join("\n");
+  const updatedAt = nowIso();
+  const contentHash = crypto.createHash("sha256").update(content).digest("hex").slice(0, 16);
+  return {
+    id: CLAWHUB_SKILL_HUB_ASSET_ID,
+    kind: "skills",
+    category: "shared-skills",
+    family: "capability",
+    format: "md",
+    title: "ClawHub Skill Hub",
+    filename: "skill-clawhub-skill-hub.md",
+    updatedAt,
+    contentHash,
+    summary:
+      "Discover and activate ClawHub skills as team shared assets without exposing registry credentials to members.",
+    keywords: buildClawHubSkillKeywords("clawhub skill hub open source shared assets"),
+    materializationTargets: ["workspace.skills.active"],
+    capability: {
+      role: "instruction",
+      consumptionMode: "skill",
+      capabilities: ["clawhub-skill-discovery", "shared-skill-activation"],
+      tags: ["clawhub", "skills", "open-source", "shared-assets"],
+      activationHints: [
+        "need an external skill",
+        "find an open source skill",
+        "ClawHub skill",
+        "shared skill hub",
+      ],
+      triggerTerms: ["clawhub", "skill hub", "skills hub", "open source skill", "技能市场"],
+    },
+    content,
+    currentPath: `clawhub://hub/${team.profile.slug}`,
+    publishedPath: `clawhub://hub/${team.profile.slug}`,
+  };
+}
+
+function buildClawHubSkillSummary(result: ClawHubSkillSearchResult | ClawHubSkillDetail): string {
+  if ("skill" in result) {
+    return (
+      result.skill?.summary?.trim() ||
+      result.latestVersion?.changelog?.trim() ||
+      result.skill?.displayName ||
+      result.skill?.slug ||
+      "ClawHub skill"
+    ).slice(0, 240);
+  }
+  return (result.summary?.trim() || result.displayName || result.slug || "ClawHub skill").slice(
+    0,
+    240,
+  );
+}
+
+function buildClawHubSkillManifestItem(
+  result: ClawHubSkillSearchResult,
+): AssetServerResolveMatch {
+  const title = result.displayName || result.slug;
+  const summary = buildClawHubSkillSummary(result);
+  const updatedAt = formatClawHubTimestamp(result.updatedAt);
+  const version = result.version ? `@${result.version}` : "";
+  const contentHash = crypto
+    .createHash("sha256")
+    .update(`${result.slug}\u0000${result.version ?? ""}\u0000${summary}`)
+    .digest("hex")
+    .slice(0, 16);
+  return {
+    id: encodeClawHubSkillAssetId(result.slug),
+    kind: "skills",
+    category: "shared-skills",
+    family: "capability",
+    format: "bundle",
+    title: `${title}${version}`,
+    filename: `clawhub-${slugifyAssetName(result.slug)}.skill`,
+    updatedAt,
+    contentHash,
+    summary,
+    keywords: buildClawHubSkillKeywords(result.slug, title, summary),
+    materializationTargets: ["workspace.skills.active"],
+    capability: {
+      role: "instruction",
+      consumptionMode: "skill",
+      capabilities: ["clawhub-skill"],
+      tags: ["clawhub", "skills"],
+      activationHints: [summary, title, result.slug].filter(Boolean),
+      triggerTerms: [result.slug, title].filter(Boolean),
+    },
+    currentPath: `clawhub://skills/${result.slug}${version}`,
+    publishedPath: `clawhub://skills/${result.slug}${version}`,
+    score: Math.max(1, Math.round((Number(result.score) || 0) * 100)),
+    matchedTerms: [result.slug, ...topKeywordsFromText(title, summary)].slice(0, 8),
+  };
+}
+
+function safeAssetFilePath(value: string): string | null {
+  const raw = value.replace(/\\/g, "/").trim();
+  if (!raw || raw.startsWith("/") || raw.includes("\0")) {
+    return null;
+  }
+  const normalized = path.posix.normalize(raw);
+  if (!normalized || normalized === "." || normalized === ".." || normalized.startsWith("../")) {
+    return null;
+  }
+  return normalized;
+}
+
+function isProbablyTextFile(buffer: Buffer): boolean {
+  return !buffer.includes(0);
+}
+
+async function collectClawHubSkillFiles(rootDir: string): Promise<AssetServerFile[]> {
+  const files: AssetServerFile[] = [];
+  let totalBytes = 0;
+  async function walk(currentDir: string) {
+    if (files.length >= CLAWHUB_SKILL_FILE_LIMIT || totalBytes >= CLAWHUB_SKILL_TOTAL_MAX_BYTES) {
+      return;
+    }
+    const entries = await fs.readdir(currentDir, { withFileTypes: true });
+    for (const entry of entries.toSorted((a, b) => a.name.localeCompare(b.name))) {
+      if (files.length >= CLAWHUB_SKILL_FILE_LIMIT || totalBytes >= CLAWHUB_SKILL_TOTAL_MAX_BYTES) {
+        return;
+      }
+      if (entry.name === ".git" || entry.name === "node_modules") {
+        continue;
+      }
+      const fullPath = path.join(currentDir, entry.name);
+      if (entry.isDirectory()) {
+        await walk(fullPath);
+        continue;
+      }
+      if (!entry.isFile()) {
+        continue;
+      }
+      const relativePath = safeAssetFilePath(path.relative(rootDir, fullPath));
+      if (!relativePath) {
+        continue;
+      }
+      const stat = await fs.stat(fullPath);
+      if (stat.size > CLAWHUB_SKILL_FILE_MAX_BYTES) {
+        continue;
+      }
+      if (totalBytes + stat.size > CLAWHUB_SKILL_TOTAL_MAX_BYTES) {
+        continue;
+      }
+      const buffer = await fs.readFile(fullPath);
+      if (!isProbablyTextFile(buffer)) {
+        continue;
+      }
+      files.push({
+        path: relativePath,
+        content: buffer.toString("utf8"),
+      });
+      totalBytes += stat.size;
+    }
+  }
+  await walk(rootDir);
+  return files;
+}
+
+async function readClawHubSkillBundleFiles(params: {
+  slug: string;
+  version?: string;
+  token?: string;
+}): Promise<{ files: AssetServerFile[]; skillContent: string }> {
+  const archive = await downloadClawHubSkillArchive({
+    slug: params.slug,
+    version: params.version,
+    token: params.token,
+  });
+  try {
+    const result = await withExtractedArchiveRoot({
+      archivePath: archive.archivePath,
+      tempDirPrefix: "velaclaw-team-clawhub-skill-",
+      timeoutMs: 120_000,
+      rootMarkers: ["SKILL.md"],
+      onExtracted: async (rootDir) => {
+        const files = await collectClawHubSkillFiles(rootDir);
+        const skillFile = files.find((file) => file.path === "SKILL.md");
+        if (!skillFile) {
+          return { ok: false as const, error: "downloaded ClawHub skill is missing SKILL.md" };
+        }
+        return { ok: true as const, files, skillContent: skillFile.content };
+      },
+    });
+    if (!result.ok) {
+      throw new Error(result.error);
+    }
+    return { files: result.files, skillContent: result.skillContent };
+  } finally {
+    await archive.cleanup().catch(() => undefined);
+  }
+}
+
+async function buildClawHubSkillAssetItemBySlug(slug: string): Promise<AssetServerItem | null> {
+  if (!isTeamClawHubSkillsEnabled()) {
+    return null;
+  }
+  const token = await resolveClawHubAuthToken();
+  const detail = await fetchClawHubSkillDetail({ slug, token }).catch(() => null);
+  if (!detail?.skill) {
+    return null;
+  }
+  const version = detail.latestVersion?.version;
+  const bundle = await readClawHubSkillBundleFiles({ slug, version, token });
+  const title = detail.skill.displayName || slug;
+  const summary = buildClawHubSkillSummary(detail);
+  const updatedAt = formatClawHubTimestamp(detail.skill.updatedAt);
+  const contentHash = crypto
+    .createHash("sha256")
+    .update(bundle.files.map((file) => `${file.path}\u0000${file.content}`).join("\u0000"))
+    .digest("hex")
+    .slice(0, 16);
+  const tags = detail.skill.tags ? Object.keys(detail.skill.tags).slice(0, 12) : [];
+  return {
+    id: encodeClawHubSkillAssetId(slug),
+    kind: "skills",
+    category: "shared-skills",
+    family: "capability",
+    format: "bundle",
+    title,
+    filename: `clawhub-${slugifyAssetName(slug)}.skill`,
+    updatedAt,
+    contentHash,
+    summary,
+    keywords: buildClawHubSkillKeywords(slug, title, summary, tags.join(" ")),
+    materializationTargets: ["workspace.skills.active"],
+    capability: {
+      role: "instruction",
+      consumptionMode: "skill",
+      capabilities: ["clawhub-skill"],
+      tags: ["clawhub", "skills", ...tags],
+      activationHints: [summary, title, slug].filter(Boolean),
+      triggerTerms: [slug, title, ...tags].filter(Boolean),
+    },
+    content: bundle.skillContent,
+    files: bundle.files,
+    currentPath: `clawhub://skills/${slug}${version ? `@${version}` : ""}`,
+    publishedPath: `clawhub://skills/${slug}${version ? `@${version}` : ""}`,
+  };
+}
+
+async function resolveClawHubSkillMatches(query: string): Promise<AssetServerResolveMatch[]> {
+  if (!isTeamClawHubSkillsEnabled()) {
+    return [];
+  }
+  const trimmed = query.trim();
+  if (!trimmed || trimmed.startsWith("/")) {
+    return [];
+  }
+  const token = await resolveClawHubAuthToken();
+  const byId = new Map<string, AssetServerResolveMatch>();
+  for (const searchQuery of buildClawHubSkillSearchQueries(trimmed)) {
+    const results = await searchClawHubSkills({
+      query: searchQuery,
+      token,
+      limit: CLAWHUB_SKILL_SEARCH_LIMIT,
+    }).catch(() => []);
+    for (const result of results) {
+      const item = buildClawHubSkillManifestItem(result);
+      const localScore = scoreAssetMatch(searchQuery, item);
+      if (!localScore || localScore.score < CLAWHUB_SKILL_LOCAL_RELEVANCE_MIN_SCORE) {
+        continue;
+      }
+      const boosted = boostClawHubSkillMatch(trimmed, {
+        ...item,
+        score: item.score + localScore.score,
+        matchedTerms: localScore.matchedTerms,
+      });
+      const existing = byId.get(boosted.id);
+      if (!existing || boosted.score > existing.score) {
+        byId.set(boosted.id, boosted);
+      }
+    }
+  }
+  return [...byId.values()].toSorted((a, b) => b.score - a.score);
 }
 
 function parseFrontmatter(content: string): { data: Record<string, unknown>; body: string } {
@@ -3108,6 +3743,9 @@ async function buildAssetServerBundleForTeam(teamSlugRaw: string): Promise<Asset
       items.push(item);
     }
   }
+  if (isTeamClawHubSkillsEnabled()) {
+    items.push(buildClawHubSkillHubItem(team));
+  }
   const kinds = buildAssetServerKindList(items.map((item) => item.kind));
   const byKind = Object.fromEntries(kinds.map((kind) => [kind, [] as AssetServerItem[]])) as Record<
     AssetServerKind,
@@ -3130,7 +3768,7 @@ async function buildAssetServerBundleForTeam(teamSlugRaw: string): Promise<Asset
     generatedAt: nowIso(),
     manifestHash,
     counts,
-    items: items.map(({ content: _content, ...rest }) => rest),
+    items: items.map(({ content: _content, files: _files, ...rest }) => rest),
     byKind,
   };
 }
@@ -3151,7 +3789,7 @@ export async function getTeamAssetCapabilityRegistryBySlug(slug: string) {
   const byKindMeta = Object.fromEntries(
     kinds.map((kind) => [
       kind,
-      (bundle.byKind[kind] ?? []).map(({ content: _content, ...rest }) => rest),
+      (bundle.byKind[kind] ?? []).map(({ content: _content, files: _files, ...rest }) => rest),
     ]),
   ) as Record<AssetServerKind, AssetServerManifestItem[]>;
   for (const kind of kinds) {
@@ -3170,6 +3808,10 @@ export async function getTeamAssetServerItemById(
   slug: string,
   id: string,
 ): Promise<AssetServerItem | null> {
+  const clawHubSlug = decodeClawHubSkillAssetId(id);
+  if (clawHubSlug) {
+    return await buildClawHubSkillAssetItemBySlug(clawHubSlug);
+  }
   const bundle = await buildAssetServerBundleForTeam(slug);
   for (const kind of buildAssetServerKindList(Object.keys(bundle.byKind) as AssetServerKind[])) {
     const found = bundle.byKind[kind].find((i) => i.id === id);
@@ -3239,29 +3881,614 @@ function scoreAssetMatch(
   return score > 0 ? { score, matchedTerms: [...matched] } : null;
 }
 
-export async function resolveTeamAssetServerMatchesBySlug(
+function truncateAssetRouterText(value: string, maxChars: number): string {
+  const text = value.replace(/\s+/g, " ").trim();
+  return text.length > maxChars ? `${text.slice(0, maxChars).trimEnd()}...` : text;
+}
+
+function parseAssetRouterJsonObject(text: string): Record<string, unknown> {
+  const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  const source = fenced?.[1] ?? text;
+  const start = source.indexOf("{");
+  const end = source.lastIndexOf("}");
+  if (start === -1 || end === -1 || end <= start) {
+    throw new Error("router returned no JSON object");
+  }
+  const parsed = JSON.parse(source.slice(start, end + 1));
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+    throw new Error("router returned invalid JSON object");
+  }
+  return parsed as Record<string, unknown>;
+}
+
+function normalizeAssetRouterQueries(query: string, value: unknown): string[] {
+  const queries = [query, ...(Array.isArray(value) ? value : [])]
+    .map((entry) => (typeof entry === "string" ? entry.trim() : ""))
+    .filter(Boolean)
+    .map((entry) => entry.slice(0, 240));
+  return Array.from(new Set(queries)).slice(0, ASSET_ROUTER_DISCOVERY_QUERY_LIMIT);
+}
+
+function buildStrongSignalAssetRouterQueries(query: string): string[] {
+  const trimmed = query.trim();
+  if (!trimmed) {
+    return [];
+  }
+  if (isMarketOrFinancialAssetQuery(trimmed)) {
+    const queries = [
+      trimmed,
+      `${trimmed} stock analysis financial analysis equity research market driver catalyst news earnings valuation`,
+    ];
+    if (isStockSelectionAssetQuery(trimmed)) {
+      queries.push(
+        `${trimmed} stock picking stock screener sector watchlist portfolio shortlist 选股 股票池 值得盯 行业股票`,
+        `${trimmed} sector stock selection watchlist portfolio construction theme investing`,
+      );
+    }
+    if (isMarketCatalystAssetQuery(trimmed)) {
+      queries.push(
+        `${trimmed} event driven stock catalyst market news price move attribution`,
+        `${trimmed} 个股基本面 深度研究 新闻催化 市场情绪 事件驱动 归因`,
+      );
+    }
+    if (isUsStockAssetQuery(trimmed)) {
+      queries.push(`${trimmed} US stock analysis American stocks 美股`);
+    }
+    return Array.from(new Set(queries)).slice(0, ASSET_ROUTER_DISCOVERY_QUERY_LIMIT);
+  }
+  return [];
+}
+
+function normalizeAssetRouterConfidence(value: unknown): number | undefined {
+  const numeric = typeof value === "number" ? value : Number.parseFloat(String(value ?? ""));
+  if (!Number.isFinite(numeric)) {
+    return undefined;
+  }
+  return Math.max(0, Math.min(1, numeric));
+}
+
+function normalizeAssetRouterThinkLevel(value: string): "low" | "medium" | "high" | "xhigh" {
+  switch (value.trim().toLowerCase()) {
+    case "medium":
+    case "med":
+      return "medium";
+    case "high":
+      return "high";
+    case "xhigh":
+    case "extra-high":
+    case "extrahigh":
+      return "xhigh";
+    case "minimal":
+    case "min":
+    case "low":
+    default:
+      return "low";
+  }
+}
+
+async function callTeamAssetRouterLlm(params: {
+  team: TeamState;
+  systemPrompt: string;
+  userMessage: string;
+  maxTokens: number;
+}): Promise<string> {
+  const gateway = params.team.modelGateway;
+  if (!gateway.enabled) {
+    throw new Error("team model gateway disabled");
+  }
+
+  const upstream = await resolveTeamModelGatewayUpstream(gateway);
+  const requestedModel = ASSET_ROUTER_MODEL || gateway.defaultModelId;
+  const model = upstream.mapRequestedModel?.(requestedModel) ?? requestedModel;
+  const baseRequestBody: Record<string, unknown> = {
+    model,
+    messages: [
+      { role: "system", content: params.systemPrompt },
+      { role: "user", content: params.userMessage },
+    ],
+    temperature: 0,
+    max_tokens: params.maxTokens,
+  };
+  const reasoningEffort = normalizeAssetRouterThinkLevel(ASSET_ROUTER_THINK_LEVEL);
+  const requestBodies =
+    reasoningEffort === "low"
+      ? [{ ...baseRequestBody, reasoning_effort: reasoningEffort }, baseRequestBody]
+      : [{ ...baseRequestBody, reasoning_effort: reasoningEffort }, baseRequestBody];
+  let lastError: Error | null = null;
+
+  for (const requestBody of requestBodies) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), ASSET_ROUTER_TIMEOUT_MS);
+    try {
+      const response = await fetch(`${upstream.baseUrl.replace(/\/+$/, "")}/chat/completions`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          ...upstream.headers,
+        },
+        body: JSON.stringify(requestBody),
+        signal: controller.signal,
+      });
+      const raw = await response.text();
+      if (!response.ok) {
+        lastError = new Error(raw || `${response.status} ${response.statusText}`);
+        if ("reasoning_effort" in requestBody) {
+          continue;
+        }
+        throw lastError;
+      }
+      const parsed = JSON.parse(raw) as { choices?: { message?: { content?: string } }[] };
+      const content = parsed.choices?.[0]?.message?.content?.trim();
+      if (!content) {
+        throw new Error("router returned empty response");
+      }
+      return content;
+    } catch (err) {
+      lastError = err instanceof Error ? err : new Error(String(err));
+      if (!("reasoning_effort" in requestBody)) {
+        throw lastError;
+      }
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
+  throw lastError ?? new Error("router LLM call failed");
+}
+
+async function buildAssetRouterPlan(params: {
+  team: TeamState;
+  query: string;
+  allowedKinds: AssetServerKind[];
+}): Promise<AssetRouterPlan> {
+  const systemPrompt = [
+    "You are a fast capability router for a team shared-asset system.",
+    "Decide whether the user's task needs team shared skills/assets.",
+    "Return ONLY compact JSON.",
+    "Do not request assets for ordinary conversation or simple general knowledge.",
+    "If assets are useful, produce capability-oriented search queries, not a full answer.",
+  ].join("\n");
+  const userMessage = JSON.stringify(
+    {
+      task: params.query,
+      allowedKinds: params.allowedKinds,
+      outputSchema: {
+        needsAssets: "boolean",
+        confidence: "number from 0 to 1",
+        searchQueries: "array of 1-3 short capability search queries",
+        reason: "short string",
+      },
+    },
+    null,
+    2,
+  );
+  const raw = await callTeamAssetRouterLlm({
+    team: params.team,
+    systemPrompt,
+    userMessage,
+    maxTokens: 320,
+  });
+  const parsed = parseAssetRouterJsonObject(raw);
+  const needsAssets = parsed.needsAssets === true;
+  return {
+    needsAssets,
+    confidence: normalizeAssetRouterConfidence(parsed.confidence),
+    searchQueries: needsAssets ? normalizeAssetRouterQueries(params.query, parsed.searchQueries) : [],
+    reason: typeof parsed.reason === "string" ? parsed.reason.slice(0, 240) : undefined,
+  };
+}
+
+function resolveAllowedAssetKinds(
+  bundle: AssetServerBundle,
+  kinds?: AssetServerKind[],
+): AssetServerKind[] {
+  const defaultKinds = buildAssetServerKindList(Object.keys(bundle.byKind) as AssetServerKind[]);
+  const allowedKinds = new Set(kinds ?? defaultKinds);
+  if (isTeamClawHubSkillsEnabled() && (!kinds || kinds.includes("skills"))) {
+    allowedKinds.add("skills");
+  }
+  return [...allowedKinds];
+}
+
+function resolveAllowedAssetKindsForTeam(team: TeamState, kinds?: AssetServerKind[]): AssetServerKind[] {
+  const publishedKinds = team.assets
+    .filter((asset) => asset.status === "published")
+    .map((asset) => resolveTeamAssetTypeRuntime(asset.category).assetServerKind)
+    .filter((kind): kind is AssetServerKind => Boolean(kind));
+  const defaultKinds = buildAssetServerKindList(publishedKinds);
+  const allowedKinds = new Set(kinds ?? defaultKinds);
+  if (isTeamClawHubSkillsEnabled() && (!kinds || kinds.includes("skills"))) {
+    allowedKinds.add("skills");
+  }
+  return [...allowedKinds];
+}
+
+function createEmptyResolveMatches(kinds: Iterable<AssetServerKind>) {
+  return Object.fromEntries([...kinds].map((kind) => [kind, [] as AssetServerResolveMatch[]])) as Record<
+    AssetServerKind,
+    AssetServerResolveMatch[]
+  >;
+}
+
+function upsertAssetRouterCandidate(
+  byId: Map<string, AssetRouterCandidate>,
+  candidate: AssetRouterCandidate,
+): void {
+  const existing = byId.get(candidate.match.id);
+  if (!existing || candidate.match.score > existing.match.score) {
+    byId.set(candidate.match.id, candidate);
+  }
+}
+
+function rankAssetRouterCandidates(params: {
+  localCandidates: AssetRouterCandidate[];
+  clawHubCandidates: AssetRouterCandidate[];
+}): AssetRouterCandidate[] {
+  const combined = new Map<string, AssetRouterCandidate>();
+  for (const candidate of [...params.localCandidates, ...params.clawHubCandidates]) {
+    upsertAssetRouterCandidate(combined, candidate);
+  }
+
+  const ranked = [...combined.values()].toSorted((a, b) => b.match.score - a.match.score);
+  const reservedLocal = params.localCandidates
+    .toSorted((a, b) => b.match.score - a.match.score)
+    .slice(0, Math.min(5, ASSET_ROUTER_TOP_K));
+  const byId = new Map<string, AssetRouterCandidate>();
+  for (const candidate of [...reservedLocal, ...ranked]) {
+    if (!byId.has(candidate.match.id)) {
+      byId.set(candidate.match.id, candidate);
+    }
+    if (byId.size >= ASSET_ROUTER_TOP_K) {
+      break;
+    }
+  }
+  return [...byId.values()];
+}
+
+function collectLocalAssetRouterCandidates(params: {
+  bundle: AssetServerBundle;
+  allowedKinds: Set<AssetServerKind>;
+  searchQueries: string[];
+}): AssetRouterCandidate[] {
+  const byId = new Map<string, AssetRouterCandidate>();
+  for (const kind of params.allowedKinds) {
+    for (const item of params.bundle.byKind[kind] ?? []) {
+      let best: { score: number; matchedTerms: string[] } | null = null;
+      for (const query of params.searchQueries) {
+        const scored = scoreAssetMatch(query, item);
+        if (scored && (!best || scored.score > best.score)) {
+          best = scored;
+        }
+      }
+      if (!best) {
+        continue;
+      }
+      const { content: _content, files: _files, ...meta } = item;
+      upsertAssetRouterCandidate(byId, {
+        source: "local",
+        match: { ...meta, score: best.score, matchedTerms: best.matchedTerms },
+      });
+    }
+  }
+  return [...byId.values()].toSorted((a, b) => b.match.score - a.match.score);
+}
+
+async function collectClawHubAssetRouterCandidates(params: {
+  searchQueries: string[];
+  allowedKinds: Set<AssetServerKind>;
+  limit: number;
+}): Promise<AssetRouterCandidate[]> {
+  if (!isTeamClawHubSkillsEnabled() || !params.allowedKinds.has("skills")) {
+    return [];
+  }
+  const token = await resolveClawHubAuthToken();
+  const byId = new Map<string, AssetRouterCandidate>();
+  for (const query of params.searchQueries) {
+    const results = await searchClawHubSkills({
+      query,
+      token,
+      limit: Math.max(1, Math.min(CLAWHUB_SKILL_SEARCH_LIMIT, params.limit)),
+    }).catch(() => []);
+    for (const result of results) {
+      const item = buildClawHubSkillManifestItem(result);
+      upsertAssetRouterCandidate(byId, {
+        source: "clawhub",
+        match: {
+          ...item,
+          matchedTerms: [result.slug, ...topKeywordsFromText(item.title, item.summary)].slice(0, 8),
+        },
+      });
+    }
+  }
+  return [...byId.values()].toSorted((a, b) => b.match.score - a.match.score);
+}
+
+async function rerankAssetRouterCandidates(params: {
+  team: TeamState;
+  query: string;
+  candidates: AssetRouterCandidate[];
+  limitPerKind: number;
+}): Promise<{ needsAssets: boolean; selected: AssetRouterSelection[] }> {
+  const cards = params.candidates.slice(0, ASSET_ROUTER_TOP_K).map((candidate, index) => ({
+    index: index + 1,
+    id: candidate.match.id,
+    kind: candidate.match.kind,
+    source: candidate.source,
+    title: truncateAssetRouterText(candidate.match.title, 120),
+    summary: truncateAssetRouterText(candidate.match.summary, 260),
+    capabilities: candidate.match.capability.capabilities.slice(0, 8),
+    tags: candidate.match.capability.tags.slice(0, 8),
+    activationHints: candidate.match.capability.activationHints
+      .map((hint) => truncateAssetRouterText(hint, 120))
+      .slice(0, 4),
+    retrievalScore: candidate.match.score,
+  }));
+  const systemPrompt = [
+    "You are a fast reranker for team shared assets.",
+    "Select only assets that materially help the user's current task.",
+    "Prefer skills with directly relevant workflows or domain methods.",
+    "Prefer local team assets over external hub assets when both are relevant, because local assets encode team-specific policy and orchestration.",
+    "Return ONLY JSON. It is valid to select no assets.",
+  ].join("\n");
+  const userMessage = JSON.stringify(
+    {
+      task: params.query,
+      maxPerKind: params.limitPerKind,
+      candidates: cards,
+      outputSchema: {
+        needsAssets: "boolean",
+        selected: [
+          {
+            id: "candidate id",
+            confidence: "number from 0 to 1",
+            reason: "short reason",
+          },
+        ],
+      },
+    },
+    null,
+    2,
+  );
+  const raw = await callTeamAssetRouterLlm({
+    team: params.team,
+    systemPrompt,
+    userMessage,
+    maxTokens: 520,
+  });
+  const parsed = parseAssetRouterJsonObject(raw);
+  const selected = Array.isArray(parsed.selected)
+    ? parsed.selected
+        .map((entry): AssetRouterSelection | null => {
+          if (!entry || typeof entry !== "object" || Array.isArray(entry)) {
+            return null;
+          }
+          const record = entry as Record<string, unknown>;
+          const id = typeof record.id === "string" ? record.id.trim() : "";
+          if (!id) {
+            return null;
+          }
+          return {
+            id,
+            confidence: normalizeAssetRouterConfidence(record.confidence),
+            reason: typeof record.reason === "string" ? record.reason.slice(0, 240) : undefined,
+          };
+        })
+        .filter((entry): entry is AssetRouterSelection => Boolean(entry))
+    : [];
+  return {
+    needsAssets: parsed.needsAssets === true || selected.length > 0,
+    selected,
+  };
+}
+
+function buildAssetRouterMatchesFromSelection(params: {
+  allowedKinds: AssetServerKind[];
+  candidates: AssetRouterCandidate[];
+  selected: AssetRouterSelection[];
+  limitPerKind: number;
+}): Record<AssetServerKind, AssetServerResolveMatch[]> {
+  const matches = createEmptyResolveMatches(params.allowedKinds);
+  const byId = new Map(params.candidates.map((candidate) => [candidate.match.id, candidate]));
+  const selectedSeen = new Set<string>();
+  for (const selection of params.selected) {
+    if (selectedSeen.has(selection.id)) {
+      continue;
+    }
+    selectedSeen.add(selection.id);
+    if (selection.confidence !== undefined && selection.confidence < ASSET_ROUTER_MIN_CONFIDENCE) {
+      continue;
+    }
+    const candidate = byId.get(selection.id);
+    if (!candidate) {
+      continue;
+    }
+    const kind = candidate.match.kind;
+    matches[kind] ??= [];
+    if (matches[kind].length >= params.limitPerKind) {
+      continue;
+    }
+    const confidenceScore =
+      selection.confidence !== undefined ? Math.round(selection.confidence * 1000) : 0;
+    matches[kind].push({
+      ...candidate.match,
+      score: Math.max(candidate.match.score, confidenceScore),
+      matchedTerms: Array.from(new Set(["llm-router", ...candidate.match.matchedTerms])).slice(
+        0,
+        10,
+      ),
+    });
+  }
+  return matches;
+}
+
+async function resolveTeamAssetServerMatchesDynamicBySlug(
+  slug: string,
+  input: {
+    query: string;
+    kinds?: AssetServerKind[];
+    limitPerKind?: number;
+    fallbackQuery?: string;
+  },
+): Promise<AssetServerResolveResult> {
+  const root = await readTeamsState();
+  const team = findTeamBySlugOrThrow(root, slugifyTeamLabel(slug));
+  const query = input.query.trim();
+  const limitPerKind = input.limitPerKind ?? 2;
+  const allowedKinds = resolveAllowedAssetKindsForTeam(team, input.kinds);
+  const teamSummary = { slug: team.profile.slug, name: team.profile.name };
+  const generatedAt = nowIso();
+  if (!query || query.startsWith("/")) {
+    return {
+      team: teamSummary,
+      generatedAt,
+      query: input.query,
+      matches: createEmptyResolveMatches(allowedKinds),
+      debug: { routerMode: ASSET_ROUTER_MODE_DYNAMIC_LLM, needsAssets: false },
+    };
+  }
+
+  const plan = await buildAssetRouterPlan({ team, query, allowedKinds });
+  const strongSignalQueries = buildStrongSignalAssetRouterQueries(query);
+  const shouldForceRetrieval = strongSignalQueries.length > 0;
+  if (!plan.needsAssets && !shouldForceRetrieval) {
+    return {
+      team: teamSummary,
+      generatedAt,
+      query: input.query,
+      matches: createEmptyResolveMatches(allowedKinds),
+      debug: {
+        routerMode: ASSET_ROUTER_MODE_DYNAMIC_LLM,
+        needsAssets: false,
+        searchQueries: [],
+      },
+    };
+  }
+
+  const searchQueries =
+    plan.searchQueries.length > 0
+      ? Array.from(new Set([...strongSignalQueries, ...plan.searchQueries])).slice(
+          0,
+          ASSET_ROUTER_DISCOVERY_QUERY_LIMIT,
+        )
+      : strongSignalQueries.length > 0
+        ? strongSignalQueries
+        : [query];
+  const bundle = await buildAssetServerBundleForTeam(slug);
+  const allowedKindSet = new Set(allowedKinds);
+  const localCandidates = collectLocalAssetRouterCandidates({
+    bundle,
+    allowedKinds: allowedKindSet,
+    searchQueries,
+  });
+  const clawHubCandidates = await collectClawHubAssetRouterCandidates({
+    searchQueries,
+    allowedKinds: allowedKindSet,
+    limit: ASSET_ROUTER_TOP_K,
+  });
+  const candidates = rankAssetRouterCandidates({ localCandidates, clawHubCandidates });
+  if (candidates.length === 0) {
+    return {
+      team: teamSummary,
+      generatedAt,
+      query: input.query,
+      matches: createEmptyResolveMatches(allowedKinds),
+      debug: {
+        routerMode: ASSET_ROUTER_MODE_DYNAMIC_LLM,
+        needsAssets: true,
+        searchQueries,
+        candidateCount: 0,
+      },
+    };
+  }
+
+  const rerank = await rerankAssetRouterCandidates({
+    team,
+    query,
+    candidates,
+    limitPerKind,
+  });
+  const matches = rerank.needsAssets
+    ? buildAssetRouterMatchesFromSelection({
+        allowedKinds,
+        candidates,
+        selected: rerank.selected,
+        limitPerKind,
+      })
+    : createEmptyResolveMatches(allowedKinds);
+
+  return {
+    team: teamSummary,
+    generatedAt,
+    query: input.query,
+    matches,
+    debug: {
+      routerMode: ASSET_ROUTER_MODE_DYNAMIC_LLM,
+      needsAssets: rerank.needsAssets,
+      searchQueries,
+      candidateCount: candidates.length,
+      selected: rerank.selected,
+    },
+  };
+}
+
+async function resolveTeamAssetServerMatchesLexicalBySlug(
   slug: string,
   input: { query: string; kinds?: AssetServerKind[]; limitPerKind?: number },
 ): Promise<AssetServerResolveResult> {
   const bundle = await buildAssetServerBundleForTeam(slug);
   const limitPerKind = input.limitPerKind ?? 2;
-  const defaultKinds = buildAssetServerKindList(Object.keys(bundle.byKind) as AssetServerKind[]);
-  const allowedKinds = new Set(input.kinds ?? defaultKinds);
-  const matches = Object.fromEntries(
-    [...allowedKinds].map((kind) => [kind, [] as AssetServerResolveMatch[]]),
-  ) as Record<AssetServerKind, AssetServerResolveMatch[]>;
+  const allowedKinds = resolveAllowedAssetKinds(bundle, input.kinds);
+  const matches = createEmptyResolveMatches(allowedKinds);
   for (const kind of allowedKinds) {
     matches[kind] ??= [];
     for (const item of bundle.byKind[kind] ?? []) {
       const scored = scoreAssetMatch(input.query, item);
       if (scored) {
-        const { content: _content, ...meta } = item;
+        const { content: _content, files: _files, ...meta } = item;
         matches[kind].push({ ...meta, score: scored.score, matchedTerms: scored.matchedTerms });
       }
     }
     matches[kind] = matches[kind].toSorted((a, b) => b.score - a.score).slice(0, limitPerKind);
   }
+  if (allowedKinds.includes("skills")) {
+    const clawHubMatches = await resolveClawHubSkillMatches(input.query);
+    if (clawHubMatches.length > 0) {
+      matches.skills ??= [];
+      matches.skills = [...matches.skills, ...clawHubMatches]
+        .toSorted((a, b) => b.score - a.score)
+        .slice(0, limitPerKind);
+    }
+  }
   return { team: bundle.team, generatedAt: bundle.generatedAt, query: input.query, matches };
+}
+
+export async function resolveTeamAssetServerMatchesBySlug(
+  slug: string,
+  input: { query: string; kinds?: AssetServerKind[]; limitPerKind?: number; fallbackQuery?: string },
+): Promise<AssetServerResolveResult> {
+  const mode = resolveAssetRouterMode();
+  if (mode === ASSET_ROUTER_MODE_LEXICAL) {
+    return await resolveTeamAssetServerMatchesLexicalBySlug(slug, input);
+  }
+  try {
+    return await resolveTeamAssetServerMatchesDynamicBySlug(slug, input);
+  } catch (err) {
+    const fallback = await resolveTeamAssetServerMatchesLexicalBySlug(slug, {
+      ...input,
+      query: input.fallbackQuery?.trim() || input.query,
+    });
+    return {
+      ...fallback,
+      query: input.query,
+      debug: {
+        ...fallback.debug,
+        routerMode: ASSET_ROUTER_MODE_DYNAMIC_LLM,
+        fallback: true,
+        fallbackReason: err instanceof Error ? err.message.slice(0, 500) : String(err).slice(0, 500),
+      },
+    };
+  }
 }
 
 // ============ Heartbeat ============
