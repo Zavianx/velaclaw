@@ -22,10 +22,7 @@ const ANTHROPIC_TIMEOUT_MS = 120_000;
 const OPENAI_PREFIX = buildStableCachePrefix("openai");
 const OPENAI_MCP_PREFIX = buildStableCachePrefix("openai-mcp-style");
 const ANTHROPIC_PREFIX = buildStableCachePrefix("anthropic");
-const LIVE_TEST_PNG_URL = new URL(
-  "../../apps/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png",
-  import.meta.url,
-);
+const LIVE_TEST_PNG_URL = new URL("../../assets/brand/velaclaw-icon.png", import.meta.url);
 
 type LiveResolvedModel = Awaited<ReturnType<typeof resolveLiveDirectModel>>;
 type ProviderKey = keyof typeof LIVE_CACHE_REGRESSION_BASELINE;

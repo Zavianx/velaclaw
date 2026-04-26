@@ -1,5 +1,5 @@
-import { vi } from "vitest";
-import { type FetchMock, withFetchPreconnect } from "../../test-utils/fetch-mock.js";
+import { type Mock, vi } from "vitest";
+import { withFetchPreconnect } from "../../test-utils/fetch-mock.js";
 
 vi.mock("../../infra/net/fetch-guard.js", () => ({
   fetchWithSsrFGuard: async (params: {
@@ -21,7 +21,8 @@ vi.mock("../../infra/net/fetch-guard.js", () => ({
 }));
 
 type FetchPayloadFactory = (input: RequestInfo | URL, init?: RequestInit) => unknown;
-type JsonResponseFetchMock = ReturnType<typeof vi.fn<FetchMock>> & {
+type JsonFetchMockFn = (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>;
+type JsonResponseFetchMock = Mock<JsonFetchMockFn> & {
   preconnect: (
     url: string | URL,
     options?: { dns?: boolean; tcp?: boolean; http?: boolean; https?: boolean },
@@ -34,15 +35,18 @@ export type JsonFetchMock = ReturnType<typeof createJsonResponseFetchMock>;
 export function createJsonResponseFetchMock(payload: FetchPayloadFactory): JsonResponseFetchMock;
 export function createJsonResponseFetchMock(payload: unknown): JsonResponseFetchMock;
 export function createJsonResponseFetchMock(payload: unknown) {
-  const fetchMock = vi.fn<FetchMock>(async (input: RequestInfo | URL, init?: RequestInit) => {
-    const body =
-      typeof payload === "function" ? (payload as FetchPayloadFactory)(input, init) : payload;
-    return new Response(JSON.stringify(body), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
-  });
-  return withFetchPreconnect(fetchMock) as JsonResponseFetchMock;
+  const fetchMock: Mock<JsonFetchMockFn> = vi.fn<JsonFetchMockFn>(
+    async (input: RequestInfo | URL, init?: RequestInit) => {
+      const body =
+        typeof payload === "function" ? (payload as FetchPayloadFactory)(input, init) : payload;
+      return new Response(JSON.stringify(body), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    },
+  );
+  const withPreconnect: JsonResponseFetchMock = withFetchPreconnect(fetchMock);
+  return withPreconnect;
 }
 
 export function createEmbeddingDataFetchMock(embeddingValues = [0.1, 0.2, 0.3]) {

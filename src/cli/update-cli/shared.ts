@@ -2,7 +2,6 @@ import { spawnSync } from "node:child_process";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { resolveVelaclawPackageRoot } from "../../infra/velaclaw-root.js";
 import { readPackageName, readPackageVersion } from "../../infra/package-json.js";
 import { normalizePackageTagInput } from "../../infra/package-tag.js";
 import { trimLogTail } from "../../infra/restart-sentinel.js";
@@ -17,6 +16,7 @@ import {
   type GlobalInstallManager,
 } from "../../infra/update-global.js";
 import type { UpdateStepProgress, UpdateStepResult } from "../../infra/update-runner.js";
+import { resolveVelaclawPackageRoot } from "../../infra/velaclaw-root.js";
 import { runCommandWithTimeout } from "../../process/exec.js";
 import { defaultRuntime } from "../../runtime.js";
 import { normalizeLowercaseStringOrEmpty } from "../../shared/string-coerce.js";
@@ -54,7 +54,7 @@ export function parseTimeoutMsOrExit(timeout?: string): number | undefined | nul
   return timeoutMs;
 }
 
-const VELACLAW_REPO_URL = "https://github.com/Zavianx/velaclaw-dev.git";
+const VELACLAW_REPO_URL = "https://github.com/Zavianx/velaclaw.git";
 const MAX_LOG_CHARS = 8000;
 
 export const DEFAULT_PACKAGE_NAME = "velaclaw";

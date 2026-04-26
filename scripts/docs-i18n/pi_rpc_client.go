@@ -333,7 +333,7 @@ func getDocsPiAgentDir() (string, error) {
 	if err != nil {
 		cacheDir = os.TempDir()
 	}
-	dir := filepath.Join(cacheDir, "openclaw", "docs-i18n", "agent")
+	dir := filepath.Join(cacheDir, "velaclaw", "docs-i18n", "agent")
 	if err := os.MkdirAll(dir, 0o700); err != nil {
 		return "", err
 	}

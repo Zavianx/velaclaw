@@ -83,9 +83,6 @@ Velaclaw has three public release lanes:
     `velaclaw/releases-private/.github/workflows/velaclaw-npm-dist-tags.yml`
     for security, because `npm dist-tag add` still needs `NPM_TOKEN` while the
     public repo keeps OIDC-only publish
-  - public `macOS Release` is validation-only
-  - real private mac publish must pass successful private mac
-    `preflight_run_id` and `validate_run_id`
   - the real publish paths promote prepared artifacts instead of rebuilding
     them again
 - For stable correction releases like `YYYY.M.D-N`, the post-publish verifier
@@ -102,12 +99,6 @@ Velaclaw has three public release lanes:
   extension test matrices, regenerate and review the planner-owned
   `checks-node-extensions` workflow matrix outputs from `.github/workflows/ci.yml`
   before approval so release notes do not describe a stale CI layout
-- Stable macOS release readiness also includes the updater surfaces:
-  - the GitHub release must end up with the packaged `.zip`, `.dmg`, and `.dSYM.zip`
-  - `appcast.xml` on `main` must point at the new stable zip after publish
-  - the packaged app must keep a non-debug bundle id, a non-empty Sparkle feed
-    URL, and a `CFBundleVersion` at or above the canonical Sparkle build floor
-    for that release version
 
 ## NPM workflow inputs
 
@@ -172,8 +163,6 @@ documented and operator-visible.
 - [`.github/workflows/velaclaw-release-checks.yml`](https://github.com/Zavianx/velaclaw/blob/main/.github/workflows/velaclaw-release-checks.yml)
 - [`.github/workflows/velaclaw-cross-os-release-checks-reusable.yml`](https://github.com/Zavianx/velaclaw/blob/main/.github/workflows/velaclaw-cross-os-release-checks-reusable.yml)
 - [`scripts/velaclaw-npm-release-check.ts`](https://github.com/Zavianx/velaclaw/blob/main/scripts/velaclaw-npm-release-check.ts)
-- [`scripts/package-mac-dist.sh`](https://github.com/Zavianx/velaclaw/blob/main/scripts/package-mac-dist.sh)
-- [`scripts/make_appcast.sh`](https://github.com/Zavianx/velaclaw/blob/main/scripts/make_appcast.sh)
 
 Maintainers use the private release docs in
 [`velaclaw/maintainers/release/README.md`](https://github.com/velaclaw/maintainers/blob/main/release/README.md)

@@ -8,16 +8,14 @@ import {
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, "..");
-const outputPath = path.join(
-  repoRoot,
-  "apps/shared/VelaclawKit/Sources/VelaclawKit/Resources/tool-display.json",
-);
+const outputPath = path.join(repoRoot, "src/agents/tool-display.snapshot.json");
 const toolSources = [
   path.join(repoRoot, "src/agents/apply-patch.ts"),
   path.join(repoRoot, "src/agents/bash-tools.exec.ts"),
   path.join(repoRoot, "src/agents/bash-tools.process.ts"),
   path.join(repoRoot, "src/auto-reply/reply/acp-projector.ts"),
 ];
+const nonToolNames = new Set(["broader_discovery", "primary_seed_fetch"]);
 
 const args = new Set(process.argv.slice(2));
 const shouldCheck = args.has("--check");
@@ -73,7 +71,10 @@ function ensureCoreToolCoverage() {
     }
     collectToolNamesFromFile(path.join(repoRoot, "src/agents/tools", entry), toolNames);
   }
-  const missing = [...toolNames].filter((name) => !TOOL_DISPLAY_CONFIG.tools[name]).toSorted();
+  const missing = [...toolNames]
+    .filter((name) => !nonToolNames.has(name))
+    .filter((name) => !TOOL_DISPLAY_CONFIG.tools[name])
+    .toSorted();
   if (missing.length > 0) {
     console.error(
       `tool-display metadata missing for runtime tools: ${missing.join(", ")}\nupdate: src/agents/tool-display-config.ts`,

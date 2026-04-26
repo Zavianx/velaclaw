@@ -1,9 +1,22 @@
 import { afterAll, beforeAll, beforeEach } from "vitest";
+import type { WebSocket } from "ws";
 import { connectOk, startServerWithClient, testState } from "./test-helpers.js";
 
-type StartServerWithClient = typeof startServerWithClient;
-export type GatewayWs = Awaited<ReturnType<StartServerWithClient>>["ws"];
-export type GatewayServer = Awaited<ReturnType<StartServerWithClient>>["server"];
+type GatewayServerHandle = {
+  close: () => Promise<void> | void;
+};
+type GatewayEnvSnapshot = {
+  restore: () => void;
+};
+type StartedServerWithClient = {
+  server: GatewayServerHandle;
+  ws: WebSocket;
+  port: number;
+  envSnapshot: GatewayEnvSnapshot;
+};
+
+export type GatewayWs = StartedServerWithClient["ws"];
+export type GatewayServer = StartedServerWithClient["server"];
 
 export async function withServer<T>(run: (ws: GatewayWs) => Promise<T>): Promise<T> {
   const { server, ws, envSnapshot } = await startServerWithClient("secret");
@@ -19,17 +32,20 @@ export async function withServer<T>(run: (ws: GatewayWs) => Promise<T>): Promise
 export function installConnectedControlUiServerSuite(
   onReady: (started: { server: GatewayServer; ws: GatewayWs; port: number }) => void,
 ): void {
-  let started: Awaited<ReturnType<StartServerWithClient>> | null = null;
+  let started: StartedServerWithClient | null = null;
   const token = "secret";
 
   beforeAll(async () => {
-    started = await startServerWithClient(token, { controlUiEnabled: true });
-    onReady({
-      server: started.server,
-      ws: started.ws,
-      port: started.port,
+    const next: StartedServerWithClient = await startServerWithClient(token, {
+      controlUiEnabled: true,
     });
-    await connectOk(started.ws);
+    started = next;
+    onReady({
+      server: next.server,
+      ws: next.ws,
+      port: next.port,
+    });
+    await connectOk(next.ws);
   });
 
   beforeEach(() => {

@@ -125,7 +125,13 @@ Or skip the link and use `pnpm velaclaw ...` from inside the repo. See [Setup](/
 ### Install from GitHub main
 
 ```bash
-npm install -g github:Zavianx/velaclaw-dev#main
+npm install -g github:Zavianx/velaclaw#main
+```
+
+To keep tracking the public `main` branch later:
+
+```bash
+velaclaw update --tag main
 ```
 
 ### Containers and package managers

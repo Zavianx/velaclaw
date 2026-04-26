@@ -20,11 +20,6 @@ velaclaw_live_stage_source_tree() {
     --exclude=relay.sock \
     --exclude='*.sock' \
     --exclude='*/*.sock' \
-    --exclude='apps/*/.build' \
-    --exclude='apps/*/*.bun-build' \
-    --exclude='apps/*/.gradle' \
-    --exclude='apps/*/.kotlin' \
-    --exclude='apps/*/build' \
     -cf - . | tar -C "$dest_dir" -xf -
   local status=$?
   set -e

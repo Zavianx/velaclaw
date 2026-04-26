@@ -190,7 +190,7 @@ func translateFrontMatter(ctx context.Context, translator docsTranslator, tm *Tr
 }
 
 func docsI18nVerboseLogs() bool {
-	value := strings.TrimSpace(os.Getenv("OPENCLAW_DOCS_I18N_VERBOSE_LOGS"))
+	value := strings.TrimSpace(os.Getenv("VELACLAW_DOCS_I18N_VERBOSE_LOGS"))
 	if value == "" {
 		return false
 	}

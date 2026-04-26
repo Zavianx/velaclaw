@@ -427,7 +427,7 @@ function shouldAdoptManagerDefaultModel(modelRef: string): boolean {
   if (!modelRef) {
     return true;
   }
-  // `team-gateway/*` is the inherited OpenClaw placeholder; leave explicit
+  // `team-gateway/*` is the inherited Velaclaw placeholder; leave explicit
   // user choices (including `openai/*`, `openai-codex/*`, etc.) untouched.
   const normalized = modelRef.trim().toLowerCase();
   return normalized.startsWith("team-gateway/");

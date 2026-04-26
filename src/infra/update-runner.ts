@@ -399,6 +399,11 @@ function isSupersededInstallFailure(
   if (step.exitCode === 0) {
     return false;
   }
+  if (step.name === "upstream check") {
+    return steps.some(
+      (candidate) => candidate.name.startsWith("fallback upstream ") && candidate.exitCode === 0,
+    );
+  }
   if (step.name === "deps install") {
     return steps.some(
       (candidate) => candidate.name === "deps install (ignore scripts)" && candidate.exitCode === 0,
@@ -573,27 +578,51 @@ export async function runGatewayUpdate(opts: UpdateRunnerOptions = {}): Promise<
         ),
       );
       steps.push(upstreamStep);
-      if (upstreamStep.exitCode !== 0) {
+      const hasConfiguredUpstream = upstreamStep.exitCode === 0;
+      const upstreamRef = hasConfiguredUpstream ? "@{upstream}" : `origin/${DEV_BRANCH}`;
+
+      const fetchStep = await runStep(
+        step("git fetch", ["git", "-C", gitRoot, "fetch", "--all", "--prune", "--tags"], gitRoot),
+      );
+      steps.push(fetchStep);
+      if (fetchStep.exitCode !== 0) {
         return {
-          status: "skipped",
+          status: "error",
           mode: "git",
           root: gitRoot,
-          reason: "no-upstream",
+          reason: "fetch-failed",
           before: { sha: beforeSha, version: beforeVersion },
           steps,
           durationMs: Date.now() - startedAt,
         };
       }
 
-      const fetchStep = await runStep(
-        step("git fetch", ["git", "-C", gitRoot, "fetch", "--all", "--prune", "--tags"], gitRoot),
-      );
-      steps.push(fetchStep);
+      if (!hasConfiguredUpstream) {
+        const fallbackStep = await runStep(
+          step(
+            `fallback upstream ${upstreamRef}`,
+            ["git", "-C", gitRoot, "rev-parse", "--verify", upstreamRef],
+            gitRoot,
+          ),
+        );
+        steps.push(fallbackStep);
+        if (fallbackStep.exitCode !== 0) {
+          return {
+            status: "skipped",
+            mode: "git",
+            root: gitRoot,
+            reason: "no-upstream",
+            before: { sha: beforeSha, version: beforeVersion },
+            steps,
+            durationMs: Date.now() - startedAt,
+          };
+        }
+      }
 
       const upstreamShaStep = await runStep(
         step(
-          "git rev-parse @{upstream}",
-          ["git", "-C", gitRoot, "rev-parse", "@{upstream}"],
+          `git rev-parse ${upstreamRef}`,
+          ["git", "-C", gitRoot, "rev-parse", upstreamRef],
           gitRoot,
         ),
       );

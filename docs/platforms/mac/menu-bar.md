@@ -48,7 +48,7 @@ title: "Menu Bar"
 ## Status row text (menu)
 
 - While work is active: `<Session role> · <activity label>`
-  - Examples: `Main · exec: pnpm test`, `Other · read: apps/macos/Sources/Velaclaw/AppState.swift`.
+  - Examples: `Main · exec: pnpm test`, `Other · read: src/gateway/client.ts`.
 - When idle: falls back to the health summary.
 
 ## Event ingestion

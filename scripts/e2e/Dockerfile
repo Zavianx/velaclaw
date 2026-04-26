@@ -37,8 +37,6 @@ COPY --chown=appuser:appuser skills ./skills
 COPY --chown=appuser:appuser ui ./ui
 COPY --chown=appuser:appuser extensions ./extensions
 COPY --chown=appuser:appuser vendor/a2ui/renderers/lit ./vendor/a2ui/renderers/lit
-COPY --chown=appuser:appuser apps/shared/VelaclawKit/Sources/VelaclawKit/Resources ./apps/shared/VelaclawKit/Sources/VelaclawKit/Resources
-COPY --chown=appuser:appuser apps/shared/VelaclawKit/Tools/CanvasA2UI ./apps/shared/VelaclawKit/Tools/CanvasA2UI
 
 RUN pnpm build
 # Onboard Docker E2E does not exercise the Control UI itself; it only needs the

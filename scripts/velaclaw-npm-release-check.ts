@@ -57,7 +57,7 @@ export type NpmDistTagMirrorAuth = {
   hasAuth: boolean;
   source: "node-auth-token" | "npm-token" | "none";
 };
-const EXPECTED_REPOSITORY_URL = "https://github.com/Zavianx/velaclaw-dev";
+const EXPECTED_REPOSITORY_URL = "https://github.com/Zavianx/velaclaw";
 const MAX_CALVER_DISTANCE_DAYS = 2;
 const LEGACY_UPDATE_COMPAT_PACKED_PATHS = ["dist/extensions/qa-channel/runtime-api.js"] as const;
 const REQUIRED_PACKED_PATHS = [

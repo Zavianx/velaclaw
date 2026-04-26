@@ -7,9 +7,6 @@ If you believe you've found a security issue in Velaclaw, please report it priva
 Report vulnerabilities directly to the repository where the issue lives:
 
 - **Core CLI and gateway** — [Zavianx/velaclaw-dev](https://github.com/Zavianx/velaclaw-dev)
-- **macOS desktop app** — [Zavianx/velaclaw-dev](https://github.com/Zavianx/velaclaw-dev) (apps/macos)
-- **iOS app** — [Zavianx/velaclaw-dev](https://github.com/Zavianx/velaclaw-dev) (apps/ios)
-- **Android app** — [Zavianx/velaclaw-dev](https://github.com/Zavianx/velaclaw-dev) (apps/android)
 - **ClawHub** — [velaclaw/clawhub](https://github.com/velaclaw/clawhub)
 - **Trust and threat model** — [velaclaw/trust](https://github.com/velaclaw/trust)
 

@@ -1,11 +1,11 @@
-# OpenClaw Installer for Windows (PowerShell)
-# Usage: iwr -useb https://openclaw.ai/install.ps1 | iex
-# Or: & ([scriptblock]::Create((iwr -useb https://openclaw.ai/install.ps1))) -NoOnboard
+# Velaclaw Installer for Windows (PowerShell)
+# Usage: iwr -useb https://velaclaw.ai/install.ps1 | iex
+# Or: & ([scriptblock]::Create((iwr -useb https://velaclaw.ai/install.ps1))) -NoOnboard
 
 param(
     [string]$InstallMethod = "npm",
     [string]$Tag = "latest",
-    [string]$GitDir = "$env:USERPROFILE\openclaw",
+    [string]$GitDir = "$env:USERPROFILE\velaclaw",
     [switch]$NoOnboard,
     [switch]$NoGitUpdate,
     [switch]$DryRun
@@ -199,17 +199,17 @@ function Ensure-Git {
     return Install-Git
 }
 
-function Install-OpenClawNpm {
+function Install-VelaclawNpm {
     param([string]$Target = "latest")
 
     $installSpec = Resolve-PackageInstallSpec -Target $Target
     
-    Write-Host "Installing OpenClaw ($installSpec)..." -Level info
+    Write-Host "Installing Velaclaw ($installSpec)..." -Level info
     
     try {
         # Use -ExecutionPolicy Bypass to handle restricted execution policy
         npm install -g $installSpec --no-fund --no-audit 2>&1
-        Write-Host "OpenClaw installed" -Level success
+        Write-Host "Velaclaw installed" -Level success
         return $true
     } catch {
         Write-Host "npm install failed: $_" -Level error
@@ -217,14 +217,14 @@ function Install-OpenClawNpm {
     }
 }
 
-function Install-OpenClawGit {
+function Install-VelaclawGit {
     param([string]$RepoDir, [switch]$Update)
     
-    Write-Host "Installing OpenClaw from git..." -Level info
+    Write-Host "Installing Velaclaw from git..." -Level info
     
     if (!(Test-Path $RepoDir)) {
         Write-Host "  Cloning repository..." -Level info
-        git clone https://github.com/openclaw/openclaw.git $RepoDir 2>&1
+        git clone https://github.com/Zavianx/velaclaw.git $RepoDir 2>&1
     } elseif ($Update) {
         Write-Host "  Updating repository..." -Level info
         git -C $RepoDir pull --rebase 2>&1
@@ -249,13 +249,16 @@ function Install-OpenClawGit {
     if (!(Test-Path $wrapperDir)) {
         New-Item -ItemType Directory -Path $wrapperDir -Force | Out-Null
     }
+
+    $entryPath = Join-Path $RepoDir "dist\entry.js"
     
     @"
 @echo off
-node "%~dp0..\openclaw\dist\entry.js" %*
-"@ | Out-File -FilePath "$wrapperDir\openclaw.cmd" -Encoding ASCII -Force
+node "$entryPath" %*
+"@ | Out-File -FilePath "$wrapperDir\velaclaw.cmd" -Encoding ASCII -Force
+    Add-ToPath -Path $wrapperDir
     
-    Write-Host "OpenClaw installed" -Level success
+    Write-Host "Velaclaw installed" -Level success
     return $true
 }
 
@@ -276,15 +279,15 @@ function Resolve-PackageInstallSpec {
 
     $trimmed = $Target.Trim()
     if ([string]::IsNullOrWhiteSpace($trimmed)) {
-        return "openclaw@latest"
+        return "velaclaw@latest"
     }
     if ($trimmed.ToLowerInvariant() -eq "main") {
-        return "github:openclaw/openclaw#main"
+        return "github:Zavianx/velaclaw#main"
     }
     if (Test-ExplicitPackageInstallSpec -Target $trimmed) {
         return $trimmed
     }
-    return "openclaw@$trimmed"
+    return "velaclaw@$trimmed"
 }
 
 function Add-ToPath {
@@ -320,9 +323,9 @@ function Main {
         }
         
         if ($DryRun) {
-            Write-Host "[DRY RUN] Would install OpenClaw from git to $GitDir" -Level info
+            Write-Host "[DRY RUN] Would install Velaclaw from git to $GitDir" -Level info
         } else {
-            Install-OpenClawGit -RepoDir $GitDir -Update:(-not $NoGitUpdate)
+            Install-VelaclawGit -RepoDir $GitDir -Update:(-not $NoGitUpdate)
         }
     } else {
         # npm method
@@ -331,9 +334,9 @@ function Main {
         }
         
         if ($DryRun) {
-            Write-Host "[DRY RUN] Would install OpenClaw via npm ($((Resolve-PackageInstallSpec -Target $Tag)))" -Level info
+            Write-Host "[DRY RUN] Would install Velaclaw via npm ($((Resolve-PackageInstallSpec -Target $Tag)))" -Level info
         } else {
-            if (!(Install-OpenClawNpm -Target $Tag)) {
+            if (!(Install-VelaclawNpm -Target $Tag)) {
                 exit 1
             }
         }
@@ -349,7 +352,7 @@ function Main {
     
     if (!$NoOnboard -and !$DryRun) {
         Write-Host ""
-        Write-Host "Run 'openclaw onboard' to complete setup" -Level info
+        Write-Host "Run 'velaclaw onboard' to complete setup" -Level info
     }
     
     Write-Host ""

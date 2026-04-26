@@ -11,8 +11,8 @@ Last updated: 2026-01-10
 
 TypeBox is a TypeScript-first schema library. We use it to define the **Gateway
 WebSocket protocol** (handshake, request/response, server events). Those schemas
-drive **runtime validation**, **JSON Schema export**, and **Swift codegen** for
-the macOS app. One source of truth; everything else is generated.
+drive **runtime validation** and **JSON Schema export**. One source of truth;
+everything else is generated from that schema.
 
 If you want the higher-level protocol context, start with
 [Gateway architecture](/concepts/architecture).
@@ -63,16 +63,13 @@ Authoritative advertised **discovery** inventory lives in
 - Server handshake + method dispatch: `src/gateway/server.impl.ts`
 - Node client: `src/gateway/client.ts`
 - Generated JSON Schema: `dist/protocol.schema.json`
-- Generated Swift models: `apps/macos/Sources/VelaclawProtocol/GatewayModels.swift`
 
 ## Current pipeline
 
 - `pnpm protocol:gen`
   - writes JSON Schema (draft‑07) to `dist/protocol.schema.json`
-- `pnpm protocol:gen:swift`
-  - generates Swift gateway models
 - `pnpm protocol:check`
-  - runs both generators and verifies the output is committed
+  - regenerates the JSON Schema and verifies the output is committed
 
 ## How the schemas are used at runtime
 
@@ -264,21 +261,12 @@ pnpm protocol:check
 
 Add a server test in `src/gateway/server.*.test.ts` and note the method in docs.
 
-## Swift codegen behavior
-
-The Swift generator emits:
-
-- `GatewayFrame` enum with `req`, `res`, `event`, and `unknown` cases
-- Strongly typed payload structs/enums
-- `ErrorCode` values and `GATEWAY_PROTOCOL_VERSION`
-
-Unknown frame types are preserved as raw payloads for forward compatibility.
-
 ## Versioning + compatibility
 
 - `PROTOCOL_VERSION` lives in `src/gateway/protocol/schema.ts`.
 - Clients send `minProtocol` + `maxProtocol`; the server rejects mismatches.
-- The Swift models keep unknown frame types to avoid breaking older clients.
+- Clients should preserve or ignore unknown frame types to avoid breaking on
+  forward-compatible protocol additions.
 
 ## Schema patterns and conventions
 
@@ -304,4 +292,4 @@ published raw file is typically available at:
 3. Update `src/gateway/method-scopes.ts` when the new RPC needs operator or
    node scope classification.
 4. Run `pnpm protocol:check`.
-5. Commit the regenerated schema + Swift models.
+5. Commit the regenerated schema.

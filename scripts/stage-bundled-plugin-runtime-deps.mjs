@@ -815,6 +815,8 @@ function runNpmInstall(params) {
   const npmEnv = {
     ...(params.npmRunner.env ?? process.env),
     CI: "1",
+    NPM_CONFIG_DRY_RUN: "false",
+    npm_config_dry_run: "false",
     npm_config_loglevel: "error",
     npm_config_yes: "true",
   };

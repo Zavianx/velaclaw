@@ -24,9 +24,13 @@ import {
   withRuntimeVersionEnv,
 } from "./server.auth.shared.js";
 
+type GatewayServerHandle = {
+  close: () => Promise<void> | void;
+};
+
 export function registerDefaultAuthTokenSuite(): void {
   describe("default auth (token)", () => {
-    let server: Awaited<ReturnType<typeof startGatewayServer>> | undefined;
+    let server: GatewayServerHandle | undefined;
     let port: number;
     const testsWithoutDefaultServer = new Set([
       "closes silent handshakes after timeout",

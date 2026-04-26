@@ -510,7 +510,6 @@ implemented in `src/gateway/server-methods/*.ts`.
 - Clients send `minProtocol` + `maxProtocol`; the server rejects mismatches.
 - Schemas + models are generated from TypeBox definitions:
   - `pnpm protocol:gen`
-  - `pnpm protocol:gen:swift`
   - `pnpm protocol:check`
 
 ### Client constants

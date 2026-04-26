@@ -164,21 +164,25 @@ If `velaclaw doctor` detects state under:
 
 it will warn and recommend moving back to a local path.
 
-## Build & dev workflow (native)
+## Build & dev workflow
 
-- `cd apps/macos && swift build`
-- `swift run Velaclaw` (or Xcode)
-- Package app: `scripts/package-mac-app.sh`
+The public repository currently ships the Gateway/CLI runtime, not a native
+macOS app build tree. Use the Node-based development commands from the repo
+root:
+
+```bash
+pnpm install
+pnpm build
+pnpm check
+```
 
 ## Debug gateway connectivity (macOS CLI)
 
-Use the debug CLI to exercise the same Gateway WebSocket handshake and discovery
-logic that the macOS app uses, without launching the app.
+Use the CLI to exercise Gateway status and connectivity without a native app.
 
 ```bash
-cd apps/macos
-swift run velaclaw-mac connect --json
-swift run velaclaw-mac discover --timeout 3000 --json
+velaclaw gateway status
+velaclaw gateway health --json
 ```
 
 Connect options:

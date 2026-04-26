@@ -9,7 +9,7 @@ title: "Android App"
 
 # Android App (Node)
 
-> **Note:** The Android app has not been publicly released yet. The source code is available in the [Velaclaw repository](https://github.com/Zavianx/velaclaw) under `apps/android`. You can build it yourself using Java 17 and the Android SDK (`./gradlew :app:assemblePlayDebug`). See [apps/android/README.md](https://github.com/Zavianx/velaclaw/blob/main/apps/android/README.md) for build instructions.
+> **Note:** The public repository currently ships the Gateway/CLI runtime, not an Android native app build tree. Treat this page as protocol and connection guidance for companion-node implementations.
 
 ## Support snapshot
 

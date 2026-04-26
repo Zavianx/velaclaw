@@ -32,6 +32,41 @@ if you want the raw npm beta dist-tag for a one-off package update.
 
 See [Development channels](/install/development-channels) for channel semantics.
 
+## How install type affects updates
+
+Velaclaw can update in-place when the original install is still discoverable:
+
+- **npm/pnpm/bun global install**: `velaclaw update` reinstalls the global `velaclaw` package from the configured channel.
+- **Git/source install**: `velaclaw update` updates the checkout, rebuilds it, and keeps the global wrapper pointed at that checkout.
+- **Container install**: `velaclaw update` does not update the running image. Rebuild or pull the image, then restart the container.
+
+For source installs, use a real git clone with an upstream branch. A raw GitHub
+zip/tarball or manually copied source directory cannot be updated safely because
+there is no remote branch to fetch from.
+
+If a checkout has no branch upstream but does have `origin/main`, the updater
+uses `origin/main` as a safe fallback.
+
+### Repair an older source install
+
+If `velaclaw update` reports `no-upstream`, fix the checkout once:
+
+```bash
+cd ~/velaclaw
+git remote set-url origin https://github.com/Zavianx/velaclaw.git
+git fetch origin
+git checkout main
+git branch --set-upstream-to=origin/main main
+velaclaw update
+```
+
+If your old install was not a git checkout at all, switch it to the managed git
+install path:
+
+```bash
+curl -fsSL https://velaclaw.ai/install.sh | bash -s -- --install-method git --no-onboard
+```
+
 ## Alternative: re-run the installer
 
 ```bash

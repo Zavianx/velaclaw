@@ -1037,7 +1037,7 @@ repair_legacy_dev_source_checkout_if_needed() {
   ensure_guest_pnpm_for_dev_update
   guest_current_user_exec /bin/rm -rf "$update_root"
   guest_current_user_exec /usr/bin/git clone --depth 1 --branch main \
-    https://github.com/Zavianx/velaclaw-dev.git "$update_root"
+    https://github.com/Zavianx/velaclaw.git "$update_root"
   guest_current_user_exec_path "$bootstrap_bin:$GUEST_EXEC_PATH" \
     "$bootstrap_bin/pnpm" --dir "$update_root" install
   guest_current_user_exec_path "$bootstrap_bin:$GUEST_EXEC_PATH" \

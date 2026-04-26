@@ -1884,7 +1884,7 @@ resolve_velaclaw_bin() {
 
 install_velaclaw_from_git() {
     local repo_dir="$1"
-    local repo_url="https://github.com/Zavianx/velaclaw-dev.git"
+    local repo_url="https://github.com/Zavianx/velaclaw.git"
 
     if [[ -d "$repo_dir/.git" ]]; then
         ui_info "Installing Velaclaw from git checkout: ${repo_dir}"
@@ -1965,7 +1965,7 @@ resolve_package_install_spec() {
     local package_name="$1"
     local value="$2"
     if [[ "${value,,}" == "main" ]]; then
-        echo "github:Zavianx/velaclaw-dev#main"
+        echo "github:Zavianx/velaclaw#main"
         return 0
     fi
     if is_explicit_package_install_spec "$value"; then
@@ -2451,7 +2451,7 @@ main() {
         ui_section "Source install details"
         ui_kv "Checkout" "$final_git_dir"
         ui_kv "Wrapper" "$HOME/.local/bin/velaclaw"
-        ui_kv "Update command" "velaclaw update --restart"
+        ui_kv "Update command" "velaclaw update"
         ui_kv "Switch to npm" "curl -fsSL --proto '=https' --tlsv1.2 https://velaclaw.ai/install.sh | bash -s -- --install-method npm"
     elif [[ "$is_upgrade" == "true" ]]; then
         ui_info "Upgrade complete"

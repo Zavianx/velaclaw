@@ -28,7 +28,6 @@ import {
   WORKSPACE_TEMPLATE_PACK_PATHS,
 } from "./lib/workspace-bootstrap-smoke.mjs";
 import { listStaticExtensionAssetOutputs } from "./runtime-postbuild.mjs";
-import { sparkleBuildFloorsFromShortVersion, type SparkleBuildFloors } from "./sparkle-build.ts";
 
 export { collectBundledExtensionManifestErrors } from "./lib/bundled-extension-manifest.ts";
 export {
@@ -78,9 +77,6 @@ const forbiddenPrivateQaContentMarkers = [
   "qa-lab/runtime-api.js",
 ] as const;
 const forbiddenPrivateQaContentScanPrefixes = ["dist/"] as const;
-const appcastPath = resolve("appcast.xml");
-const laneBuildMin = 1_000_000_000;
-const laneFloorAdoptionDateKey = 20260227;
 
 function collectBundledExtensions(): BundledExtension[] {
   const extensionsDir = resolve("extensions");
@@ -305,83 +301,6 @@ export function collectForbiddenPackContentPaths(
 
 export { collectPackUnpackedSizeErrors } from "./lib/npm-pack-budget.mjs";
 
-function extractTag(item: string, tag: string): string | null {
-  const escapedTag = tag.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const regex = new RegExp(`<${escapedTag}>([^<]+)</${escapedTag}>`);
-  return regex.exec(item)?.[1]?.trim() ?? null;
-}
-
-export function collectAppcastSparkleVersionErrors(xml: string): string[] {
-  const itemMatches = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)];
-  const errors: string[] = [];
-  const calverItems: Array<{ title: string; sparkleBuild: number; floors: SparkleBuildFloors }> =
-    [];
-
-  if (itemMatches.length === 0) {
-    errors.push("appcast.xml contains no <item> entries.");
-  }
-
-  for (const [, item] of itemMatches) {
-    const title = extractTag(item, "title") ?? "unknown";
-    const shortVersion = extractTag(item, "sparkle:shortVersionString");
-    const sparkleVersion = extractTag(item, "sparkle:version");
-
-    if (!sparkleVersion) {
-      errors.push(`appcast item '${title}' is missing sparkle:version.`);
-      continue;
-    }
-    if (!/^[0-9]+$/.test(sparkleVersion)) {
-      errors.push(`appcast item '${title}' has non-numeric sparkle:version '${sparkleVersion}'.`);
-      continue;
-    }
-
-    if (!shortVersion) {
-      continue;
-    }
-    const floors = sparkleBuildFloorsFromShortVersion(shortVersion);
-    if (floors === null) {
-      continue;
-    }
-
-    calverItems.push({ title, sparkleBuild: Number(sparkleVersion), floors });
-  }
-
-  const observedLaneAdoptionDateKey = calverItems
-    .filter((item) => item.sparkleBuild >= laneBuildMin)
-    .map((item) => item.floors.dateKey)
-    .toSorted((a, b) => a - b)[0];
-  const effectiveLaneAdoptionDateKey =
-    typeof observedLaneAdoptionDateKey === "number"
-      ? Math.min(observedLaneAdoptionDateKey, laneFloorAdoptionDateKey)
-      : laneFloorAdoptionDateKey;
-
-  for (const item of calverItems) {
-    const expectLaneFloor =
-      item.sparkleBuild >= laneBuildMin || item.floors.dateKey >= effectiveLaneAdoptionDateKey;
-    const floor = expectLaneFloor ? item.floors.laneFloor : item.floors.legacyFloor;
-    if (item.sparkleBuild < floor) {
-      const floorLabel = expectLaneFloor ? "lane floor" : "legacy floor";
-      errors.push(
-        `appcast item '${item.title}' has sparkle:version ${item.sparkleBuild} below ${floorLabel} ${floor}.`,
-      );
-    }
-  }
-
-  return errors;
-}
-
-function checkAppcastSparkleVersions() {
-  const xml = readFileSync(appcastPath, "utf8");
-  const errors = collectAppcastSparkleVersionErrors(xml);
-  if (errors.length > 0) {
-    console.error("release-check: appcast sparkle version validation failed:");
-    for (const error of errors) {
-      console.error(`  - ${error}`);
-    }
-    process.exit(1);
-  }
-}
-
 // Critical functions that channel extension plugins import from velaclaw/plugin-sdk.
 // If any are missing from the compiled output, plugins crash at runtime (#27569).
 const requiredPluginSdkExports = [
@@ -461,7 +380,6 @@ async function checkPluginSdkExports() {
 }
 
 async function main() {
-  checkAppcastSparkleVersions();
   await checkPluginSdkExports();
   checkBundledExtensionMetadata();
   await writePackageDistInventory(process.cwd());

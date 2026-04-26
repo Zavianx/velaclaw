@@ -1,4 +1,3 @@
-import SHARED_TOOL_DISPLAY_JSON from "../../../apps/shared/VelaclawKit/Sources/VelaclawKit/Resources/tool-display.json" with { type: "json" };
 import {
   defaultTitle,
   formatToolDetailText,
@@ -6,6 +5,7 @@ import {
   resolveToolVerbAndDetailForArgs,
   type ToolDisplaySpec as ToolDisplaySpecBase,
 } from "../../../src/agents/tool-display-common.js";
+import SHARED_TOOL_DISPLAY_JSON from "../../../src/agents/tool-display.snapshot.json" with { type: "json" };
 import type { IconName } from "./icons.ts";
 import { normalizeLowercaseStringOrEmpty } from "./string-coerce.ts";
 

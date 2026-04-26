@@ -534,7 +534,7 @@ velaclaw team assets approve <slug> <id>
 ---
 
 <p align="center">
-  <sub>以 <a href="LICENSE">MIT 协议</a> 发布 &nbsp;·&nbsp; 基于 <b>OpenClaw</b> 项目构建</sub>
+  <sub>以 <a href="LICENSE">MIT 协议</a> 发布。</sub>
 </p>
 <p align="center">
   <sub>如果 VelaClaw 对你有用，欢迎在 <a href="https://github.com/Zavianx/velaclaw">GitHub</a> 上点一个 ⭐。</sub>

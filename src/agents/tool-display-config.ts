@@ -481,6 +481,11 @@ export const TOOL_DISPLAY_CONFIG: ToolDisplayConfig = {
       title: "Web Fetch",
       detailKeys: ["url", "extractMode", "maxChars"],
     },
+    research_task: {
+      emoji: "🧾",
+      title: "Research Task",
+      detailKeys: ["query", "mode", "freshness", "maxSources"],
+    },
     code_execution: {
       emoji: "🧮",
       title: "Code Execution",

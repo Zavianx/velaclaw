@@ -21,7 +21,6 @@
     "src/gateway/server-methods/CLAUDE.md",
     "src/auto-reply/reply/export-html/",
     "src/canvas-host/a2ui/a2ui.bundle.js",
-    "Swabble/",
     "vendor/",
   ],
 }

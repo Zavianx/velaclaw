@@ -178,10 +178,7 @@ const ASSET_ROUTER_TIMEOUT_MS = Math.max(
 );
 const ASSET_ROUTER_DISCOVERY_QUERY_LIMIT = Math.max(
   1,
-  Math.min(
-    5,
-    Number.parseInt(process.env.VELACLAW_TEAM_ASSET_ROUTER_QUERY_LIMIT ?? "3", 10) || 3,
-  ),
+  Math.min(5, Number.parseInt(process.env.VELACLAW_TEAM_ASSET_ROUTER_QUERY_LIMIT ?? "3", 10) || 3),
 );
 const ASSET_ROUTER_MIN_CONFIDENCE = Math.max(
   0,
@@ -3235,7 +3232,9 @@ function hasLikelyMarketTicker(query: string): boolean {
     "URL",
     "UTC",
   ]);
-  return (query.match(/\b[A-Z]{1,5}(?:\.[A-Z]{1,4})?\b/g) ?? []).some((match) => !ignored.has(match));
+  return (query.match(/\b[A-Z]{1,5}(?:\.[A-Z]{1,4})?\b/g) ?? []).some(
+    (match) => !ignored.has(match),
+  );
 }
 
 function isUsStockAssetQuery(query: string): boolean {
@@ -3302,7 +3301,10 @@ function buildClawHubSkillSearchQueries(query: string): string[] {
   return Array.from(new Set(queries));
 }
 
-function boostClawHubSkillMatch(query: string, match: AssetServerResolveMatch): AssetServerResolveMatch {
+function boostClawHubSkillMatch(
+  query: string,
+  match: AssetServerResolveMatch,
+): AssetServerResolveMatch {
   const text = normalizeAssetPhrase(
     [
       match.id,
@@ -3316,7 +3318,11 @@ function boostClawHubSkillMatch(query: string, match: AssetServerResolveMatch): 
   );
   let boost = 0;
   if (isMarketOrFinancialAssetQuery(query)) {
-    if (/stock|financial|finance|equity|valuation|earnings|财报|估值|基本面|投研|股票|股价|美股|港股|a股/.test(text)) {
+    if (
+      /stock|financial|finance|equity|valuation|earnings|财报|估值|基本面|投研|股票|股价|美股|港股|a股/.test(
+        text,
+      )
+    ) {
       boost += 16;
     }
     if (/research|analysis|analyst|分析|研究|投研/.test(text)) {
@@ -3324,13 +3330,22 @@ function boostClawHubSkillMatch(query: string, match: AssetServerResolveMatch): 
     }
   }
   if (isMarketCatalystAssetQuery(query)) {
-    if (/equity|fundamental|stock analysis|financial analyst|event driven|market news|catalyst|news|driver|个股基本面|深度研究|催化|市场情绪|事件驱动|消息面|行业事件|舆情|影响股价|归因/.test(text)) {
+    if (
+      /equity|fundamental|stock analysis|financial analyst|event driven|market news|catalyst|news|driver|个股基本面|深度研究|催化|市场情绪|事件驱动|消息面|行业事件|舆情|影响股价|归因/.test(
+        text,
+      )
+    ) {
       boost += 24;
     }
     if (/data api|api key|tushare|akshare|price checker|数据接口|行情数据/.test(text)) {
       boost -= 18;
     }
-    if (!isTradingOrTechnicalAssetQuery(query) && /trade signal|trading signal|buy\/sell|technical analysis|rsi|moving averages|均线|技术指标/.test(text)) {
+    if (
+      !isTradingOrTechnicalAssetQuery(query) &&
+      /trade signal|trading signal|buy\/sell|technical analysis|rsi|moving averages|均线|技术指标/.test(
+        text,
+      )
+    ) {
       boost -= 22;
     }
   }
@@ -3338,7 +3353,10 @@ function boostClawHubSkillMatch(query: string, match: AssetServerResolveMatch): 
     if (/us stock|american stocks|美股/.test(text)) {
       boost += 28;
     }
-    if (/china stock|a-shares|a股|港股|hk stocks/.test(text) && !/腾讯|港股|a股|中国|china|hong kong|hk/i.test(query)) {
+    if (
+      /china stock|a-shares|a股|港股|hk stocks/.test(text) &&
+      !/腾讯|港股|a股|中国|china|hong kong|hk/i.test(query)
+    ) {
       boost -= 90;
     }
     if (/\b(vn|vietnam)\b|越南/.test(text) && !/越南|vietnam|\bvn\b/i.test(query)) {
@@ -3351,8 +3369,8 @@ function boostClawHubSkillMatch(query: string, match: AssetServerResolveMatch): 
 function buildClawHubSkillHubItem(team: TeamState): AssetServerItem {
   const content = [
     "---",
-    'name: clawhub-skill-hub',
-    'description: Discover and activate ClawHub skills as team shared assets when a task needs an external open-source capability.',
+    "name: clawhub-skill-hub",
+    "description: Discover and activate ClawHub skills as team shared assets when a task needs an external open-source capability.",
     'tags: ["clawhub", "skills", "open-source", "shared-assets"]',
     'activationHints: ["need an external skill", "find an open source skill", "ClawHub skill", "shared skill hub"]',
     'triggerTerms: ["clawhub", "skill hub", "skills hub", "open source skill", "共享 skill", "技能市场"]',
@@ -3416,9 +3434,7 @@ function buildClawHubSkillSummary(result: ClawHubSkillSearchResult | ClawHubSkil
   );
 }
 
-function buildClawHubSkillManifestItem(
-  result: ClawHubSkillSearchResult,
-): AssetServerResolveMatch {
+function buildClawHubSkillManifestItem(result: ClawHubSkillSearchResult): AssetServerResolveMatch {
   const title = result.displayName || result.slug;
   const summary = buildClawHubSkillSummary(result);
   const updatedAt = formatClawHubTimestamp(result.updatedAt);
@@ -3451,7 +3467,7 @@ function buildClawHubSkillManifestItem(
     },
     currentPath: `clawhub://skills/${result.slug}${version}`,
     publishedPath: `clawhub://skills/${result.slug}${version}`,
-    score: Math.max(1, Math.round((Number(result.score) || 0) * 100)),
+    score: Math.max(1, Math.round((result.score || 0) * 100)),
     matchedTerms: [result.slug, ...topKeywordsFromText(title, summary)].slice(0, 8),
   };
 }
@@ -3940,7 +3956,12 @@ function buildStrongSignalAssetRouterQueries(query: string): string[] {
 }
 
 function normalizeAssetRouterConfidence(value: unknown): number | undefined {
-  const numeric = typeof value === "number" ? value : Number.parseFloat(String(value ?? ""));
+  const numeric =
+    typeof value === "number"
+      ? value
+      : typeof value === "string"
+        ? Number.parseFloat(value)
+        : Number.NaN;
   if (!Number.isFinite(numeric)) {
     return undefined;
   }
@@ -4074,7 +4095,9 @@ async function buildAssetRouterPlan(params: {
   return {
     needsAssets,
     confidence: normalizeAssetRouterConfidence(parsed.confidence),
-    searchQueries: needsAssets ? normalizeAssetRouterQueries(params.query, parsed.searchQueries) : [],
+    searchQueries: needsAssets
+      ? normalizeAssetRouterQueries(params.query, parsed.searchQueries)
+      : [],
     reason: typeof parsed.reason === "string" ? parsed.reason.slice(0, 240) : undefined,
   };
 }
@@ -4091,7 +4114,10 @@ function resolveAllowedAssetKinds(
   return [...allowedKinds];
 }
 
-function resolveAllowedAssetKindsForTeam(team: TeamState, kinds?: AssetServerKind[]): AssetServerKind[] {
+function resolveAllowedAssetKindsForTeam(
+  team: TeamState,
+  kinds?: AssetServerKind[],
+): AssetServerKind[] {
   const publishedKinds = team.assets
     .filter((asset) => asset.status === "published")
     .map((asset) => resolveTeamAssetTypeRuntime(asset.category).assetServerKind)
@@ -4105,10 +4131,9 @@ function resolveAllowedAssetKindsForTeam(team: TeamState, kinds?: AssetServerKin
 }
 
 function createEmptyResolveMatches(kinds: Iterable<AssetServerKind>) {
-  return Object.fromEntries([...kinds].map((kind) => [kind, [] as AssetServerResolveMatch[]])) as Record<
-    AssetServerKind,
-    AssetServerResolveMatch[]
-  >;
+  return Object.fromEntries(
+    [...kinds].map((kind) => [kind, [] as AssetServerResolveMatch[]]),
+  ) as Record<AssetServerKind, AssetServerResolveMatch[]>;
 }
 
 function upsertAssetRouterCandidate(
@@ -4465,7 +4490,12 @@ async function resolveTeamAssetServerMatchesLexicalBySlug(
 
 export async function resolveTeamAssetServerMatchesBySlug(
   slug: string,
-  input: { query: string; kinds?: AssetServerKind[]; limitPerKind?: number; fallbackQuery?: string },
+  input: {
+    query: string;
+    kinds?: AssetServerKind[];
+    limitPerKind?: number;
+    fallbackQuery?: string;
+  },
 ): Promise<AssetServerResolveResult> {
   const mode = resolveAssetRouterMode();
   if (mode === ASSET_ROUTER_MODE_LEXICAL) {
@@ -4485,7 +4515,8 @@ export async function resolveTeamAssetServerMatchesBySlug(
         ...fallback.debug,
         routerMode: ASSET_ROUTER_MODE_DYNAMIC_LLM,
         fallback: true,
-        fallbackReason: err instanceof Error ? err.message.slice(0, 500) : String(err).slice(0, 500),
+        fallbackReason:
+          err instanceof Error ? err.message.slice(0, 500) : String(err).slice(0, 500),
       },
     };
   }

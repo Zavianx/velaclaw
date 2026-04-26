@@ -462,21 +462,21 @@ For a production-style team, keep these defaults aligned:
 
 <br/>
 
-| Variable                                | Description                                      | Default           |
-| :-------------------------------------- | :----------------------------------------------- | :---------------- |
-| `VELACLAW_ROOT`                         | Workspace root                                   | auto-detected     |
-| `VELACLAW_CONFIG_PATH`                  | Override the active config file                  | CLI default       |
-| `VELACLAW_ADMIN_TOKEN`                  | Control plane auth token                         | open on localhost |
-| `VELACLAW_TEAM_CONTROL_BASE_URL`        | Base URL members use to reach the control plane  | auto-generated    |
-| `VELACLAW_TEAM_CLAWHUB_SKILLS_ENABLED`  | Expose ClawHub skills through team shared assets | disabled          |
-| `VELACLAW_CLAWHUB_TOKEN`                | ClawHub token used by the control plane          | —                 |
-| `VELACLAW_MEMBER_INHERIT_PROXY`         | Bake trusted proxy env vars into member runtime  | disabled          |
-| `HTTP_PROXY` / `HTTPS_PROXY`            | Trusted proxy for web fetching                   | —                 |
-| `OPENAI_API_KEY`                        | OpenAI                                           | —                 |
-| `ANTHROPIC_API_KEY`                     | Anthropic                                        | —                 |
-| `BRAVE_API_KEY`                         | Brave Search provider for `web_search`           | —                 |
-| `FIRECRAWL_API_KEY`                     | Optional `web_fetch` fallback provider           | —                 |
-| `PORT`                                  | Control plane port                               | `4318`            |
+| Variable                               | Description                                      | Default           |
+| :------------------------------------- | :----------------------------------------------- | :---------------- |
+| `VELACLAW_ROOT`                        | Workspace root                                   | auto-detected     |
+| `VELACLAW_CONFIG_PATH`                 | Override the active config file                  | CLI default       |
+| `VELACLAW_ADMIN_TOKEN`                 | Control plane auth token                         | open on localhost |
+| `VELACLAW_TEAM_CONTROL_BASE_URL`       | Base URL members use to reach the control plane  | auto-generated    |
+| `VELACLAW_TEAM_CLAWHUB_SKILLS_ENABLED` | Expose ClawHub skills through team shared assets | disabled          |
+| `VELACLAW_CLAWHUB_TOKEN`               | ClawHub token used by the control plane          | —                 |
+| `VELACLAW_MEMBER_INHERIT_PROXY`        | Bake trusted proxy env vars into member runtime  | disabled          |
+| `HTTP_PROXY` / `HTTPS_PROXY`           | Trusted proxy for web fetching                   | —                 |
+| `OPENAI_API_KEY`                       | OpenAI                                           | —                 |
+| `ANTHROPIC_API_KEY`                    | Anthropic                                        | —                 |
+| `BRAVE_API_KEY`                        | Brave Search provider for `web_search`           | —                 |
+| `FIRECRAWL_API_KEY`                    | Optional `web_fetch` fallback provider           | —                 |
+| `PORT`                                 | Control plane port                               | `4318`            |
 
 </details>
 
@@ -534,7 +534,7 @@ velaclaw team assets approve <slug> <id>
 ---
 
 <p align="center">
-  <sub>Released under the <a href="LICENSE">MIT License</a> &nbsp;·&nbsp; Built on the shoulders of the <b>OpenClaw</b> project.</sub>
+  <sub>Released under the <a href="LICENSE">MIT License</a>.</sub>
 </p>
 <p align="center">
   <sub>If VelaClaw is useful to you, consider giving it a ⭐ on <a href="https://github.com/Zavianx/velaclaw">GitHub</a>.</sub>

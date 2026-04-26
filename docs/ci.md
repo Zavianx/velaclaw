@@ -28,9 +28,7 @@ The CI runs on every push to `main` and every pull request. It uses smart scopin
 | `check-docs`             | Docs formatting, lint, and broken-link checks                                           | Docs changed                        |
 | `skills-python`          | Ruff + pytest for Python-backed skills                                                  | Python-skill-relevant changes       |
 | `checks-windows`         | Windows-specific test lanes                                                             | Windows-relevant changes            |
-| `macos-node`             | macOS TypeScript test lane using the shared built artifacts                             | macOS-relevant changes              |
-| `macos-swift`            | Swift lint, build, and tests for the macOS app                                          | macOS-relevant changes              |
-| `android`                | Android build and test matrix                                                           | Android-relevant changes            |
+| `macos-node`             | macOS TypeScript/runtime test lane using the shared built artifacts                     | macOS-relevant changes              |
 
 ## Fail-Fast Order
 
@@ -39,7 +37,7 @@ Jobs are ordered so cheap checks fail before expensive ones run:
 1. `preflight` decides which lanes exist at all. The `docs-scope` and `changed-scope` logic are steps inside this job, not standalone jobs.
 2. `security-fast`, `check`, `check-additional`, `check-docs`, and `skills-python` fail quickly without waiting on the heavier artifact and platform matrix jobs.
 3. `build-artifacts` overlaps with the fast Linux lanes so downstream consumers can start as soon as the shared build is ready.
-4. Heavier platform and runtime lanes fan out after that: `checks-fast-core`, `checks-node-extensions`, `checks-node-core-test`, `extension-fast`, `checks`, `checks-windows`, `macos-node`, `macos-swift`, and `android`.
+4. Heavier platform and runtime lanes fan out after that: `checks-fast-core`, `checks-node-extensions`, `checks-node-core-test`, `extension-fast`, `checks`, `checks-windows`, and `macos-node`.
 
 Scope logic lives in `scripts/ci-changed-scope.mjs` and is covered by unit tests in `src/scripts/ci-changed-scope.test.ts`.
 The separate `install-smoke` workflow reuses the same scope script through its own `preflight` job. It computes `run_install_smoke` from the narrower changed-smoke signal, so Docker/install smoke only runs for install, packaging, and container-relevant changes.
@@ -48,11 +46,11 @@ On pushes, the `checks` matrix adds the push-only `compat-node22` lane. On pull 
 
 ## Runners
 
-| Runner                           | Jobs                                                                                                 |
-| -------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `blacksmith-16vcpu-ubuntu-2404`  | `preflight`, `security-fast`, `build-artifacts`, Linux checks, docs checks, Python skills, `android` |
-| `blacksmith-32vcpu-windows-2025` | `checks-windows`                                                                                     |
-| `macos-latest`                   | `macos-node`, `macos-swift`                                                                          |
+| Runner                           | Jobs                                                                                      |
+| -------------------------------- | ----------------------------------------------------------------------------------------- |
+| `blacksmith-16vcpu-ubuntu-2404`  | `preflight`, `security-fast`, `build-artifacts`, Linux checks, docs checks, Python skills |
+| `blacksmith-32vcpu-windows-2025` | `checks-windows`                                                                          |
+| `macos-latest`                   | `macos-node`                                                                              |
 
 ## Local Equivalents
 

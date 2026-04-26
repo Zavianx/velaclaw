@@ -38,7 +38,7 @@ export type ResolvedGlobalInstallTarget = ResolvedGlobalInstallCommand & {
 const PRIMARY_PACKAGE_NAME = "velaclaw";
 const ALL_PACKAGE_NAMES = [PRIMARY_PACKAGE_NAME] as const;
 const GLOBAL_RENAME_PREFIX = ".";
-export const VELACLAW_MAIN_PACKAGE_SPEC = "github:Zavianx/velaclaw-dev#main";
+export const VELACLAW_MAIN_PACKAGE_SPEC = "github:Zavianx/velaclaw#main";
 const COREPACK_ENABLE_DOWNLOAD_PROMPT_DEFAULT = "0";
 const NPM_GLOBAL_INSTALL_QUIET_FLAGS = ["--no-fund", "--no-audit", "--loglevel=error"] as const;
 const NPM_GLOBAL_INSTALL_OMIT_OPTIONAL_FLAGS = [

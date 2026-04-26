@@ -7,7 +7,7 @@ title: "Menu Bar Icon"
 
 # Menu Bar Icon States
 
-Author: steipete · Updated: 2025-12-06 · Scope: macOS app (`apps/macos`)
+Author: steipete · Updated: 2025-12-06 · Scope: archived macOS companion app notes
 
 - **Idle:** Normal icon animation (blink, occasional wiggle).
 - **Paused:** Status item uses `appearsDisabled`; no motion.

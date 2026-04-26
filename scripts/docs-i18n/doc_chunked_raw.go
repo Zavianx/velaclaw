@@ -714,7 +714,7 @@ func lastNonEmptyLineIndex(lines []string) int {
 }
 
 func docsI18nDocChunkMaxBytes() int {
-	value := strings.TrimSpace(os.Getenv("OPENCLAW_DOCS_I18N_DOC_CHUNK_MAX_BYTES"))
+	value := strings.TrimSpace(os.Getenv("VELACLAW_DOCS_I18N_DOC_CHUNK_MAX_BYTES"))
 	if value == "" {
 		return defaultDocChunkMaxBytes
 	}
@@ -726,7 +726,7 @@ func docsI18nDocChunkMaxBytes() int {
 }
 
 func docsI18nDocChunkPromptBudget() int {
-	value := strings.TrimSpace(os.Getenv("OPENCLAW_DOCS_I18N_DOC_CHUNK_PROMPT_BUDGET"))
+	value := strings.TrimSpace(os.Getenv("VELACLAW_DOCS_I18N_DOC_CHUNK_PROMPT_BUDGET"))
 	if value == "" {
 		return defaultDocChunkPromptBudget
 	}

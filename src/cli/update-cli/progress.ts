@@ -14,8 +14,10 @@ const STEP_LABELS: Record<string, string> = {
   "clean check": "Working directory is clean",
   "upstream check": "Upstream branch exists",
   "git fetch": "Fetching latest changes",
+  "fallback upstream origin/main": "Fallback branch exists",
   "git rebase": "Rebasing onto target commit",
   "git rev-parse @{upstream}": "Resolving upstream commit",
+  "git rev-parse origin/main": "Resolving origin/main commit",
   "git rev-list": "Enumerating candidate commits",
   "git clone": "Cloning git checkout",
   "preflight worktree": "Preparing preflight worktree",
@@ -38,6 +40,12 @@ function getStepLabel(step: UpdateStepInfo): string {
 }
 
 export function inferUpdateFailureHints(result: UpdateRunResult): string[] {
+  if (result.status === "skipped" && result.reason === "no-upstream") {
+    return [
+      "This source checkout has no configured upstream branch, so Velaclaw cannot know what to pull.",
+      "Set origin/upstream to https://github.com/Zavianx/velaclaw.git, or rerun the installer with --install-method git.",
+    ];
+  }
   if (result.status !== "error") {
     return [];
   }

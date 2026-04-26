@@ -127,7 +127,7 @@ _clawdock_ensure_dir() {
     echo ""
     echo "Clone it first:"
     echo ""
-    echo "  git clone https://github.com/Zavianx/velaclaw-dev.git ~/velaclaw"
+    echo "  git clone https://github.com/Zavianx/velaclaw.git ~/velaclaw"
     echo "  cd ~/velaclaw && ./scripts/docker/setup.sh"
     echo ""
     echo "Or set CLAWDOCK_DIR if it's elsewhere:"

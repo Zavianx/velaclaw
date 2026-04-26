@@ -34,7 +34,7 @@ velaclaw --update
 
 - `--no-restart`: skip restarting the Gateway service after a successful update.
 - `--channel <stable|beta|dev>`: set the update channel (git + npm; persisted in config).
-- `--tag <dist-tag|version|spec>`: override the package target for this update only. For package installs, `main` maps to `github:Zavianx/velaclaw-dev#main`.
+- `--tag <dist-tag|version|spec>`: override the package target for this update only. For package installs, `main` maps to `github:Zavianx/velaclaw#main`.
 - `--dry-run`: preview planned update actions (channel/tag/target/restart flow) without writing config, installing, syncing plugins, or restarting.
 - `--json`: print machine-readable `UpdateRunResult` JSON.
 - `--timeout <seconds>`: per-step timeout (default is 1200s).
@@ -102,6 +102,25 @@ High-level:
 9. Syncs plugins to the active channel (dev uses bundled extensions; stable/beta uses npm) and updates npm-installed plugins.
 
 If pnpm bootstrap still fails, the updater now stops early with a package-manager-specific error instead of trying `npm run build` inside the checkout.
+
+## Source checkout requirements
+
+Git/source updates require a checkout with a configured upstream branch. If the
+source tree came from a GitHub zip/tarball or was copied by hand, `velaclaw update`
+cannot infer where to fetch new commits from.
+
+When a checkout has `origin/main` but no branch upstream, the updater uses
+`origin/main` as a fallback.
+
+Repair an older checkout with:
+
+```bash
+cd ~/velaclaw
+git remote set-url origin https://github.com/Zavianx/velaclaw.git
+git fetch origin
+git checkout main
+git branch --set-upstream-to=origin/main main
+```
 
 ## `--update` shorthand
 

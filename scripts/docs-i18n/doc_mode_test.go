@@ -54,8 +54,8 @@ type docFrontmatterTranslator struct{}
 
 func (docFrontmatterTranslator) Translate(_ context.Context, text, _, _ string) (string, error) {
 	replacer := strings.NewReplacer(
-		"Step-by-step Fly.io deployment for OpenClaw with persistent storage and HTTPS", "在 Fly.io 上逐步部署 OpenClaw，包含持久化存储和 HTTPS",
-		"Deploying OpenClaw on Fly.io", "在 Fly.io 上部署 OpenClaw",
+		"Step-by-step Fly.io deployment for Velaclaw with persistent storage and HTTPS", "在 Fly.io 上逐步部署 Velaclaw，包含持久化存储和 HTTPS",
+		"Deploying Velaclaw on Fly.io", "在 Fly.io 上部署 Velaclaw",
 		"Setting up Fly volumes, secrets, and first-run config", "设置 Fly volume、密钥和首次运行配置",
 	)
 	return replacer.Replace(text), nil
@@ -71,13 +71,13 @@ type docFrontmatterFallbackTranslator struct{}
 
 func (docFrontmatterFallbackTranslator) Translate(_ context.Context, text, _, _ string) (string, error) {
 	switch text {
-	case "Step-by-step Fly.io deployment for OpenClaw with persistent storage and HTTPS":
+	case "Step-by-step Fly.io deployment for Velaclaw with persistent storage and HTTPS":
 		return strings.Join([]string{
 			"<frontmatter>",
 			"title: Fly.io",
-			"summary: \"在 Fly.io 上部署 OpenClaw 的逐步指南，包含持久化存储和 HTTPS 设置\"",
+			"summary: \"在 Fly.io 上部署 Velaclaw 的逐步指南，包含持久化存储和 HTTPS 设置\"",
 			"read_when:",
-			"  - 在 Fly.io 上部署 OpenClaw",
+			"  - 在 Fly.io 上部署 Velaclaw",
 			"  - 设置 Fly 卷、机密和初始运行配置",
 			"</frontmatter>",
 			"",
@@ -85,8 +85,8 @@ func (docFrontmatterFallbackTranslator) Translate(_ context.Context, text, _, _ 
 			"# Fly.io 部署",
 			"</body>",
 		}, "\n"), nil
-	case "Deploying OpenClaw on Fly.io":
-		return "在 Fly.io 上部署 OpenClaw", nil
+	case "Deploying Velaclaw on Fly.io":
+		return "在 Fly.io 上部署 Velaclaw", nil
 	case "Setting up Fly volumes, secrets, and first-run config":
 		return "设置 Fly 卷、机密和初始运行配置", nil
 	default:
@@ -381,7 +381,7 @@ func TestTranslateDocBodyChunkedFallsBackToSmallerChunks(t *testing.T) {
 		"",
 	}, "\n")
 
-	t.Setenv("OPENCLAW_DOCS_I18N_DOC_CHUNK_MAX_BYTES", "4096")
+	t.Setenv("VELACLAW_DOCS_I18N_DOC_CHUNK_MAX_BYTES", "4096")
 	translated, err := translateDocBodyChunked(context.Background(), docChunkTranslator{}, "help/faq.md", body, "en", "zh-CN")
 	if err != nil {
 		t.Fatalf("translateDocBodyChunked returned error: %v", err)
@@ -425,7 +425,7 @@ func TestTranslateDocBodyChunkedFallsBackToMaskedTranslateForLeafValidationFailu
 		"",
 	}, "\n")
 
-	t.Setenv("OPENCLAW_DOCS_I18N_DOC_CHUNK_MAX_BYTES", "4096")
+	t.Setenv("VELACLAW_DOCS_I18N_DOC_CHUNK_MAX_BYTES", "4096")
 	translated, err := translateDocBodyChunked(
 		context.Background(),
 		docLeafFallbackTranslator{},
@@ -483,7 +483,7 @@ func TestTranslateDocBodyChunkedSplitsOnProtocolTokenLeakage(t *testing.T) {
 		"",
 	}, "\n")
 
-	t.Setenv("OPENCLAW_DOCS_I18N_DOC_CHUNK_MAX_BYTES", "4096")
+	t.Setenv("VELACLAW_DOCS_I18N_DOC_CHUNK_MAX_BYTES", "4096")
 	translated, err := translateDocBodyChunked(context.Background(), docProtocolLeakTranslator{}, "gateway/configuration-reference.md", body, "en", "zh-CN")
 	if err != nil {
 		t.Fatalf("translateDocBodyChunked returned error: %v", err)
@@ -499,7 +499,7 @@ func TestTranslateDocBodyChunkedSplitsOnProtocolTokenLeakage(t *testing.T) {
 func TestTranslateDocBodyChunkedStripsUppercaseBodyWrapper(t *testing.T) {
 	body := "Regular paragraph.\n"
 
-	t.Setenv("OPENCLAW_DOCS_I18N_DOC_CHUNK_MAX_BYTES", "4096")
+	t.Setenv("VELACLAW_DOCS_I18N_DOC_CHUNK_MAX_BYTES", "4096")
 	translated, err := translateDocBodyChunked(context.Background(), uppercaseWrapperTranslator{}, "gateway/configuration-reference.md", body, "en", "zh-CN")
 	if err != nil {
 		t.Fatalf("translateDocBodyChunked returned error: %v", err)
@@ -608,8 +608,8 @@ func TestTranslateDocBodyChunkedPreSplitsOversizedPromptBudget(t *testing.T) {
 		"",
 	}, "\n")
 
-	t.Setenv("OPENCLAW_DOCS_I18N_DOC_CHUNK_MAX_BYTES", "4096")
-	t.Setenv("OPENCLAW_DOCS_I18N_DOC_CHUNK_PROMPT_BUDGET", "60")
+	t.Setenv("VELACLAW_DOCS_I18N_DOC_CHUNK_MAX_BYTES", "4096")
+	t.Setenv("VELACLAW_DOCS_I18N_DOC_CHUNK_PROMPT_BUDGET", "60")
 
 	translator := &docPromptBudgetTranslator{}
 	translated, err := translateDocBodyChunked(
@@ -644,7 +644,7 @@ func TestTranslateDocBodyChunkedSplitsOversizedSingletonBlock(t *testing.T) {
 		"",
 	}, "\n")
 
-	t.Setenv("OPENCLAW_DOCS_I18N_DOC_CHUNK_MAX_BYTES", "24")
+	t.Setenv("VELACLAW_DOCS_I18N_DOC_CHUNK_MAX_BYTES", "24")
 	translator := &oversizedBlockTranslator{}
 	translated, err := translateDocBodyChunked(context.Background(), translator, "gateway/configuration-reference.md", body, "en", "zh-CN")
 	if err != nil {
@@ -672,8 +672,8 @@ func TestTranslateDocBodyChunkedSplitsSingletonBlockWhenPromptBudgetExceeded(t *
 		t.Fatalf("test setup expected combined singleton prompt cost to exceed budget; cost=%d budget=%d", estimateDocPromptCost(body), budget)
 	}
 
-	t.Setenv("OPENCLAW_DOCS_I18N_DOC_CHUNK_MAX_BYTES", "4096")
-	t.Setenv("OPENCLAW_DOCS_I18N_DOC_CHUNK_PROMPT_BUDGET", strconv.Itoa(budget))
+	t.Setenv("VELACLAW_DOCS_I18N_DOC_CHUNK_MAX_BYTES", "4096")
+	t.Setenv("VELACLAW_DOCS_I18N_DOC_CHUNK_PROMPT_BUDGET", strconv.Itoa(budget))
 	translator := &oversizedBlockTranslator{}
 	translated, err := translateDocBodyChunked(context.Background(), translator, "gateway/configuration-reference.md", body, "en", "zh-CN")
 	if err != nil {
@@ -704,7 +704,7 @@ func TestTranslateDocBodyChunkedSplitsOversizedFenceBeforeTrailingProse(t *testi
 		"",
 	}, "\n")
 
-	t.Setenv("OPENCLAW_DOCS_I18N_DOC_CHUNK_MAX_BYTES", "24")
+	t.Setenv("VELACLAW_DOCS_I18N_DOC_CHUNK_MAX_BYTES", "24")
 	translator := &oversizedBlockTranslator{}
 	translated, err := translateDocBodyChunked(context.Background(), translator, "gateway/configuration-reference.md", body, "en", "zh-CN")
 	if err != nil {
@@ -736,8 +736,8 @@ func TestTranslateDocBodyChunkedRetriesSingletonFenceAfterValidationFailure(t *t
 		"",
 	}, "\n")
 
-	t.Setenv("OPENCLAW_DOCS_I18N_DOC_CHUNK_MAX_BYTES", "4096")
-	t.Setenv("OPENCLAW_DOCS_I18N_DOC_CHUNK_PROMPT_BUDGET", "4096")
+	t.Setenv("VELACLAW_DOCS_I18N_DOC_CHUNK_MAX_BYTES", "4096")
+	t.Setenv("VELACLAW_DOCS_I18N_DOC_CHUNK_PROMPT_BUDGET", "4096")
 
 	translator := &singletonFenceRetryTranslator{}
 	translated, err := translateDocBodyChunked(context.Background(), translator, "gateway/configuration-reference.md", body, "en", "zh-CN")
@@ -765,7 +765,7 @@ func TestTranslateDocBodyChunkedRetriesSingletonFenceAfterValidationFailure(t *t
 func TestTranslateDocBodyChunkedUnwrapsTaggedLeafProtocolLeakage(t *testing.T) {
 	body := "# Fly.io Deployment\n\n"
 
-	t.Setenv("OPENCLAW_DOCS_I18N_DOC_CHUNK_MAX_BYTES", "4096")
+	t.Setenv("VELACLAW_DOCS_I18N_DOC_CHUNK_MAX_BYTES", "4096")
 	translated, err := translateDocBodyChunked(
 		context.Background(),
 		docWrappedLeafTranslator{},
@@ -788,7 +788,7 @@ func TestTranslateDocBodyChunkedUnwrapsTaggedLeafProtocolLeakage(t *testing.T) {
 func TestTranslateDocBodyChunkedFallsBackForComponentLeafValidationFailure(t *testing.T) {
 	body := "  <Accordion title=\"Can I use Claude Max subscription without an API key?\">\n    Yes.\n\n"
 
-	t.Setenv("OPENCLAW_DOCS_I18N_DOC_CHUNK_MAX_BYTES", "4096")
+	t.Setenv("VELACLAW_DOCS_I18N_DOC_CHUNK_MAX_BYTES", "4096")
 	translated, err := translateDocBodyChunked(
 		context.Background(),
 		docComponentLeafFallbackTranslator{},
@@ -823,9 +823,9 @@ func TestProcessFileDocUsesFieldLevelFrontmatterTranslation(t *testing.T) {
 	source := strings.Join([]string{
 		"---",
 		"title: Fly.io",
-		"summary: \"Step-by-step Fly.io deployment for OpenClaw with persistent storage and HTTPS\"",
+		"summary: \"Step-by-step Fly.io deployment for Velaclaw with persistent storage and HTTPS\"",
 		"read_when:",
-		"  - Deploying OpenClaw on Fly.io",
+		"  - Deploying Velaclaw on Fly.io",
 		"  - Setting up Fly volumes, secrets, and first-run config",
 		"---",
 		"",
@@ -849,10 +849,10 @@ func TestProcessFileDocUsesFieldLevelFrontmatterTranslation(t *testing.T) {
 		t.Fatalf("read output failed: %v", err)
 	}
 	text := string(output)
-	if !strings.Contains(text, "在 Fly.io 上逐步部署 OpenClaw，包含持久化存储和 HTTPS") {
+	if !strings.Contains(text, "在 Fly.io 上逐步部署 Velaclaw，包含持久化存储和 HTTPS") {
 		t.Fatalf("expected translated summary in output:\n%s", text)
 	}
-	if !strings.Contains(text, "在 Fly.io 上部署 OpenClaw") {
+	if !strings.Contains(text, "在 Fly.io 上部署 Velaclaw") {
 		t.Fatalf("expected translated read_when entry in output:\n%s", text)
 	}
 }
@@ -869,9 +869,9 @@ func TestProcessFileDocRejectsSuspiciousFrontmatterScalarExpansion(t *testing.T)
 	source := strings.Join([]string{
 		"---",
 		"title: Fly.io",
-		"summary: \"Step-by-step Fly.io deployment for OpenClaw with persistent storage and HTTPS\"",
+		"summary: \"Step-by-step Fly.io deployment for Velaclaw with persistent storage and HTTPS\"",
 		"read_when:",
-		"  - Deploying OpenClaw on Fly.io",
+		"  - Deploying Velaclaw on Fly.io",
 		"  - Setting up Fly volumes, secrets, and first-run config",
 		"---",
 		"",
@@ -895,10 +895,10 @@ func TestProcessFileDocRejectsSuspiciousFrontmatterScalarExpansion(t *testing.T)
 	if strings.Contains(text, "<frontmatter>") || strings.Contains(text, "<body>") {
 		t.Fatalf("expected suspicious frontmatter expansion to be rejected:\n%s", text)
 	}
-	if !strings.Contains(text, "summary: Step-by-step Fly.io deployment for OpenClaw with persistent storage and HTTPS") {
+	if !strings.Contains(text, "summary: Step-by-step Fly.io deployment for Velaclaw with persistent storage and HTTPS") {
 		t.Fatalf("expected original summary to be preserved after fallback:\n%s", text)
 	}
-	if !strings.Contains(text, "在 Fly.io 上部署 OpenClaw") {
+	if !strings.Contains(text, "在 Fly.io 上部署 Velaclaw") {
 		t.Fatalf("expected read_when translation to survive fallback:\n%s", text)
 	}
 }

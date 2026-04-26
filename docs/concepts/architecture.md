@@ -122,7 +122,6 @@ Details: [Gateway protocol](/gateway/protocol), [Pairing](/channels/pairing),
 
 - TypeBox schemas define the protocol.
 - JSON Schema is generated from those schemas.
-- Swift models are generated from the JSON Schema.
 
 ## Remote access
 

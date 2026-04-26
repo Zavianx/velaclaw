@@ -8,7 +8,7 @@ steps:
 
   - id: classify
     command: >-
-      openclaw.invoke --tool llm-task --action json --args-json
+      velaclaw.invoke --tool llm-task --action json --args-json
       '{"prompt":"Classify each PR as close, request_changes, refactor, or maintainer_review. Return intent and recommended next action.","thinking":"low","schema":{"type":"object","properties":{"items":{"type":"array"}},"required":["items"],"additionalProperties":false}}'
     stdin: $fetch.stdout
 

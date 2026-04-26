@@ -1,7 +1,7 @@
 .git
 .worktrees
 
-# Sensitive files – scripts/docker/setup.sh writes .env with OPENCLAW_GATEWAY_TOKEN
+# Sensitive files – scripts/docker/setup.sh writes .env with VELACLAW_GATEWAY_TOKEN
 # into the project root; keep it out of the build context.
 .env
 .env.*
@@ -42,30 +42,17 @@ tmp
 # build artifacts
 dist
 **/dist
-apps/macos/.build
-apps/ios/build
 **/*.trace
 
-# large app trees not needed for CLI build
-apps/
+# large trees not needed for CLI build
 assets/
 Peekaboo/
-Swabble/
 Core/
 Users/
 vendor/
 
 # Needed for building the Canvas A2UI bundle during Docker image builds.
-# Keep the rest of apps/ and vendor/ excluded to avoid a large build context.
-!apps/shared/
-!apps/shared/OpenClawKit/
-!apps/shared/OpenClawKit/Sources/
-!apps/shared/OpenClawKit/Sources/OpenClawKit/
-!apps/shared/OpenClawKit/Sources/OpenClawKit/Resources/
-!apps/shared/OpenClawKit/Sources/OpenClawKit/Resources/tool-display.json
-!apps/shared/OpenClawKit/Tools/
-!apps/shared/OpenClawKit/Tools/CanvasA2UI/
-!apps/shared/OpenClawKit/Tools/CanvasA2UI/**
+# Keep the rest of vendor/ excluded to avoid a large build context.
 !vendor/a2ui/
 !vendor/a2ui/renderers/
 !vendor/a2ui/renderers/lit/
