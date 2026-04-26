@@ -277,6 +277,39 @@ function buildExecutionBiasSection(params: { isMinimal: boolean }) {
   ];
 }
 
+function buildResearchReportingSection(params: { availableTools: Set<string> }) {
+  const hasWebResearchTool =
+    params.availableTools.has("research_task") ||
+    params.availableTools.has("web_search") ||
+    params.availableTools.has("web_fetch") ||
+    params.availableTools.has("browser");
+  if (!hasWebResearchTool) {
+    return [];
+  }
+  return [
+    "## Research & Web Reporting",
+    ...(params.availableTools.has("research_task")
+      ? [
+          "- Prefer `research_task` for current/latest research, official-announcement checks, and market/news driver questions. Use raw `web_search`/`web_fetch` only to fill gaps, inspect a specific URL, or debug a failed source.",
+        ]
+      : []),
+    "- For questions about current/latest/today/recent facts, news, prices, announcements, schedules, laws, APIs, or product details, run a fresh lookup in the current turn before answering. Do not reuse prior failed lookups or session memory as evidence.",
+    "- First pass: try likely primary sources first (official newsroom, docs, filings, release notes, status pages) plus at least one discovery source when the exact URL is uncertain.",
+    "- If the first pass does not produce enough evidence to answer the user's actual question, do a second pass with broader discovery: web_search/news search, official search pages, RSS feeds, or 2-3 reputable secondary sources. Do not stop after only blocked/paywalled/empty pages unless no other credible path is available.",
+    "- For market/news driver questions, distinguish price/quote facts from causal evidence. A quote page can confirm movement, but it does not prove the driver. Look for articles or official statements that explicitly connect the move to news, earnings, guidance, analyst action, regulation, or sector moves.",
+    "- For market/news driver questions, do not limit the report to the company itself or financial statements. Look for adjacent industry catalysts such as major customer launches, frontier model releases, product-cycle news, capex signals, regulation, competitor moves, supply-chain changes, and sector rotation when they can plausibly affect the asset.",
+    "- After gathering evidence for a market/news driver question, produce your own causal thesis: rank the likely drivers, explain the transmission mechanism, include counterarguments, and label each driver as confirmed / plausible / speculative with confidence. Do not present a thesis as confirmed fact unless sources directly support it.",
+    "- Prefer primary sources for claims about what an organization announced. Use search/news sources to discover or cross-check, not as the only evidence when primary sources are reachable.",
+    '- For same-day announcement checks, do not answer "yes" merely because an official page was reachable or had older announcements. If fresh primary evidence for today is missing, say it is not confirmed / no evidence was found.',
+    "- Keep a source ledger while researching: source name, URL, fetchedAt or publication date when available, status (used / no relevant update / blocked / error), and one-line evidence.",
+    "- In the final answer, include a concise source-status summary when external facts matter. Separate confirmed facts from interpretation and uncertainty.",
+    "- If a source is blocked or errors, name that source and continue with other credible paths when possible. Do not claim the whole web is unavailable unless all attempted lookup paths failed in this turn.",
+    "- If you stop without a second pass, say why: enough primary evidence was found, the user asked for a quick answer, or no additional credible lookup path is available.",
+    "- If no fresh lookup actually ran for a current/latest question, state that limitation plainly instead of saying you checked.",
+    "",
+  ];
+}
+
 function normalizeProviderPromptBlock(value?: string): string | undefined {
   if (typeof value !== "string") {
     return undefined;
@@ -440,6 +473,8 @@ export function buildAgentSystemPrompt(params: {
     ls: "List directory contents",
     exec: "Run shell commands (pty available for TTY-required CLIs)",
     process: "Manage background exec sessions",
+    research_task:
+      "Run structured two-pass web research with official-source priority, broader discovery, and a source-status ledger",
     web_search: "Search the web (Brave API)",
     web_fetch: "Fetch and extract readable content from a URL",
     // Channel docking: add login tools here when a channel needs interactive linking.
@@ -475,6 +510,7 @@ export function buildAgentSystemPrompt(params: {
     "ls",
     "exec",
     "process",
+    "research_task",
     "web_search",
     "web_fetch",
     "browser",
@@ -696,6 +732,7 @@ export function buildAgentSystemPrompt(params: {
         isMinimal,
       }),
     }),
+    ...buildResearchReportingSection({ availableTools }),
     ...buildOverridablePromptSection({
       override: providerStablePrefix,
       fallback: [],

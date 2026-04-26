@@ -38,6 +38,7 @@ You are a team member runtime inside a shared Velaclaw team. Optimize for team c
 - `shared-workflows`: exact step order. Follow these when they match.
 - `shared-docs`: reference material, operating model, and runbooks.
 - `shared-skills`: reusable capability wrappers or execution helpers.
+- ClawHub skills can also appear as active shared skills under `skills/team-shared-active-*`; read their `SKILL.md` before using them.
 - If active shared assets are present, use them before local invention.
 
 ## Evolution

@@ -21,7 +21,11 @@ import { createSessionsSpawnTool } from "./tools/sessions-spawn-tool.js";
 import { createSessionsYieldTool } from "./tools/sessions-yield-tool.js";
 import { createSubagentsTool } from "./tools/subagents-tool.js";
 import { createUpdatePlanTool } from "./tools/update-plan-tool.js";
-import { createWebFetchTool, createWebSearchTool } from "./tools/web-tools.js";
+import {
+  createResearchTaskTool,
+  createWebFetchTool,
+  createWebSearchTool,
+} from "./tools/web-tools.js";
 import { resolveVelaclawPluginToolsForOptions } from "./velaclaw-plugin-tools.js";
 import { applyNodesToolWorkspaceGuard } from "./velaclaw-tools.nodes-workspace-guard.js";
 import {
@@ -132,6 +136,12 @@ export function createVelaclawTools(
     sandboxed: options?.sandboxed,
     runtimeWebFetch: runtimeWebTools?.fetch,
   });
+  const researchTaskTool = createResearchTaskTool({
+    config: options?.config,
+    sandboxed: options?.sandboxed,
+    runtimeWebFetch: runtimeWebTools?.fetch,
+    runtimeWebSearch: runtimeWebTools?.search,
+  });
   const messageTool = options?.disableMessageTool
     ? null
     : createMessageTool({
@@ -234,7 +244,7 @@ export function createVelaclawTools(
       config: resolvedConfig,
       sandboxed: options?.sandboxed,
     }),
-    ...collectPresentVelaclawTools([webSearchTool, webFetchTool]),
+    ...collectPresentVelaclawTools([researchTaskTool, webSearchTool, webFetchTool]),
   ];
 
   if (options?.disablePluginTools) {

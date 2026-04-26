@@ -192,6 +192,11 @@ export type AssetCapabilityProfile = {
   triggerTerms: string[];
 };
 
+export type AssetServerFile = {
+  path: string;
+  content: string;
+};
+
 export type AssetServerItem = {
   id: string;
   kind: AssetServerKind;
@@ -207,11 +212,12 @@ export type AssetServerItem = {
   materializationTargets: AssetMaterializationTarget[];
   capability: AssetCapabilityProfile;
   content: string;
+  files?: AssetServerFile[];
   currentPath?: string;
   publishedPath?: string;
 };
 
-export type AssetServerManifestItem = Omit<AssetServerItem, "content">;
+export type AssetServerManifestItem = Omit<AssetServerItem, "content" | "files">;
 
 export type AssetServerManifest = {
   team: { slug: string; name: string };
@@ -235,6 +241,15 @@ export type AssetServerResolveResult = {
   generatedAt: string;
   query: string;
   matches: Record<AssetServerKind, AssetServerResolveMatch[]>;
+  debug?: {
+    routerMode?: string;
+    fallback?: boolean;
+    fallbackReason?: string;
+    needsAssets?: boolean;
+    searchQueries?: string[];
+    candidateCount?: number;
+    selected?: Array<{ id: string; confidence?: number; reason?: string }>;
+  };
 };
 
 export type TeamProfile = {

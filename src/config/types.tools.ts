@@ -534,6 +534,12 @@ export type ToolsConfig = {
     fetch?: {
       /** Enable web fetch tool (default: true). */
       enabled?: boolean;
+      /**
+       * Route web_fetch through trusted HTTP(S)_PROXY environment variables.
+       * Keeps hostname-level SSRF checks but skips local DNS pinning so fake-IP
+       * and TUN proxy setups can still reach external sites.
+       */
+      useEnvProxy?: boolean;
       /** Web fetch fallback provider id. */
       provider?: string;
       /** Max characters to return from fetched content. */

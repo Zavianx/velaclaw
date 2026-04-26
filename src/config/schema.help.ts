@@ -743,6 +743,8 @@ export const FIELD_HELP: Record<string, string> = {
   "tools.web.search.brave.mode":
     'Brave Search mode: "web" (URL results) or "llm-context" (pre-extracted page content for LLM grounding).',
   "tools.web.fetch.enabled": "Enable the web_fetch tool (lightweight HTTP fetch).",
+  "tools.web.fetch.useEnvProxy":
+    "Route web_fetch through trusted HTTP(S)_PROXY environment variables while keeping direct private/internal hostnames blocked. Use this for fake-IP or TUN proxy environments where local DNS pinning breaks external site fetches.",
   "tools.web.fetch.maxChars": "Max characters returned by web_fetch (truncated).",
   "tools.web.fetch.maxCharsCap":
     "Hard cap for web_fetch maxChars (applies to config and tool calls).",

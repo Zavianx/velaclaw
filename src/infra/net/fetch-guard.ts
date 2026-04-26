@@ -338,6 +338,9 @@ export async function fetchWithSsrFGuard(params: GuardedFetchOptions): Promise<G
       const canUseTrustedEnvProxy =
         mode === GUARDED_FETCH_MODE.TRUSTED_ENV_PROXY && hasProxyEnvConfigured();
       if (canUseTrustedEnvProxy) {
+        // Trusted env proxies skip local DNS pinning, but still reject obvious
+        // private/internal targets such as localhost and literal private IPs.
+        assertHostnameAllowedWithPolicy(parsedUrl.hostname, params.policy);
         dispatcher = createHttp1EnvHttpProxyAgent();
       } else if (usesTrustedExplicitProxyMode) {
         // Explicit proxy targets are still checked against the caller's hostname

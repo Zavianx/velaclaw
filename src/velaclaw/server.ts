@@ -1004,6 +1004,7 @@ export function createVelaclawApp() {
           query: req.body?.query ?? "",
           kinds: req.body?.kinds,
           limitPerKind: req.body?.limitPerKind,
+          fallbackQuery: req.body?.fallbackQuery,
         }),
       );
     } catch (e) {

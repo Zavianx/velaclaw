@@ -7588,6 +7588,12 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
                     title: "Enable Web Fetch Tool",
                     description: "Enable the web_fetch tool (lightweight HTTP fetch).",
                   },
+                  useEnvProxy: {
+                    type: "boolean",
+                    title: "Web Fetch Use Env Proxy",
+                    description:
+                      "Route web_fetch through trusted HTTP(S)_PROXY environment variables while keeping direct private/internal hostnames blocked. Use this for fake-IP or TUN proxy environments where local DNS pinning breaks external site fetches.",
+                  },
                   provider: {
                     type: "string",
                     title: "Web Fetch Provider",
@@ -24286,6 +24292,11 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
     "tools.web.fetch.enabled": {
       label: "Enable Web Fetch Tool",
       help: "Enable the web_fetch tool (lightweight HTTP fetch).",
+      tags: ["tools"],
+    },
+    "tools.web.fetch.useEnvProxy": {
+      label: "Web Fetch Use Env Proxy",
+      help: "Route web_fetch through trusted HTTP(S)_PROXY environment variables while keeping direct private/internal hostnames blocked. Use this for fake-IP or TUN proxy environments where local DNS pinning breaks external site fetches.",
       tags: ["tools"],
     },
     "tools.web.fetch.maxChars": {

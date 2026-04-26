@@ -52,6 +52,40 @@ early instead of partially installing the package.
 If a ClawHub package is actually a skill, Velaclaw stops and points you at
 `velaclaw skills install <slug>` instead.
 
+## Team shared asset bridge
+
+Team control planes can expose ClawHub skills through the same shared asset
+server used for `shared-skills`. This lets members discover and activate
+ClawHub skills on demand without receiving the ClawHub token.
+
+Enable it on the control plane process:
+
+```bash
+VELACLAW_TEAM_CLAWHUB_SKILLS_ENABLED=1
+VELACLAW_CLAWHUB_TOKEN=clh_...
+```
+
+Behavior:
+
+- The team asset manifest includes a `ClawHub Skill Hub` shared skill.
+- `/asset-server/resolve` searches ClawHub and returns matching skills as
+  `kind: "skills"` assets.
+- `/asset-server/items/:id` downloads the matching skill bundle on the control
+  plane and returns text files to the member injector.
+- The member injector materializes those files under
+  `skills/team-shared-active-<skill>/`.
+- The token remains control-plane-only; member runtimes receive materialized
+  files, not registry credentials.
+
+Optional limits:
+
+```bash
+VELACLAW_TEAM_CLAWHUB_SKILLS_SEARCH_LIMIT=4
+VELACLAW_TEAM_CLAWHUB_SKILLS_FILE_LIMIT=160
+VELACLAW_TEAM_CLAWHUB_SKILLS_FILE_MAX_BYTES=262144
+VELACLAW_TEAM_CLAWHUB_SKILLS_TOTAL_MAX_BYTES=1048576
+```
+
 ## What ClawHub is
 
 - A public registry for Velaclaw skills and plugins.
