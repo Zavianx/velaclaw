@@ -8,6 +8,7 @@ import {
   failTaskRunByRunId,
   setDetachedTaskDeliveryStatusByRunId,
 } from "../tasks/task-executor.js";
+import type { TaskDeliveryStatus } from "../tasks/task-registry.types.js";
 import { normalizeDeliveryContext } from "../utils/delivery-context.js";
 import {
   captureSubagentCompletionReply,
@@ -115,7 +116,7 @@ export function createSubagentRegistryLifecycleController(params: {
   const safeSetSubagentTaskDeliveryStatus = (args: {
     runId: string;
     childSessionKey: string;
-    deliveryStatus: "delivered" | "failed";
+    deliveryStatus: TaskDeliveryStatus;
   }) => {
     try {
       setDetachedTaskDeliveryStatusByRunId({
@@ -387,6 +388,7 @@ export function createSubagentRegistryLifecycleController(params: {
     didAnnounce: boolean,
     options?: {
       skipAnnounce?: boolean;
+      deliveryStatus?: "delivered" | "not_applicable";
     },
   ) => {
     const entry = params.runs.get(runId);
@@ -401,7 +403,7 @@ export function createSubagentRegistryLifecycleController(params: {
       safeSetSubagentTaskDeliveryStatus({
         runId,
         childSessionKey: entry.childSessionKey,
-        deliveryStatus: "delivered",
+        deliveryStatus: options?.deliveryStatus ?? "delivered",
       });
       entry.wakeOnDescendantSettle = undefined;
       entry.fallbackFrozenResultText = undefined;
@@ -489,6 +491,24 @@ export function createSubagentRegistryLifecycleController(params: {
   };
 
   const startSubagentAnnounceCleanupFlow = (runId: string, entry: SubagentRunRecord): boolean => {
+    if (entry.suppressCompletionAnnounce === true) {
+      if (!beginSubagentCleanup(runId)) {
+        return false;
+      }
+      void finalizeSubagentCleanup(runId, entry.cleanup, true, {
+        skipAnnounce: true,
+        deliveryStatus: "not_applicable",
+      }).catch((err) => {
+        defaultRuntime.log(`[warn] subagent cleanup finalize failed (${runId}): ${String(err)}`);
+        const current = params.runs.get(runId);
+        if (!current || current.cleanupCompletedAt) {
+          return;
+        }
+        current.cleanupHandled = false;
+        params.persist();
+      });
+      return true;
+    }
     if (typeof entry.completionAnnouncedAt === "number") {
       if (!beginSubagentCleanup(runId)) {
         return false;

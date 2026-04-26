@@ -12,11 +12,15 @@ export type SubagentSessionRole = (typeof SUBAGENT_SESSION_ROLES)[number];
 export const SUBAGENT_CONTROL_SCOPES = ["children", "none"] as const;
 export type SubagentControlScope = (typeof SUBAGENT_CONTROL_SCOPES)[number];
 
+export const SUBAGENT_TOOL_POLICY_MODES = ["default", "read_only"] as const;
+export type SubagentToolPolicyMode = (typeof SUBAGENT_TOOL_POLICY_MODES)[number];
+
 type SessionCapabilityEntry = {
   sessionId?: unknown;
   spawnDepth?: unknown;
   subagentRole?: unknown;
   subagentControlScope?: unknown;
+  subagentToolPolicy?: unknown;
 };
 
 function normalizeSubagentRole(value: unknown): SubagentSessionRole | undefined {
@@ -27,6 +31,11 @@ function normalizeSubagentRole(value: unknown): SubagentSessionRole | undefined 
 function normalizeSubagentControlScope(value: unknown): SubagentControlScope | undefined {
   const trimmed = normalizeOptionalLowercaseString(value);
   return SUBAGENT_CONTROL_SCOPES.find((entry) => entry === trimmed);
+}
+
+function normalizeSubagentToolPolicy(value: unknown): SubagentToolPolicyMode | undefined {
+  const trimmed = normalizeOptionalLowercaseString(value);
+  return SUBAGENT_TOOL_POLICY_MODES.find((entry) => entry === trimmed);
 }
 
 function readSessionStore(storePath: string): Record<string, SessionCapabilityEntry> {
@@ -102,6 +111,7 @@ export function resolveSubagentCapabilities(params: { depth: number; maxSpawnDep
     depth: Math.max(0, Math.floor(params.depth)),
     role,
     controlScope,
+    toolPolicy: "default" as SubagentToolPolicyMode,
     canSpawn: role === "main" || role === "orchestrator",
     canControlChildren: controlScope === "children",
   };
@@ -131,6 +141,7 @@ export function resolveStoredSubagentCapabilities(
   });
   const storedRole = normalizeSubagentRole(entry?.subagentRole);
   const storedControlScope = normalizeSubagentControlScope(entry?.subagentControlScope);
+  const storedToolPolicy = normalizeSubagentToolPolicy(entry?.subagentToolPolicy);
   const fallback = resolveSubagentCapabilities({ depth, maxSpawnDepth });
   const role = storedRole ?? fallback.role;
   const controlScope = storedControlScope ?? resolveSubagentControlScopeForRole(role);
@@ -138,6 +149,7 @@ export function resolveStoredSubagentCapabilities(
     depth,
     role,
     controlScope,
+    toolPolicy: storedToolPolicy ?? fallback.toolPolicy,
     canSpawn: role === "main" || role === "orchestrator",
     canControlChildren: controlScope === "children",
   };

@@ -45,6 +45,7 @@ function buildGatewaySessionSnapshot(params: {
     spawnDepth: sessionRow.spawnDepth,
     subagentRole: sessionRow.subagentRole,
     subagentControlScope: sessionRow.subagentControlScope,
+    subagentToolPolicy: sessionRow.subagentToolPolicy,
     label: params.label ?? sessionRow.label,
     displayName: params.displayName ?? sessionRow.displayName,
     deliveryContext: sessionRow.deliveryContext,

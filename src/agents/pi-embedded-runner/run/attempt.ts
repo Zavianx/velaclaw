@@ -92,6 +92,11 @@ import {
   toClientToolDefinitions,
 } from "../../pi-tool-definition-adapter.js";
 import { createVelaclawCodingTools, resolveToolLoopDetectionConfig } from "../../pi-tools.js";
+import {
+  filterToolsByPolicy,
+  isReadOnlySubagentSession,
+  resolveSubagentToolPolicyForSession,
+} from "../../pi-tools.policy.js";
 import { wrapStreamFnTextTransforms } from "../../plugin-text-transforms.js";
 import { describeProviderRequestRoutingSummary } from "../../provider-attribution.js";
 import { registerProviderStreamForModel } from "../../provider-stream.js";
@@ -577,7 +582,12 @@ export async function runEmbeddedAttempt(
       modelApi: params.model.api,
       model: params.model,
     });
-    const clientTools = toolsEnabled ? params.clientTools : undefined;
+    const subagentPolicy =
+      params.sessionKey && isSubagentSessionKey(params.sessionKey)
+        ? resolveSubagentToolPolicyForSession(params.config, params.sessionKey)
+        : undefined;
+    const isReadOnlyHelper = isReadOnlySubagentSession(params.config, params.sessionKey);
+    const clientTools = toolsEnabled && !isReadOnlyHelper ? params.clientTools : undefined;
     const bundleMcpSessionRuntime = toolsEnabled
       ? await getOrCreateSessionMcpRuntime({
           sessionId: params.sessionId,
@@ -606,11 +616,10 @@ export async function runEmbeddedAttempt(
           ],
         })
       : undefined;
-    const effectiveTools = [
-      ...tools,
-      ...(bundleMcpRuntime?.tools ?? []),
-      ...(bundleLspRuntime?.tools ?? []),
-    ];
+    const effectiveTools = filterToolsByPolicy(
+      [...tools, ...(bundleMcpRuntime?.tools ?? []), ...(bundleLspRuntime?.tools ?? [])],
+      subagentPolicy,
+    );
     const allowedToolNames = collectAllowedToolNames({
       tools: effectiveTools,
       clientTools,

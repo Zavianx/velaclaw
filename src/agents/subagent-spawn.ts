@@ -93,6 +93,9 @@ export type SpawnSubagentParams = {
   sandbox?: SpawnSubagentSandboxMode;
   lightContext?: boolean;
   expectsCompletionMessage?: boolean;
+  suppressCompletionAnnounce?: boolean;
+  toolPolicy?: "read_only";
+  maxSpawnDepth?: number;
   attachments?: Array<{
     name: string;
     content: string;
@@ -416,8 +419,13 @@ export async function spawnSubagentDirect(
   });
 
   const callerDepth = getSubagentDepthFromSessionStore(requesterInternalKey, { cfg });
-  const maxSpawnDepth =
+  const globalMaxSpawnDepth =
     cfg.agents?.defaults?.subagents?.maxSpawnDepth ?? DEFAULT_SUBAGENT_MAX_SPAWN_DEPTH;
+  const requestedMaxSpawnDepth =
+    typeof params.maxSpawnDepth === "number" && Number.isFinite(params.maxSpawnDepth)
+      ? Math.max(1, Math.floor(params.maxSpawnDepth))
+      : globalMaxSpawnDepth;
+  const maxSpawnDepth = Math.min(requestedMaxSpawnDepth, globalMaxSpawnDepth);
   if (callerDepth >= maxSpawnDepth) {
     return {
       status: "forbidden",
@@ -530,6 +538,7 @@ export async function spawnSubagentDirect(
     spawnDepth: childDepth,
     subagentRole: childCapabilities.role === "main" ? null : childCapabilities.role,
     subagentControlScope: childCapabilities.controlScope,
+    ...(params.toolPolicy === "read_only" ? { subagentToolPolicy: "read_only" } : {}),
     ...plan.initialSessionPatch,
   };
 
@@ -811,6 +820,7 @@ export async function spawnSubagentDirect(
       workspaceDir: spawnedMetadata.workspaceDir,
       runTimeoutSeconds,
       expectsCompletionMessage,
+      suppressCompletionAnnounce: params.suppressCompletionAnnounce === true,
       spawnMode,
       attachmentsDir: attachmentAbsDir,
       attachmentsRootDir: attachmentRootDir,

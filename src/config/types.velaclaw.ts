@@ -24,6 +24,7 @@ import type {
 } from "./types.messages.js";
 import type { ModelsConfig } from "./types.models.js";
 import type { NodeHostConfig } from "./types.node-host.js";
+import type { PersonalTeamConfig } from "./types.personal-team.js";
 import type { PluginsConfig } from "./types.plugins.js";
 import type { SecretsConfig } from "./types.secrets.js";
 import type { SkillsConfig } from "./types.skills.js";
@@ -98,6 +99,7 @@ export type VelaclawConfig = {
   models?: ModelsConfig;
   nodeHost?: NodeHostConfig;
   agents?: AgentsConfig;
+  personalTeam?: PersonalTeamConfig;
   tools?: ToolsConfig;
   bindings?: AgentBinding[];
   broadcast?: BroadcastConfig;

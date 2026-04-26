@@ -1258,6 +1258,7 @@ export function buildGatewaySessionRow(params: {
     spawnDepth: entry?.spawnDepth,
     subagentRole: entry?.subagentRole,
     subagentControlScope: entry?.subagentControlScope,
+    subagentToolPolicy: entry?.subagentToolPolicy,
     kind: classifySessionKey(key, entry),
     label: entry?.label,
     displayName,

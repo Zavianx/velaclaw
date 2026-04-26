@@ -28,8 +28,8 @@ import {
   type SessionEntry,
   type SessionScope,
 } from "../../config/sessions/types.js";
-import type { VelaclawConfig } from "../../config/types.velaclaw.js";
 import type { TtsAutoMode } from "../../config/types.tts.js";
+import type { VelaclawConfig } from "../../config/types.velaclaw.js";
 import { getSessionBindingService } from "../../infra/outbound/session-binding-service.js";
 import { deliverSessionMaintenanceWarning } from "../../infra/session-maintenance-warning.js";
 import { createSubsystemLogger } from "../../logging/subsystem.js";
@@ -318,6 +318,7 @@ export async function initSessionState(params: {
   let persistedSpawnDepth: SessionEntry["spawnDepth"];
   let persistedSubagentRole: SessionEntry["subagentRole"];
   let persistedSubagentControlScope: SessionEntry["subagentControlScope"];
+  let persistedSubagentToolPolicy: SessionEntry["subagentToolPolicy"];
   let persistedDisplayName: SessionEntry["displayName"];
 
   const normalizedChatType = normalizeChatType(ctx.ChatType);
@@ -495,6 +496,7 @@ export async function initSessionState(params: {
       persistedSpawnDepth = entry.spawnDepth;
       persistedSubagentRole = entry.subagentRole;
       persistedSubagentControlScope = entry.subagentControlScope;
+      persistedSubagentToolPolicy = entry.subagentToolPolicy;
       persistedDisplayName = entry.displayName;
     }
   }
@@ -596,6 +598,7 @@ export async function initSessionState(params: {
     spawnDepth: persistedSpawnDepth ?? baseEntry?.spawnDepth,
     subagentRole: persistedSubagentRole ?? baseEntry?.subagentRole,
     subagentControlScope: persistedSubagentControlScope ?? baseEntry?.subagentControlScope,
+    subagentToolPolicy: persistedSubagentToolPolicy ?? baseEntry?.subagentToolPolicy,
     sendPolicy: baseEntry?.sendPolicy,
     queueMode: baseEntry?.queueMode,
     queueDebounceMs: baseEntry?.queueDebounceMs,
