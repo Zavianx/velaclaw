@@ -343,6 +343,8 @@ The important contract is that raw private chats are not copied into the shared 
 
 ## 🚀 Install
 
+### Built package
+
 ```bash
 npm uninstall -g velaclaw
 npm install -g velaclaw-dev
@@ -395,7 +397,34 @@ cd velaclaw
 pnpm install && pnpm build && pnpm link --global
 ```
 
-Requires Node.js 22+ and pnpm 9+.
+Requires Node.js 22+ and pnpm 10+.
+
+</details>
+
+<details>
+<summary><b>Run from a source checkout</b></summary>
+
+<br/>
+
+The Git checkout is a source tree, not a prebuilt release. `./velaclaw.mjs` expects `dist/` to exist.
+
+If you want to run directly from the repo without a full packaged install, use one of these paths:
+
+```bash
+git clone https://github.com/Zavianx/velaclaw.git
+cd velaclaw
+pnpm install
+
+# Build once, then use the normal CLI wrapper
+pnpm build
+node ./velaclaw.mjs --help
+
+# Or run the TypeScript entry directly during development
+node --import tsx src/entry.ts --help
+node --import tsx src/entry.ts --dev gateway run
+```
+
+For active development, the `tsx` path is the most reliable because it does not depend on a prebuilt `dist/` tree being in sync.
 
 </details>
 
@@ -410,6 +439,9 @@ Requires Node.js 22+ and pnpm 9+.
 docker build -t velaclaw-member-runtime:local .
 
 # 2. Initialize a team workspace and start the control plane
+# Note: the team control-plane commands are still stabilizing in the public CLI.
+# If your installed build does not expose `velaclaw init` / `velaclaw start`,
+# use the latest built package or run from source during development.
 velaclaw init my-workspace && cd my-workspace
 velaclaw start                                   # control plane on :4318
 
