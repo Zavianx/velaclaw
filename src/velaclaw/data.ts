@@ -29,6 +29,7 @@ import {
 } from "../infra/clawhub.js";
 import { withExtractedArchiveRoot } from "../infra/install-flow.js";
 import { safeEqualSecret } from "../security/secret-equal.js";
+import { parseAssetRouterJsonObject } from "./asset-router-json.js";
 import { buildAssetServerKindList, resolveTeamAssetTypeRuntime } from "./asset-types.js";
 import {
   ensureVelaclawControlPlaneStateInitialized,
@@ -3902,21 +3903,6 @@ function truncateAssetRouterText(value: string, maxChars: number): string {
   return text.length > maxChars ? `${text.slice(0, maxChars).trimEnd()}...` : text;
 }
 
-function parseAssetRouterJsonObject(text: string): Record<string, unknown> {
-  const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
-  const source = fenced?.[1] ?? text;
-  const start = source.indexOf("{");
-  const end = source.lastIndexOf("}");
-  if (start === -1 || end === -1 || end <= start) {
-    throw new Error("router returned no JSON object");
-  }
-  const parsed = JSON.parse(source.slice(start, end + 1));
-  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
-    throw new Error("router returned invalid JSON object");
-  }
-  return parsed as Record<string, unknown>;
-}
-
 function normalizeAssetRouterQueries(query: string, value: unknown): string[] {
   const queries = [query, ...(Array.isArray(value) ? value : [])]
     .map((entry) => (typeof entry === "string" ? entry.trim() : ""))
@@ -3956,12 +3942,14 @@ function buildStrongSignalAssetRouterQueries(query: string): string[] {
 }
 
 function normalizeAssetRouterConfidence(value: unknown): number | undefined {
-  const numeric =
-    typeof value === "number"
-      ? value
-      : typeof value === "string"
-        ? Number.parseFloat(value)
-        : Number.NaN;
+  let numeric: number;
+  if (typeof value === "number") {
+    numeric = value;
+  } else if (typeof value === "string") {
+    numeric = Number.parseFloat(value);
+  } else {
+    return undefined;
+  }
   if (!Number.isFinite(numeric)) {
     return undefined;
   }
