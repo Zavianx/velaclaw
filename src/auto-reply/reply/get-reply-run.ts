@@ -754,6 +754,9 @@ export async function runPreparedReply(
           prefixedCommandBody = `${personalTeam.promptContext}\n\n${prefixedCommandBody}`;
           followupRun.prompt = `${personalTeam.promptContext}\n\n${followupRun.prompt}`;
           personalTeamExtraSystemPromptParts.push(
+            `A temporary personal agent team was used. Start the final answer with this exact one-line status marker before the substantive answer: ${personalTeam.statusNote}`,
+          );
+          personalTeamExtraSystemPromptParts.push(
             personalTeamDecision.explicit
               ? "The user explicitly requested a temporary personal agent team. Do not ask for extra confirmation solely because multiple read-only helpers were used."
               : "A temporary read-only personal agent team was used because this request benefits from parallel research, analysis, or verification. If useful, briefly acknowledge parallel work in the final answer.",

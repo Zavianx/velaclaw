@@ -25,6 +25,23 @@ describe("routePersonalTeam", () => {
     expect(decision.reason).toBe("auto_assist_disabled");
   });
 
+  it("honors manual-only config for complex requests without explicit triggers", async () => {
+    const decision = await routePersonalTeam({
+      cfg: {
+        personalTeam: {
+          enabled: true,
+          autoAssist: false,
+        },
+      },
+      userMessage: "帮我调研两个迁移方案，分析取舍，并验证主要风险和测试缺口",
+      sessionKey: "agent:main:main",
+    });
+
+    expect(decision.mode).toBe("solo");
+    expect(decision.reason).toBe("auto_assist_disabled");
+    expect(decision.explicit).toBe(false);
+  });
+
   it("still honors explicit team triggers with default config", async () => {
     const decision = await routePersonalTeam({
       cfg: {},
@@ -34,6 +51,18 @@ describe("routePersonalTeam", () => {
 
     expect(decision.mode).toBe("team");
     expect(decision.explicit).toBe(true);
+  });
+
+  it("does not treat architecture noun phrases as explicit team triggers", async () => {
+    const decision = await routePersonalTeam({
+      cfg: {},
+      userMessage: "请审查 personal team multi-agent architecture 的实现是否合理",
+      sessionKey: "agent:main:main",
+    });
+
+    expect(decision.mode).toBe("solo");
+    expect(decision.reason).toBe("auto_assist_disabled");
+    expect(decision.explicit).toBe(false);
   });
 
   it("keeps simple questions solo", async () => {
@@ -57,6 +86,17 @@ describe("routePersonalTeam", () => {
     expect(decision.mode).toBe("team");
     expect(decision.explicit).toBe(true);
     expect(decision.roles.map((role) => role.role)).toEqual(["researcher", "analyst", "verifier"]);
+  });
+
+  it("honors action-oriented English explicit team triggers", async () => {
+    const decision = await routePersonalTeam({
+      cfg: baseCfg,
+      userMessage: "use multiple agents to compare the options and verify the risks",
+      sessionKey: "agent:main:main",
+    });
+
+    expect(decision.mode).toBe("team");
+    expect(decision.explicit).toBe(true);
   });
 
   it("auto-assists complex research, analysis, and verification requests", async () => {

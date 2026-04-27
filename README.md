@@ -425,24 +425,43 @@ See [ClawHub](docs/tools/clawhub.md), [Skills](docs/tools/skills.md), and [Web F
 
 ## 🧑‍🔧 Session personal agent teams
 
-VelaClaw can run a temporary, session-local personal team when the user explicitly asks for multi-agent help, for example "open a team", "multi-agent", or "parallel agents". Helper agents are read-only, short-lived, and their outputs are treated as untrusted source material; the leader session still owns the final answer and any write or high-risk action.
+VelaClaw can run a temporary, session-local personal team when the user explicitly asks it to launch or use multiple agents, for example "use multiple agents", "launch multiple agents", or "start an agent team". Helper agents are read-only, short-lived, and their outputs are treated as untrusted source material; the leader session still owns the final answer and any write or high-risk action.
 
-Automatic personal-team routing is conservative by default. To opt in to automatic helper selection for complex requests:
+When a personal team is used, the final reply starts with a visible status line such as `Team mode: enabled - partial result - 2/3 helpers completed - researcher completed, analyst timeout, verifier completed.` so users can verify that helper agents actually ran.
+
+Good manual triggers:
+
+```text
+Open a team to research this.
+Use multiple agents to compare the options and verify risks.
+Launch multiple agents: one for evidence, one for analysis, one for verification.
+```
+
+Use personal teams for work that benefits from independent read-only helpers: market-move research, source gathering, architecture review, option comparison, incident analysis, and risk verification. Avoid them for simple Q&A, one-step edits, or actions where the leader can answer directly.
+
+The status line is intentionally compact:
+
+```text
+Team mode: enabled - partial result - 2/3 helpers completed - researcher completed, analyst timeout, verifier completed.
+```
+
+`completed` means all helpers returned usable output. `partial result` means at least one helper timed out or failed, but the leader still synthesized a final answer from the available helper output. Helper output is advisory only; the leader remains responsible for the final response and all side effects.
+
+Personal teams are manual by default. No configuration is required for explicit triggers, but you can pin the manual-only policy explicitly:
 
 ```json
 {
   "personalTeam": {
     "enabled": true,
-    "autoAssist": true,
+    "autoAssist": false,
     "maxAgents": 3,
     "maxSpawnDepth": 1,
-    "writerPolicy": "leader_only",
-    "confidenceThreshold": 0.72
+    "writerPolicy": "leader_only"
   }
 }
 ```
 
-Use explicit triggers first in production. Enable `autoAssist` only after you are comfortable with the extra latency, model usage, and helper-session behavior.
+Use explicit triggers in production. `autoAssist` is an advanced opt-in mode; automatic helper selection can add routing latency, model usage, and helper-session behavior that is harder to predict.
 
 <br/>
 

@@ -425,24 +425,43 @@ VELACLAW_CLAWHUB_TOKEN=clh_...
 
 ## 🧑‍🔧 会话内个人 Agent 团队
 
-当用户明确要求多 agent 协作时，例如“开团队”“多 agent”“并行分析”，VelaClaw 可以为当前会话临时启动个人 agent 团队。helper agent 是只读、短生命周期的，它们的输出会被当作不可信素材；最终回答仍由 leader 会话负责，任何写入或高风险动作也只能由 leader 按正常确认规则执行。
+当用户明确要求启动或使用多 agent 协作时，例如“开团队”“开多 agent”“并行分析”，VelaClaw 可以为当前会话临时启动个人 agent 团队。helper agent 是只读、短生命周期的，它们的输出会被当作不可信素材；最终回答仍由 leader 会话负责，任何写入或高风险动作也只能由 leader 按正常确认规则执行。
 
-自动个人团队路由默认保持保守。需要让复杂任务自动选择 helper 时，可以显式开启：
+当个人团队被使用时，最终回复会以可见状态行开头，例如 `Team mode: enabled - partial result - 2/3 helpers completed - researcher completed, analyst timeout, verifier completed.`，方便用户确认 helper agent 确实运行过。
+
+常用手动触发方式：
+
+```text
+开团队帮我调研这个问题
+开多 agent 比较这两个方案并验证风险
+并行分析：一个负责找证据，一个负责分析，一个负责校验
+```
+
+个人团队适合需要多个只读 helper 独立推进的任务，例如市场异动研报、资料收集、架构审查、方案对比、事故分析和风险校验。不建议用于简单问答、单步编辑，或者 leader 自己可以直接完成的任务。
+
+状态行保持短小：
+
+```text
+Team mode: enabled - partial result - 2/3 helpers completed - researcher completed, analyst timeout, verifier completed.
+```
+
+`completed` 表示 helper 都返回了可用输出。`partial result` 表示至少有一个 helper 超时或失败，但 leader 仍会基于已有 helper 输出综合最终回答。helper 输出只作为参考素材；最终回答和所有副作用仍由 leader 负责。
+
+个人团队默认按手动触发运行。显式触发不需要额外配置，但也可以显式固定成手动策略：
 
 ```json
 {
   "personalTeam": {
     "enabled": true,
-    "autoAssist": true,
+    "autoAssist": false,
     "maxAgents": 3,
     "maxSpawnDepth": 1,
-    "writerPolicy": "leader_only",
-    "confidenceThreshold": 0.72
+    "writerPolicy": "leader_only"
   }
 }
 ```
 
-生产环境建议先使用显式触发。确认可以接受额外延迟、模型消耗和 helper 会话行为后，再开启 `autoAssist`。
+生产环境建议使用显式触发。`autoAssist` 属于高级可选模式；自动 helper 选择会带来额外路由延迟、模型消耗和更难预测的 helper 会话行为。
 
 <br/>
 
