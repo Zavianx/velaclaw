@@ -423,6 +423,29 @@ VELACLAW_CLAWHUB_TOKEN=clh_...
 
 <br/>
 
+## 🧑‍🔧 会话内个人 Agent 团队
+
+当用户明确要求多 agent 协作时，例如“开团队”“多 agent”“并行分析”，VelaClaw 可以为当前会话临时启动个人 agent 团队。helper agent 是只读、短生命周期的，它们的输出会被当作不可信素材；最终回答仍由 leader 会话负责，任何写入或高风险动作也只能由 leader 按正常确认规则执行。
+
+自动个人团队路由默认保持保守。需要让复杂任务自动选择 helper 时，可以显式开启：
+
+```json
+{
+  "personalTeam": {
+    "enabled": true,
+    "autoAssist": true,
+    "maxAgents": 3,
+    "maxSpawnDepth": 1,
+    "writerPolicy": "leader_only",
+    "confidenceThreshold": 0.72
+  }
+}
+```
+
+生产环境建议先使用显式触发。确认可以接受额外延迟、模型消耗和 helper 会话行为后，再开启 `autoAssist`。
+
+<br/>
+
 ## 👥 团队配置
 
 <sub>四条命令拉起一个团队。能力细节见上方<a href="#-团队协作">团队协作</a>章节。</sub>

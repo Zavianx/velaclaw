@@ -622,6 +622,7 @@ export async function performGatewaySessionReset(params: {
       spawnDepth: currentEntry?.spawnDepth,
       subagentRole: currentEntry?.subagentRole,
       subagentControlScope: currentEntry?.subagentControlScope,
+      subagentToolPolicy: currentEntry?.subagentToolPolicy,
       label: currentEntry?.label,
       displayName: currentEntry?.displayName,
       channel: currentEntry?.channel,

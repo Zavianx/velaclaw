@@ -275,6 +275,7 @@ export function createSubagentRunManager(params: {
     workspaceDir?: string;
     runTimeoutSeconds?: number;
     expectsCompletionMessage?: boolean;
+    suppressCompletionAnnounce?: boolean;
     spawnMode?: "run" | "session";
     attachmentsDir?: string;
     attachmentsRootDir?: string;
@@ -310,6 +311,7 @@ export function createSubagentRunManager(params: {
       task: registerParams.task,
       cleanup: registerParams.cleanup,
       expectsCompletionMessage: registerParams.expectsCompletionMessage,
+      suppressCompletionAnnounce: registerParams.suppressCompletionAnnounce === true,
       spawnMode,
       label: registerParams.label,
       model: registerParams.model,
@@ -340,7 +342,10 @@ export function createSubagentRunManager(params: {
         label: registerParams.label,
         task: registerParams.task,
         deliveryStatus:
-          registerParams.expectsCompletionMessage === false ? "not_applicable" : "pending",
+          registerParams.suppressCompletionAnnounce === true ||
+          registerParams.expectsCompletionMessage === false
+            ? "not_applicable"
+            : "pending",
         startedAt: now,
         lastEventAt: now,
       });

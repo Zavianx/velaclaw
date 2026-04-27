@@ -45,6 +45,19 @@ const NodeHostSchema = z
   .strict()
   .optional();
 
+const PersonalTeamSchema = z
+  .object({
+    enabled: z.boolean().optional(),
+    autoAssist: z.boolean().optional(),
+    explicitTriggers: z.array(z.string().min(1)).max(64).optional(),
+    maxAgents: z.number().int().min(1).max(8).optional(),
+    maxSpawnDepth: z.number().int().min(1).max(5).optional(),
+    writerPolicy: z.literal("leader_only").optional(),
+    confidenceThreshold: z.number().min(0).max(1).optional(),
+  })
+  .strict()
+  .optional();
+
 const MemoryQmdPathSchema = z
   .object({
     path: z.string(),
@@ -501,6 +514,7 @@ export const VelaclawSchema = z
     models: ModelsConfigSchema,
     nodeHost: NodeHostSchema,
     agents: AgentsSchema,
+    personalTeam: PersonalTeamSchema,
     tools: ToolsSchema,
     bindings: BindingsSchema,
     broadcast: BroadcastSchema,

@@ -23,6 +23,7 @@ export * from "./types.node-host.js";
 export * from "./types.msteams.js";
 export * from "./types.plugins.js";
 export * from "./types.provider-request.js";
+export * from "./types.personal-team.js";
 export * from "./types.queue.js";
 export * from "./types.sandbox.js";
 export * from "./types.secrets.js";

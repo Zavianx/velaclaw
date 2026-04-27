@@ -141,6 +141,8 @@ export type SessionEntry = {
   subagentRole?: "orchestrator" | "leaf";
   /** Explicit control scope assigned at spawn time for subagent control decisions. */
   subagentControlScope?: "children" | "none";
+  /** Extra tool-policy mode assigned at spawn time for special-purpose subagents. */
+  subagentToolPolicy?: "read_only";
   systemSent?: boolean;
   abortedLastRun?: boolean;
   /** Stable first-run start time for subagent sessions, persisted after completion. */

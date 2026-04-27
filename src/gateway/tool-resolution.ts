@@ -1,9 +1,8 @@
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { createVelaclawTools } from "../agents/velaclaw-tools.js";
 import {
   resolveEffectiveToolPolicy,
   resolveGroupToolPolicy,
-  resolveSubagentToolPolicy,
+  resolveSubagentToolPolicyForSession,
 } from "../agents/pi-tools.policy.js";
 import {
   applyToolPolicyPipeline,
@@ -15,6 +14,7 @@ import {
   resolveToolProfilePolicy,
 } from "../agents/tool-policy.js";
 import type { AnyAgentTool } from "../agents/tools/common.js";
+import { createVelaclawTools } from "../agents/velaclaw-tools.js";
 import type { VelaclawConfig } from "../config/types.velaclaw.js";
 import { logWarn } from "../logger.js";
 import { getPluginToolMeta } from "../plugins/tools.js";
@@ -62,7 +62,7 @@ export function resolveGatewayScopedTools(params: {
     accountId: params.accountId ?? null,
   });
   const subagentPolicy = isSubagentSessionKey(params.sessionKey)
-    ? resolveSubagentToolPolicy(params.cfg)
+    ? resolveSubagentToolPolicyForSession(params.cfg, params.sessionKey)
     : undefined;
   const workspaceDir = resolveAgentWorkspaceDir(
     params.cfg,

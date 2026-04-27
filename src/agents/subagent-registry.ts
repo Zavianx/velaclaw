@@ -737,6 +737,7 @@ export function registerSubagentRun(params: {
   workspaceDir?: string;
   runTimeoutSeconds?: number;
   expectsCompletionMessage?: boolean;
+  suppressCompletionAnnounce?: boolean;
   spawnMode?: "run" | "session";
   attachmentsDir?: string;
   attachmentsRootDir?: string;

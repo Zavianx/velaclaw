@@ -157,6 +157,7 @@ function emitSessionsChanged(
             spawnDepth: sessionRow.spawnDepth,
             subagentRole: sessionRow.subagentRole,
             subagentControlScope: sessionRow.subagentControlScope,
+            subagentToolPolicy: sessionRow.subagentToolPolicy,
             label: sessionRow.label,
             displayName: sessionRow.displayName,
             deliveryContext: sessionRow.deliveryContext,

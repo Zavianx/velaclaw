@@ -7317,6 +7317,45 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
         description:
           "Agent runtime configuration root covering defaults and explicit agent entries used for routing and execution context. Keep this section explicit so model/tool behavior stays predictable across multi-agent workflows.",
       },
+      personalTeam: {
+        type: "object",
+        properties: {
+          enabled: {
+            type: "boolean",
+          },
+          autoAssist: {
+            type: "boolean",
+          },
+          explicitTriggers: {
+            maxItems: 64,
+            type: "array",
+            items: {
+              type: "string",
+              minLength: 1,
+            },
+          },
+          maxAgents: {
+            type: "integer",
+            minimum: 1,
+            maximum: 8,
+          },
+          maxSpawnDepth: {
+            type: "integer",
+            minimum: 1,
+            maximum: 5,
+          },
+          writerPolicy: {
+            type: "string",
+            const: "leader_only",
+          },
+          confidenceThreshold: {
+            type: "number",
+            minimum: 0,
+            maximum: 1,
+          },
+        },
+        additionalProperties: false,
+      },
       tools: {
         type: "object",
         properties: {

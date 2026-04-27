@@ -86,6 +86,11 @@ function normalizeSubagentControlScope(raw: string): "children" | "none" | undef
   return undefined;
 }
 
+function normalizeSubagentToolPolicy(raw: string): "read_only" | undefined {
+  const normalized = normalizeOptionalLowercaseString(raw);
+  return normalized === "read_only" ? normalized : undefined;
+}
+
 export async function applySessionsPatchToStore(params: {
   cfg: VelaclawConfig;
   store: Record<string, SessionEntry>;
@@ -213,6 +218,27 @@ export async function applySessionsPatchToStore(params: {
         return invalid("subagentControlScope cannot be changed once set");
       }
       next.subagentControlScope = normalized;
+    }
+  }
+
+  if ("subagentToolPolicy" in patch) {
+    const raw = patch.subagentToolPolicy;
+    if (raw === null) {
+      if (existing?.subagentToolPolicy) {
+        return invalid("subagentToolPolicy cannot be cleared once set");
+      }
+    } else if (raw !== undefined) {
+      if (!supportsSpawnLineage(storeKey)) {
+        return invalid("subagentToolPolicy is only supported for subagent:* or acp:* sessions");
+      }
+      const normalized = normalizeSubagentToolPolicy(raw);
+      if (!normalized) {
+        return invalid('invalid subagentToolPolicy (use "read_only")');
+      }
+      if (existing?.subagentToolPolicy && existing.subagentToolPolicy !== normalized) {
+        return invalid("subagentToolPolicy cannot be changed once set");
+      }
+      next.subagentToolPolicy = normalized;
     }
   }
 

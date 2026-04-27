@@ -30,6 +30,11 @@ const SCAFFOLD_DIRS = [
 ] as const;
 
 const TEAM_MEMBER_AGENTS_TEMPLATE_FILENAME = "AGENTS.team-member.md";
+const MANAGED_MEMBER_LOCAL_PLUGIN_IDS = [
+  "member-quota-guard",
+  "shared-asset-injector",
+  "member-runtime-upgrader",
+] as const;
 const DEFAULT_CONTROL_PLANE_PORT = 4318;
 const DEFAULT_CONTROL_PLANE_HOST = "host.docker.internal";
 
@@ -382,7 +387,37 @@ export async function ensureVelaclawWorkspaceInitialized(targetRoot: string) {
   }
 
   await ensureVelaclawControlPlaneStateInitialized(targetRoot, process.env);
+  await ensureMemberTemplateLocalPlugins(targetRoot);
   await ensureMemberTemplateWorkspaceFiles(targetRoot);
+}
+
+async function ensureMemberTemplateLocalPlugins(targetRoot: string) {
+  const packageRoot = resolveVelaclawPackageRoot();
+  const sourceRoot = path.join(
+    packageRoot,
+    "members",
+    "member-template",
+    "runtime",
+    "config",
+    "local-plugins",
+  );
+  const targetRootPath = path.join(
+    targetRoot,
+    "members",
+    "member-template",
+    "runtime",
+    "config",
+    "local-plugins",
+  );
+  for (const pluginId of MANAGED_MEMBER_LOCAL_PLUGIN_IDS) {
+    const sourcePath = path.join(sourceRoot, pluginId);
+    const targetPath = path.join(targetRootPath, pluginId);
+    if (!fs.existsSync(sourcePath) || fs.existsSync(targetPath)) {
+      continue;
+    }
+    await fsp.mkdir(path.dirname(targetPath), { recursive: true });
+    await fsp.cp(sourcePath, targetPath, { recursive: true });
+  }
 }
 
 async function ensureMemberTemplateWorkspaceFiles(targetRoot: string) {

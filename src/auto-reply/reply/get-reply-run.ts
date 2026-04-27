@@ -2,6 +2,8 @@ import crypto from "node:crypto";
 import { resolveSessionAuthProfileOverride } from "../../agents/auth-profiles/session-override.js";
 import type { ExecToolDefaults } from "../../agents/bash-tools.js";
 import { resolveFastModeState } from "../../agents/fast-mode.js";
+import { routePersonalTeam } from "../../agents/personal-team-router.js";
+import { runPersonalTeamRuntime } from "../../agents/personal-team-runtime.js";
 import { resolveEmbeddedFullAccessState } from "../../agents/pi-embedded-runner/sandbox-info.js";
 import type { EmbeddedFullAccessBlockedReason } from "../../agents/pi-embedded-runner/types.js";
 import { resolveGroupSessionKey } from "../../config/sessions/group.js";
@@ -15,6 +17,7 @@ import type { VelaclawConfig } from "../../config/types.velaclaw.js";
 import { logVerbose } from "../../globals.js";
 import { clearCommandLane, getQueueSize } from "../../process/command-queue.js";
 import { normalizeMainKey } from "../../routing/session-key.js";
+import { normalizeInputProvenance } from "../../sessions/input-provenance.js";
 import { normalizeOptionalString } from "../../shared/string-coerce.js";
 import { isReasoningTagProvider } from "../../utils/provider-utils.js";
 import { hasControlCommand } from "../command-detection.js";
@@ -689,6 +692,89 @@ export async function runPreparedReply(
         : {}),
     },
   };
+
+  const personalTeamProvenance = normalizeInputProvenance(
+    ctx.InputProvenance ?? sessionCtx.InputProvenance,
+  );
+  const shouldRoutePersonalTeam =
+    !useFastReplyRuntime &&
+    opts?.isHeartbeat !== true &&
+    !isBareSessionReset &&
+    !resetTriggered &&
+    activeRunQueueAction === "run-now" &&
+    personalTeamProvenance?.kind !== "inter_session";
+  if (shouldRoutePersonalTeam) {
+    const userMessageForTeam =
+      normalizeOptionalString(baseBodyFinal) ??
+      normalizeOptionalString(baseBodyTrimmedRaw) ??
+      normalizeOptionalString(effectiveBaseBody);
+    if (userMessageForTeam) {
+      const personalTeamDecision = await routePersonalTeam({
+        cfg,
+        userMessage: userMessageForTeam,
+        sessionKey,
+        agentId,
+        recentContextSummary: threadContextNote,
+      });
+      if (personalTeamDecision.mode !== "solo") {
+        if (!suppressTyping) {
+          await typing.onReplyStart();
+        }
+        const personalTeam = await runPersonalTeamRuntime({
+          cfg,
+          decision: personalTeamDecision,
+          userMessage: userMessageForTeam,
+          sessionKey,
+          agentId,
+          workspaceDir,
+          requesterOrigin: {
+            channel: resolveOriginMessageProvider({
+              originatingChannel: ctx.OriginatingChannel ?? sessionCtx.OriginatingChannel,
+              provider: ctx.Provider ?? ctx.Surface ?? sessionCtx.Provider,
+            }),
+            accountId: sessionCtx.AccountId,
+            to:
+              normalizeOptionalString(ctx.OriginatingTo) ??
+              normalizeOptionalString(sessionCtx.OriginatingTo) ??
+              normalizeOptionalString(ctx.To) ??
+              normalizeOptionalString(sessionCtx.To),
+            threadId: ctx.MessageThreadId ?? sessionCtx.MessageThreadId,
+          },
+          recentContextSummary: threadContextNote,
+        }).catch((err: unknown) => {
+          const message = err instanceof Error ? err.message : String(err);
+          logVerbose(`personal team runtime failed; falling back to solo reply: ${message}`);
+          return undefined;
+        });
+        const personalTeamExtraSystemPromptParts: Array<string | undefined> = [];
+        if (personalTeam?.systemPrompt) {
+          personalTeamExtraSystemPromptParts.push(personalTeam.systemPrompt);
+        }
+        if (personalTeam?.promptContext) {
+          prefixedCommandBody = `${personalTeam.promptContext}\n\n${prefixedCommandBody}`;
+          followupRun.prompt = `${personalTeam.promptContext}\n\n${followupRun.prompt}`;
+          personalTeamExtraSystemPromptParts.push(
+            personalTeamDecision.explicit
+              ? "The user explicitly requested a temporary personal agent team. Do not ask for extra confirmation solely because multiple read-only helpers were used."
+              : "A temporary read-only personal agent team was used because this request benefits from parallel research, analysis, or verification. If useful, briefly acknowledge parallel work in the final answer.",
+          );
+        }
+        if (personalTeamDecision.requiresUserConfirmation) {
+          personalTeamExtraSystemPromptParts.push(
+            "The request includes high-risk action signals. Helper agents are read-only. Do not execute or imply completion of any high-risk action without explicit user confirmation.",
+          );
+        }
+        if (personalTeamExtraSystemPromptParts.length > 0) {
+          followupRun.run.extraSystemPrompt = [
+            followupRun.run.extraSystemPrompt,
+            ...personalTeamExtraSystemPromptParts,
+          ]
+            .filter(Boolean)
+            .join("\n\n");
+        }
+      }
+    }
+  }
 
   return runReplyAgent({
     commandBody: prefixedCommandBody,

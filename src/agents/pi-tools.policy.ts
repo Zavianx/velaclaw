@@ -2,8 +2,8 @@ import { getLoadedChannelPlugin } from "../channels/plugins/index.js";
 import { resolveSessionConversation } from "../channels/plugins/session-conversation.js";
 import { DEFAULT_SUBAGENT_MAX_SPAWN_DEPTH } from "../config/agent-limits.js";
 import { resolveChannelGroupToolsPolicy } from "../config/group-policy.js";
-import type { VelaclawConfig } from "../config/types.velaclaw.js";
 import type { AgentToolsConfig } from "../config/types.tools.js";
+import type { VelaclawConfig } from "../config/types.velaclaw.js";
 import { normalizeAgentId } from "../routing/session-key.js";
 import {
   parseRawSessionConversationRef,
@@ -40,6 +40,30 @@ const SUBAGENT_TOOL_DENY_ALWAYS = [
   "cron",
   // Direct session sends - subagents communicate through announce chain
   "sessions_send",
+];
+
+const SUBAGENT_READ_ONLY_TOOL_DENY = [
+  "exec",
+  "process",
+  "write",
+  "edit",
+  "apply_patch",
+  "message",
+  "nodes",
+  "canvas",
+  "image_generate",
+  "music_generate",
+  "video_generate",
+  "tts",
+];
+
+const SUBAGENT_READ_ONLY_TOOL_ALLOW = [
+  "read",
+  "web_search",
+  "web_fetch",
+  "research_task",
+  "session_status",
+  "pdf",
 ];
 
 /**
@@ -108,6 +132,19 @@ export function resolveSubagentToolPolicyForSession(
   const explicitAllow = new Set(
     [...(allow ?? []), ...(alsoAllow ?? [])].map((toolName) => normalizeToolName(toolName)),
   );
+  if (capabilities.toolPolicy === "read_only") {
+    return {
+      allow: SUBAGENT_READ_ONLY_TOOL_ALLOW,
+      deny: [
+        ...SUBAGENT_TOOL_DENY_ALWAYS.filter(
+          (toolName) => normalizeToolName(toolName) !== "session_status",
+        ),
+        ...SUBAGENT_TOOL_DENY_LEAF,
+        ...SUBAGENT_READ_ONLY_TOOL_DENY,
+        ...(Array.isArray(configured?.deny) ? configured.deny : []),
+      ],
+    };
+  }
   const deny = [
     ...resolveSubagentDenyListForRole(capabilities.role).filter(
       (toolName) => !explicitAllow.has(normalizeToolName(toolName)),
@@ -116,6 +153,16 @@ export function resolveSubagentToolPolicyForSession(
   ];
   const mergedAllow = allow && alsoAllow ? Array.from(new Set([...allow, ...alsoAllow])) : allow;
   return { allow: mergedAllow, deny };
+}
+
+export function isReadOnlySubagentSession(
+  cfg: VelaclawConfig | undefined,
+  sessionKey: string | undefined | null,
+): boolean {
+  if (!sessionKey) {
+    return false;
+  }
+  return resolveStoredSubagentCapabilities(sessionKey, { cfg }).toolPolicy === "read_only";
 }
 
 export function filterToolsByPolicy(tools: AnyAgentTool[], policy?: SandboxToolPolicy) {

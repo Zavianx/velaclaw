@@ -538,6 +538,7 @@ export function createAgentEventHandler({
       spawnDepth: row?.spawnDepth,
       subagentRole: row?.subagentRole,
       subagentControlScope: row?.subagentControlScope,
+      subagentToolPolicy: row?.subagentToolPolicy,
       label: row?.label,
       displayName: row?.displayName,
       deliveryContext: row?.deliveryContext,
