@@ -423,6 +423,29 @@ See [ClawHub](docs/tools/clawhub.md), [Skills](docs/tools/skills.md), and [Web F
 
 <br/>
 
+## 🧑‍🔧 Session personal agent teams
+
+VelaClaw can run a temporary, session-local personal team when the user explicitly asks for multi-agent help, for example "open a team", "multi-agent", or "parallel agents". Helper agents are read-only, short-lived, and their outputs are treated as untrusted source material; the leader session still owns the final answer and any write or high-risk action.
+
+Automatic personal-team routing is conservative by default. To opt in to automatic helper selection for complex requests:
+
+```json
+{
+  "personalTeam": {
+    "enabled": true,
+    "autoAssist": true,
+    "maxAgents": 3,
+    "maxSpawnDepth": 1,
+    "writerPolicy": "leader_only",
+    "confidenceThreshold": 0.72
+  }
+}
+```
+
+Use explicit triggers first in production. Enable `autoAssist` only after you are comfortable with the extra latency, model usage, and helper-session behavior.
+
+<br/>
+
 ## 👥 Team setup
 
 <sub>Stand up a team in four commands. Capability details live in <a href="#-team-collaboration">Team collaboration</a> above.</sub>

@@ -14,6 +14,28 @@ const baseCfg: VelaclawConfig = {
 };
 
 describe("routePersonalTeam", () => {
+  it("defaults to explicit-only routing for complex requests", async () => {
+    const decision = await routePersonalTeam({
+      cfg: {},
+      userMessage: "帮我调研两个迁移方案，分析取舍，并验证主要风险和测试缺口",
+      sessionKey: "agent:main:main",
+    });
+
+    expect(decision.mode).toBe("solo");
+    expect(decision.reason).toBe("auto_assist_disabled");
+  });
+
+  it("still honors explicit team triggers with default config", async () => {
+    const decision = await routePersonalTeam({
+      cfg: {},
+      userMessage: "开团队帮我调研两个迁移方案，分析取舍，并验证主要风险",
+      sessionKey: "agent:main:main",
+    });
+
+    expect(decision.mode).toBe("team");
+    expect(decision.explicit).toBe(true);
+  });
+
   it("keeps simple questions solo", async () => {
     const decision = await routePersonalTeam({
       cfg: baseCfg,

@@ -94,7 +94,7 @@ const DEFAULT_EXPLICIT_TRIGGERS = [
 
 const DEFAULT_PERSONAL_TEAM_CONFIG: PersonalTeamResolvedConfig = {
   enabled: true,
-  autoAssist: true,
+  autoAssist: false,
   explicitTriggers: DEFAULT_EXPLICIT_TRIGGERS,
   maxAgents: 3,
   maxSpawnDepth: 1,

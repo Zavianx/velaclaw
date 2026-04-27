@@ -747,6 +747,9 @@ export async function runPreparedReply(
           return undefined;
         });
         const personalTeamExtraSystemPromptParts: Array<string | undefined> = [];
+        if (personalTeam?.systemPrompt) {
+          personalTeamExtraSystemPromptParts.push(personalTeam.systemPrompt);
+        }
         if (personalTeam?.promptContext) {
           prefixedCommandBody = `${personalTeam.promptContext}\n\n${prefixedCommandBody}`;
           followupRun.prompt = `${personalTeam.promptContext}\n\n${followupRun.prompt}`;

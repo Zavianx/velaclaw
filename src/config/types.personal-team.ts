@@ -3,7 +3,7 @@ export type PersonalTeamWriterPolicy = "leader_only";
 export type PersonalTeamConfig = {
   /** Enable session-local personal agent teams. Default: true. */
   enabled?: boolean;
-  /** Allow the router to auto-enable read-only helper agents for high-confidence complex tasks. */
+  /** Allow the router to auto-enable read-only helper agents for high-confidence complex tasks. Default: false. */
   autoAssist?: boolean;
   /** Phrases that force personal-team mode for the current user turn. */
   explicitTriggers?: string[];
