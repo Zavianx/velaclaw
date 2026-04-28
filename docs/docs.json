@@ -1618,6 +1618,20 @@
             ]
           }
         ]
+      },
+      {
+        "language": "cn",
+        "tabs": [
+          {
+            "tab": "概览",
+            "groups": [
+              {
+                "group": "开始",
+                "pages": ["cn/index", "cn/concepts/team"]
+              }
+            ]
+          }
+        ]
       }
     ]
   }
