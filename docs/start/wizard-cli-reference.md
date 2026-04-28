@@ -69,11 +69,11 @@ It does not install or modify anything on the remote host.
     - [WhatsApp](/channels/whatsapp): optional QR login
     - [Telegram](/channels/telegram): bot token
     - [Discord](/channels/discord): bot token
-    - [Google Chat](/channels/googlechat): service account JSON + webhook audience
-    - [Mattermost](/channels/mattermost): bot token + base URL
-    - [Signal](/channels/signal): optional `signal-cli` install + account config
-    - [BlueBubbles](/channels/bluebubbles): recommended for iMessage; server URL + password + webhook
-    - [iMessage](/channels/imessage): legacy `imsg` CLI path + DB access
+    - Google Chat: service account JSON + webhook audience
+    - Mattermost: bot token + base URL
+    - Signal: optional `signal-cli` install + account config
+    - BlueBubbles: recommended for iMessage; server URL + password + webhook
+    - iMessage: legacy `imsg` CLI path + DB access
     - DM security: default is pairing. First DM sends a code; approve via
       `velaclaw pairing approve <channel> <code>` or use allowlists.
 
@@ -174,7 +174,7 @@ What you set:
   </Accordion>
   <Accordion title="Vercel AI Gateway">
     Prompts for `AI_GATEWAY_API_KEY`.
-    More detail: [Vercel AI Gateway](/providers/vercel-ai-gateway).
+    More detail: Vercel AI Gateway.
 
   </Accordion>
   <Accordion title="Cloudflare AI Gateway">

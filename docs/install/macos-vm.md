@@ -223,7 +223,7 @@ Add to your Velaclaw config:
 
 Restart the gateway. Now your agent can send and receive iMessages.
 
-Full setup details: [BlueBubbles channel](/channels/bluebubbles)
+Full setup details: BlueBubbles channel
 
 ---
 
@@ -274,7 +274,7 @@ For true always-on, consider a dedicated Mac mini or a small VPS. See [VPS hosti
 - [VPS hosting](/vps)
 - [Nodes](/nodes)
 - [Gateway remote](/gateway/remote)
-- [BlueBubbles channel](/channels/bluebubbles)
+- BlueBubbles channel
 - [Lume Quickstart](https://cua.ai/docs/lume/guide/getting-started/quickstart)
 - [Lume CLI Reference](https://cua.ai/docs/lume/reference/cli-reference)
 - [Unattended VM Setup](https://cua.ai/docs/lume/guide/fundamentals/unattended-setup) (advanced)

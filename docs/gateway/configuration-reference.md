@@ -582,7 +582,7 @@ BlueBubbles is the recommended iMessage path (plugin-backed, configured under `c
 - Core key paths covered here: `channels.bluebubbles`, `channels.bluebubbles.dmPolicy`.
 - Optional `channels.bluebubbles.defaultAccount` overrides default account selection when it matches a configured account id.
 - Top-level `bindings[]` entries with `type: "acp"` can bind BlueBubbles conversations to persistent ACP sessions. Use a BlueBubbles handle or target string (`chat_id:*`, `chat_guid:*`, `chat_identifier:*`) in `match.peer.id`. Shared field semantics: [ACP Agents](/tools/acp-agents#channel-specific-settings).
-- Full BlueBubbles channel configuration is documented in [BlueBubbles](/channels/bluebubbles).
+- Full BlueBubbles channel configuration is documented in the BlueBubbles channel docs.
 
 ### iMessage
 
@@ -675,7 +675,7 @@ Matrix is extension-backed and configured under `channels.matrix`.
   - Per-account overrides: `channels.matrix.accounts.<id>.execApprovals`.
 - `channels.matrix.dm.sessionScope` controls how Matrix DMs group into sessions: `per-user` (default) shares by routed peer, while `per-room` isolates each DM room.
 - Matrix status probes and live directory lookups use the same proxy policy as runtime traffic.
-- Full Matrix configuration, targeting rules, and setup examples are documented in [Matrix](/channels/matrix).
+- Full Matrix configuration, targeting rules, and setup examples are documented in the Matrix channel docs.
 
 ### Microsoft Teams
 
@@ -695,7 +695,7 @@ Microsoft Teams is extension-backed and configured under `channels.msteams`.
 ```
 
 - Core key paths covered here: `channels.msteams`, `channels.msteams.configWrites`.
-- Full Teams config (credentials, webhook, DM/group policy, per-team/per-channel overrides) is documented in [Microsoft Teams](/channels/msteams).
+- Full Teams config (credentials, webhook, DM/group policy, per-team/per-channel overrides) is documented in the Microsoft Teams channel docs.
 
 ### IRC
 
@@ -722,7 +722,7 @@ IRC is extension-backed and configured under `channels.irc`.
 
 - Core key paths covered here: `channels.irc`, `channels.irc.dmPolicy`, `channels.irc.configWrites`, `channels.irc.nickserv.*`.
 - Optional `channels.irc.defaultAccount` overrides default account selection when it matches a configured account id.
-- Full IRC channel configuration (host/port/TLS/channels/allowlists/mention gating) is documented in [IRC](/channels/irc).
+- Full IRC channel configuration (host/port/TLS/channels/allowlists/mention gating) is documented in the IRC channel docs.
 
 ### Multi-account (all channels)
 
@@ -878,7 +878,7 @@ Include your own number in `allowFrom` to enable self-chat mode (ignores native 
   - channel-specific command surfaces: [Channels](/channels)
   - QQ Bot commands: [QQ Bot](/channels/qqbot)
   - pairing commands: [Pairing](/channels/pairing)
-  - LINE card command: [LINE](/channels/line)
+  - LINE card command
   - memory dreaming: [Dreaming](/concepts/dreaming)
 
 </Accordion>

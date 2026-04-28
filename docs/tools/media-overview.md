@@ -56,5 +56,5 @@ Video and music generation run as background tasks because provider processing t
 - [Image Generation](/tools/image-generation) -- generating and editing images
 - [Video Generation](/tools/video-generation) -- text-to-video, image-to-video, and video-to-video
 - [Music Generation](/tools/music-generation) -- creating music and audio tracks
-- [Text-to-Speech](/tools/tts) -- converting replies to spoken audio
+- Text-to-Speech -- converting replies to spoken audio
 - [Media Understanding](/nodes/media-understanding) -- understanding inbound images, audio, and video

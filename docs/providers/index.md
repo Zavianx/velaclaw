@@ -64,12 +64,12 @@ Looking for chat channel docs (WhatsApp/Telegram/Discord/Slack/Mattermost (plugi
 - [Synthetic](/providers/synthetic)
 - [Together AI](/providers/together)
 - [Venice (Venice AI, privacy-focused)](/providers/venice)
-- [Vercel AI Gateway](/providers/vercel-ai-gateway)
+- Vercel AI Gateway
 - [Vydra](/providers/vydra)
 - [vLLM (local models)](/providers/vllm)
 - [Volcengine (Doubao)](/providers/volcengine)
 - [xAI](/providers/xai)
-- [Xiaomi](/providers/xiaomi)
+- Xiaomi
 - [Z.AI](/providers/zai)
 
 ## Shared overview pages

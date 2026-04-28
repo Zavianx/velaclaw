@@ -45,7 +45,7 @@ model as `provider/model`.
 - [Runway](/providers/runway)
 - [StepFun](/providers/stepfun)
 - [Synthetic](/providers/synthetic)
-- [Vercel AI Gateway](/providers/vercel-ai-gateway)
+- Vercel AI Gateway
 - [Venice (Venice AI)](/providers/venice)
 - [xAI](/providers/xai)
 - [Z.AI](/providers/zai)

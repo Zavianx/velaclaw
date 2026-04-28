@@ -17,11 +17,11 @@ Velaclaw integrates external CLIs via JSON-RPC. Two patterns are used today.
 - Health probe: `/api/v1/check`.
 - Velaclaw owns lifecycle when `channels.signal.autoStart=true`.
 
-See [Signal](/channels/signal) for setup and endpoints.
+See the Signal channel docs for setup and endpoints.
 
 ## Pattern B: stdio child process (legacy: imsg)
 
-> **Note:** For new iMessage setups, use [BlueBubbles](/channels/bluebubbles) instead.
+> **Note:** For new iMessage setups, use BlueBubbles instead.
 
 - Velaclaw spawns `imsg rpc` as a child process (legacy iMessage integration).
 - JSON-RPC is line-delimited over stdin/stdout (one JSON object per line).
@@ -34,7 +34,7 @@ Core methods used:
 - `send`
 - `chats.list` (probe/diagnostics)
 
-See [iMessage](/channels/imessage) for legacy setup and addressing (`chat_id` preferred).
+See the iMessage channel docs for legacy setup and addressing (`chat_id` preferred).
 
 ## Adapter guidelines
 

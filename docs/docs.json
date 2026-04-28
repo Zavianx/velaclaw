@@ -121,10 +121,6 @@
       "destination": "/tools/kimi-search"
     },
     {
-      "source": "/tts",
-      "destination": "/tools/tts"
-    },
-    {
       "source": "/messages",
       "destination": "/concepts/messages"
     },
@@ -147,10 +143,6 @@
     {
       "source": "/minimax",
       "destination": "/providers/minimax"
-    },
-    {
-      "source": "/xiaomi",
-      "destination": "/providers/xiaomi"
     },
     {
       "source": "/openai",
@@ -193,14 +185,6 @@
       "destination": "/providers/qianfan"
     },
     {
-      "source": "/mattermost",
-      "destination": "/channels/mattermost"
-    },
-    {
-      "source": "/line",
-      "destination": "/channels/line"
-    },
-    {
       "source": "/glm",
       "destination": "/providers/glm"
     },
@@ -217,36 +201,12 @@
       "destination": "/channels/discord"
     },
     {
-      "source": "/providers/googlechat",
-      "destination": "/channels/googlechat"
-    },
-    {
       "source": "/providers/grammy",
       "destination": "/channels/telegram"
     },
     {
-      "source": "/providers/imessage",
-      "destination": "/channels/imessage"
-    },
-    {
       "source": "/providers/location",
       "destination": "/channels/location"
-    },
-    {
-      "source": "/providers/mattermost",
-      "destination": "/channels/mattermost"
-    },
-    {
-      "source": "/providers/msteams",
-      "destination": "/channels/msteams"
-    },
-    {
-      "source": "/providers/line",
-      "destination": "/channels/line"
-    },
-    {
-      "source": "/providers/signal",
-      "destination": "/channels/signal"
     },
     {
       "source": "/providers/slack",
@@ -259,10 +219,6 @@
     {
       "source": "/providers/troubleshooting",
       "destination": "/channels/troubleshooting"
-    },
-    {
-      "source": "/providers/zalo",
-      "destination": "/channels/zalo"
     },
     {
       "source": "/providers/whatsapp",
@@ -481,10 +437,6 @@
       "destination": "/nodes/images"
     },
     {
-      "source": "/imessage",
-      "destination": "/channels/imessage"
-    },
-    {
       "source": "/ios",
       "destination": "/platforms/ios"
     },
@@ -679,10 +631,6 @@
     {
       "source": "/showcase",
       "destination": "/start/showcase"
-    },
-    {
-      "source": "/signal",
-      "destination": "/channels/signal"
     },
     {
       "source": "/skills",
@@ -927,7 +875,7 @@
             "groups": [
               {
                 "group": "Overview",
-                "pages": ["index", "start/showcase", "concepts/features"]
+                "pages": ["index", "concepts/team", "start/showcase", "concepts/features"]
               },
               {
                 "group": "First steps",
@@ -992,7 +940,6 @@
                 "pages": [
                   "install/updating",
                   "install/migrating",
-                  "install/migrating-matrix",
                   "install/uninstall",
                   "install/development-channels"
                 ]
@@ -1009,28 +956,13 @@
               {
                 "group": "Messaging platforms",
                 "pages": [
-                  "channels/bluebubbles",
                   "channels/discord",
-                  "channels/feishu",
-                  "channels/googlechat",
-                  "channels/imessage",
-                  "channels/irc",
-                  "channels/line",
-                  "channels/matrix",
-                  "channels/mattermost",
-                  "channels/msteams",
-                  "channels/nextcloud-talk",
-                  "channels/nostr",
                   "channels/qqbot",
-                  "channels/signal",
                   "channels/slack",
-                  "channels/synology-chat",
                   "channels/telegram",
                   "channels/tlon",
                   "channels/twitch",
-                  "channels/whatsapp",
-                  "channels/zalo",
-                  "channels/zalouser"
+                  "channels/whatsapp"
                 ]
               },
               {
@@ -1121,9 +1053,7 @@
                   "plugins/bundles",
                   "plugins/codex-harness",
                   "plugins/webhooks",
-                  "plugins/voice-call",
                   "plugins/memory-wiki",
-                  "plugins/zalouser",
                   {
                     "group": "Building Plugins",
                     "pages": [
@@ -1285,12 +1215,10 @@
                   "providers/synthetic",
                   "providers/together",
                   "providers/venice",
-                  "providers/vercel-ai-gateway",
                   "providers/vllm",
                   "providers/volcengine",
                   "providers/vydra",
                   "providers/xai",
-                  "providers/xiaomi",
                   "providers/zai"
                 ]
               }
@@ -1419,8 +1347,7 @@
                       "nodes/media-understanding",
                       "nodes/images",
                       "nodes/audio",
-                      "nodes/camera",
-                      "tools/tts"
+                      "nodes/camera"
                     ]
                   },
                   {
@@ -1627,7 +1554,15 @@
             "groups": [
               {
                 "group": "开始",
-                "pages": ["cn/index", "cn/concepts/team"]
+                "pages": ["cn/index", "cn/concepts/team", "cn/concepts/features"]
+              },
+              {
+                "group": "上手",
+                "pages": [
+                  "cn/start/getting-started",
+                  "cn/start/onboarding-overview",
+                  "cn/start/wizard"
+                ]
               }
             ]
           }

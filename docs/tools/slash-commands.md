@@ -128,7 +128,6 @@ Built-in commands available today:
 - `/plugins list|inspect|show|get|install|enable|disable` inspects or mutates plugin state. `/plugin` is an alias. Owner-only for writes. Requires `commands.plugins: true`.
 - `/debug show|set|unset|reset` manages runtime-only config overrides. Owner-only. Requires `commands.debug: true`.
 - `/usage off|tokens|full|cost` controls the per-response usage footer or prints a local cost summary.
-- `/tts on|off|status|provider|limit|summary|audio|help` controls TTS. See [/tools/tts](/tools/tts).
 - `/restart` restarts Velaclaw when enabled. Default: enabled; set `commands.restart: false` to disable it.
 - `/activation mention|always` sets group activation mode.
 - `/send on|off|inherit` sets send policy. Owner-only.
@@ -153,7 +152,6 @@ Bundled plugins can add more slash commands. Current bundled commands in this re
 - `/pair [qr|status|pending|approve|cleanup|notify]` manages device pairing/setup flow. See [Pairing](/channels/pairing).
 - `/phone status|arm <camera|screen|writes|all> [duration]|disarm` temporarily arms high-risk phone node commands.
 - `/voice status|list [limit]|set <voiceId|name>` manages Talk voice config. On Discord, the native command name is `/talkvoice`.
-- `/card ...` sends LINE rich card presets. See [LINE](/channels/line).
 - `/codex status|models|threads|resume|compact|review|account|mcp|skills` inspects and controls the bundled Codex app-server harness. See [Codex Harness](/plugins/codex-harness).
 - QQBot-only commands:
   - `/bot-ping`

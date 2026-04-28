@@ -230,5 +230,5 @@ When no `--judge-model` is passed, the judges default to
 ## Related docs
 
 - [Testing](/help/testing)
-- [QA Channel](/channels/qa-channel)
+- QA Channel
 - [Dashboard](/web/dashboard)

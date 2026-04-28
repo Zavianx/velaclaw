@@ -82,14 +82,7 @@ and the [Plugin SDK Overview](/plugins/sdk-overview).
 
 ### Installable (npm)
 
-| Plugin          | Package                | Docs                                 |
-| --------------- | ---------------------- | ------------------------------------ |
-| Matrix          | `@velaclaw/matrix`     | [Matrix](/channels/matrix)           |
-| Microsoft Teams | `@velaclaw/msteams`    | [Microsoft Teams](/channels/msteams) |
-| Nostr           | `@velaclaw/nostr`      | [Nostr](/channels/nostr)             |
-| Voice Call      | `@velaclaw/voice-call` | [Voice Call](/plugins/voice-call)    |
-| Zalo            | `@velaclaw/zalo`       | [Zalo](/channels/zalo)               |
-| Zalo Personal   | `@velaclaw/zalouser`   | [Zalo Personal](/plugins/zalouser)   |
+_No installable npm plugins shipped at the moment. Channel and runtime extensions live in the core bundle._
 
 ### Core (shipped with Velaclaw)
 

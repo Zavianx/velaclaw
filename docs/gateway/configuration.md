@@ -109,13 +109,13 @@ When validation fails:
     - [WhatsApp](/channels/whatsapp) — `channels.whatsapp`
     - [Telegram](/channels/telegram) — `channels.telegram`
     - [Discord](/channels/discord) — `channels.discord`
-    - [Feishu](/channels/feishu) — `channels.feishu`
-    - [Google Chat](/channels/googlechat) — `channels.googlechat`
-    - [Microsoft Teams](/channels/msteams) — `channels.msteams`
+    - Feishu — `channels.feishu`
+    - Google Chat — `channels.googlechat`
+    - Microsoft Teams — `channels.msteams`
     - [Slack](/channels/slack) — `channels.slack`
-    - [Signal](/channels/signal) — `channels.signal`
-    - [iMessage](/channels/imessage) — `channels.imessage`
-    - [Mattermost](/channels/mattermost) — `channels.mattermost`
+    - Signal — `channels.signal`
+    - iMessage — `channels.imessage`
+    - Mattermost — `channels.mattermost`
 
     All channels share the same DM policy pattern:
 

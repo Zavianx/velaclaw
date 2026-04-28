@@ -90,8 +90,8 @@ Full troubleshooting: [/channels/slack#troubleshooting](/channels/slack#troubles
 
 Full troubleshooting:
 
-- [/channels/imessage#troubleshooting](/channels/imessage#troubleshooting)
-- [/channels/bluebubbles#troubleshooting](/channels/bluebubbles#troubleshooting)
+- /channels/imessage#troubleshooting
+- /channels/bluebubbles#troubleshooting
 
 ## Signal
 
@@ -103,7 +103,7 @@ Full troubleshooting:
 | DM blocked                      | `velaclaw pairing list signal`             | Approve sender or adjust DM policy.                      |
 | Group replies do not trigger    | Check group allowlist and mention patterns | Add sender/group or loosen gating.                       |
 
-Full troubleshooting: [/channels/signal#troubleshooting](/channels/signal#troubleshooting)
+Full troubleshooting: /channels/signal#troubleshooting
 
 ## QQ Bot
 
@@ -130,4 +130,4 @@ Full troubleshooting: [/channels/qqbot#troubleshooting](/channels/qqbot#troubles
 | Backup restore is pending/broken    | `velaclaw matrix verify backup status` | Run `velaclaw matrix verify backup restore` or rerun with a recovery key. |
 | Cross-signing/bootstrap looks wrong | `velaclaw matrix verify bootstrap`     | Repair secret storage, cross-signing, and backup state in one pass.       |
 
-Full setup and config: [Matrix](/channels/matrix)
+Full setup and config: Matrix

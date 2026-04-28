@@ -12,7 +12,7 @@ title: "voicecall"
 
 Primary doc:
 
-- Voice-call plugin: [Voice Call](/plugins/voice-call)
+- Voice-call plugin
 
 ## Common commands
 
