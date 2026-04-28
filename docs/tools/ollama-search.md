@@ -24,6 +24,7 @@ default. It does require:
 <Steps>
   <Step title="Start Ollama">
     Make sure Ollama is installed and running.
+
   </Step>
   <Step title="Sign in">
     Run:

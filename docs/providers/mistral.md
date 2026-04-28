@@ -21,6 +21,7 @@ Mistral can also be used for memory embeddings (`memorySearch.provider = "mistra
 <Steps>
   <Step title="Get your API key">
     Create an API key in the [Mistral Console](https://console.mistral.ai/).
+
   </Step>
   <Step title="Run onboarding">
     ```bash
@@ -41,11 +42,13 @@ Mistral can also be used for memory embeddings (`memorySearch.provider = "mistra
       agents: { defaults: { model: { primary: "mistral/mistral-large-latest" } } },
     }
     ```
+
   </Step>
   <Step title="Verify the model is available">
     ```bash
     velaclaw models list --provider mistral
     ```
+
   </Step>
 </Steps>
 
@@ -99,6 +102,7 @@ The media transcription path uses `/v1/audio/transcriptions`. The default audio 
 
     <Note>
     Other bundled Mistral catalog models do not use this parameter. Keep using `magistral-*` models when you want Mistral's native reasoning-first behavior.
+
     </Note>
 
   </Accordion>
@@ -119,6 +123,7 @@ The media transcription path uses `/v1/audio/transcriptions`. The default audio 
     - Provider base URL defaults to `https://api.mistral.ai/v1`.
     - Onboarding default model is `mistral/mistral-large-latest`.
     - Z.AI uses Bearer auth with your API key.
+
   </Accordion>
 </AccordionGroup>
 
@@ -127,8 +132,10 @@ The media transcription path uses `/v1/audio/transcriptions`. The default audio 
 <CardGroup cols={2}>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
-  <Card title="Media understanding" href="/tools/media-understanding" icon="microphone">
+  <Card title="Media understanding" href="/tools/media-overview" icon="microphone">
     Audio transcription setup and provider selection.
+
   </Card>
 </CardGroup>

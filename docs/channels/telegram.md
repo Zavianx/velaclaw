@@ -12,12 +12,15 @@ Status: production-ready for bot DMs + groups via grammY. Long polling is the de
 <CardGroup cols={3}>
   <Card title="Pairing" icon="link" href="/channels/pairing">
     Default DM policy for Telegram is pairing.
+
   </Card>
   <Card title="Channel troubleshooting" icon="wrench" href="/channels/troubleshooting">
     Cross-channel diagnostics and repair playbooks.
+
   </Card>
   <Card title="Gateway configuration" icon="settings" href="/gateway/configuration">
     Full channel config patterns and examples.
+
   </Card>
 </CardGroup>
 
@@ -65,6 +68,7 @@ velaclaw pairing approve telegram <CODE>
 
   <Step title="Add the bot to a group">
     Add the bot to your group, then set `channels.telegram.groups` and `groupPolicy` to match your access model.
+
   </Step>
 </Steps>
 
@@ -207,6 +211,7 @@ curl "https://api.telegram.org/bot<bot_token>/getUpdates"
       - Put negative Telegram group or supergroup chat IDs like `-1001234567890` under `channels.telegram.groups`.
       - Put Telegram user IDs like `8734062810` under `groupAllowFrom` when you want to limit which people inside an allowed group can trigger the bot.
       - Use `groupAllowFrom: ["*"]` only when you want any member of an allowed group to be able to talk to the bot.
+
     </Warning>
 
   </Tab>
@@ -960,6 +965,7 @@ channels:
       environments such as Clash, Mihomo, or Surge fake-IP routing when they
       synthesize private or special-use answers outside the RFC 2544 benchmark
       range. Leave it off for normal public internet Telegram access.
+
     </Warning>
 
     - Environment overrides (temporary):

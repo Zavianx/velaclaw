@@ -24,12 +24,14 @@ Feishu/Lark is an all-in-one collaboration platform where teams chat, share docu
   velaclaw channels login --channel feishu
   ```
   Scan the QR code with your Feishu/Lark mobile app to create a Feishu/Lark bot automatically.
+
   </Step>
   
   <Step title="After setup completes, restart the gateway to apply the changes">
   ```bash
   velaclaw gateway restart
   ```
+
   </Step>
 </Steps>
 

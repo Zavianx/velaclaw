@@ -23,6 +23,7 @@ OpenAI-compatible endpoint with API-key authentication.
 <Steps>
   <Step title="Get an API key">
     Create an API key in the [Xiaomi MiMo console](https://platform.xiaomimimo.com/#/console/api-keys).
+
   </Step>
   <Step title="Run onboarding">
     ```bash
@@ -40,6 +41,7 @@ OpenAI-compatible endpoint with API-key authentication.
     ```bash
     velaclaw models list --provider xiaomi
     ```
+
   </Step>
 </Steps>
 
@@ -106,6 +108,7 @@ The default model ref is `xiaomi/mimo-v2-flash`. The provider is injected automa
 <AccordionGroup>
   <Accordion title="Auto-injection behavior">
     The `xiaomi` provider is injected automatically when `XIAOMI_API_KEY` is set in your environment or an auth profile exists. You do not need to manually configure the provider unless you want to override model metadata or the base URL.
+
   </Accordion>
 
   <Accordion title="Model details">
@@ -115,6 +118,7 @@ The default model ref is `xiaomi/mimo-v2-flash`. The provider is injected automa
 
     <Note>
     All models use the `xiaomi/` prefix (for example `xiaomi/mimo-v2-pro`).
+
     </Note>
 
   </Accordion>
@@ -125,6 +129,7 @@ The default model ref is `xiaomi/mimo-v2-flash`. The provider is injected automa
 
     <Warning>
     Keys set only in your interactive shell are not visible to daemon-managed gateway processes. Use `~/.velaclaw/.env` or `env.shellEnv` config for persistent availability.
+
     </Warning>
 
   </Accordion>
@@ -135,11 +140,14 @@ The default model ref is `xiaomi/mimo-v2-flash`. The provider is injected automa
 <CardGroup cols={2}>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
   <Card title="Configuration reference" href="/gateway/configuration" icon="gear">
     Full Velaclaw configuration reference.
+
   </Card>
   <Card title="Xiaomi MiMo console" href="https://platform.xiaomimimo.com" icon="arrow-up-right-from-square">
     Xiaomi MiMo dashboard and API key management.
+
   </Card>
 </CardGroup>

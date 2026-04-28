@@ -39,17 +39,21 @@ await web_fetch({ url: "https://example.com/article" });
   <Step title="Fetch">
     Sends an HTTP GET with a Chrome-like User-Agent and `Accept-Language`
     header. Blocks private/internal hostnames and re-checks redirects.
+
   </Step>
   <Step title="Extract">
     Runs Readability (main-content extraction) on the HTML response.
+
   </Step>
   <Step title="Fallback (optional)">
     If Readability fails and Firecrawl is configured, retries through the
     Firecrawl API with bot-circumvention mode.
+
   </Step>
   <Step title="Cache">
     Results are cached for 15 minutes (configurable) to reduce repeated
     fetches of the same URL.
+
   </Step>
 </Steps>
 

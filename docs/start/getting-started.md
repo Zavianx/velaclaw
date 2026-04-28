@@ -38,16 +38,20 @@ Need to install Node? See [Node setup](/install/node).
   alt="Install Script Process"
   className="rounded-lg"
 />
+
       </Tab>
       <Tab title="Windows (PowerShell)">
         ```powershell
         iwr -useb https://velaclaw.ai/install.ps1 | iex
         ```
+
       </Tab>
+
     </Tabs>
 
     <Note>
     Other install methods (Docker, Nix, npm): [Install](/install).
+
     </Note>
 
   </Step>
@@ -125,15 +129,19 @@ velaclaw dashboard
 <Columns>
   <Card title="Connect a channel" href="/channels" icon="message-square">
     Discord, Feishu, iMessage, Matrix, Microsoft Teams, Signal, Slack, Telegram, WhatsApp, Zalo, and more.
+
   </Card>
   <Card title="Pairing and safety" href="/channels/pairing" icon="shield">
     Control who can message your agent.
+
   </Card>
   <Card title="Configure the Gateway" href="/gateway/configuration" icon="settings">
     Models, tools, sandbox, and advanced settings.
+
   </Card>
   <Card title="Browse tools" href="/tools" icon="wrench">
     Browser, exec, web search, skills, and plugins.
+
   </Card>
 </Columns>
 

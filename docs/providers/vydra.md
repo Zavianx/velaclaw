@@ -39,6 +39,7 @@ Vydra's apex host (`https://vydra.ai/api/v1`) currently redirects to `www`. Some
   </Step>
   <Step title="Choose a default capability">
     Pick one or more of the capabilities below (image, video, or speech) and apply the matching configuration.
+
   </Step>
 </Steps>
 
@@ -68,6 +69,7 @@ Vydra's apex host (`https://vydra.ai/api/v1`) currently redirects to `www`. Some
 
     <Note>
     See [Image Generation](/tools/image-generation) for shared tool parameters, provider selection, and failover behavior.
+
     </Note>
 
   </Accordion>
@@ -101,6 +103,7 @@ Vydra's apex host (`https://vydra.ai/api/v1`) currently redirects to `www`. Some
 
     <Note>
     See [Video Generation](/tools/video-generation) for shared tool parameters, provider selection, and failover behavior.
+
     </Note>
 
   </Accordion>
@@ -161,14 +164,18 @@ Vydra's apex host (`https://vydra.ai/api/v1`) currently redirects to `www`. Some
 <CardGroup cols={2}>
   <Card title="Provider directory" href="/providers/index" icon="list">
     Browse all available providers.
+
   </Card>
   <Card title="Image generation" href="/tools/image-generation" icon="image">
     Shared image tool parameters and provider selection.
+
   </Card>
   <Card title="Video generation" href="/tools/video-generation" icon="video">
     Shared video tool parameters and provider selection.
+
   </Card>
   <Card title="Configuration reference" href="/gateway/configuration-reference#agent-defaults" icon="gear">
     Agent defaults and model configuration.
+
   </Card>
 </CardGroup>

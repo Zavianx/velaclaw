@@ -29,20 +29,25 @@ Choose your preferred setup method and mode.
         ```
 
         Select **Ollama** from the provider list.
+
       </Step>
       <Step title="Choose your mode">
         - **Cloud + Local** — local Ollama host plus cloud models routed through that host
         - **Cloud only** — hosted Ollama models via `https://ollama.com`
         - **Local only** — local models only
+
       </Step>
       <Step title="Select a model">
         `Cloud only` prompts for `OLLAMA_API_KEY` and suggests hosted cloud defaults. `Cloud + Local` and `Local only` ask for an Ollama base URL, discover available models, and auto-pull the selected local model if it is not available yet. `Cloud + Local` also checks whether that Ollama host is signed in for cloud access.
+
       </Step>
       <Step title="Verify the model is available">
         ```bash
         velaclaw models list --provider ollama
         ```
+
       </Step>
+
     </Steps>
 
     ### Non-interactive mode
@@ -73,6 +78,7 @@ Choose your preferred setup method and mode.
         - **Cloud + Local**: install Ollama, sign in with `ollama signin`, and route cloud requests through that host
         - **Cloud only**: use `https://ollama.com` with an `OLLAMA_API_KEY`
         - **Local only**: install Ollama from [ollama.com/download](https://ollama.com/download)
+
       </Step>
       <Step title="Pull a local model (local only)">
         ```bash
@@ -82,6 +88,7 @@ Choose your preferred setup method and mode.
         # or
         ollama pull llama3.3
         ```
+
       </Step>
       <Step title="Enable Ollama for Velaclaw">
         For `Cloud only`, use your real `OLLAMA_API_KEY`. For host-backed setups, any placeholder value works:
@@ -96,6 +103,7 @@ Choose your preferred setup method and mode.
         # Or configure in your config file
         velaclaw config set models.providers.ollama.apiKey "OLLAMA_API_KEY"
         ```
+
       </Step>
       <Step title="Inspect and set your model">
         ```bash
@@ -114,7 +122,9 @@ Choose your preferred setup method and mode.
           },
         }
         ```
+
       </Step>
+
     </Steps>
 
   </Tab>
@@ -192,6 +202,7 @@ If you set `models.providers.ollama` explicitly, auto-discovery is skipped and y
 
     <Tip>
     If `OLLAMA_API_KEY` is set, you can omit `apiKey` in the provider entry and Velaclaw will fill it for availability checks.
+
     </Tip>
 
   </Tab>
@@ -245,6 +256,7 @@ If you set `models.providers.ollama` explicitly, auto-discovery is skipped and y
 
     <Warning>
     Do not add `/v1` to the URL. The `/v1` path uses OpenAI-compatible mode, where tool calling is not reliable. Use the base Ollama URL without a path suffix.
+
     </Warning>
 
   </Tab>
@@ -301,6 +313,7 @@ For the full setup and behavior details, see [Ollama Web Search](/tools/ollama-s
   <Accordion title="Legacy OpenAI-compatible mode">
     <Warning>
     **Tool calling is not reliable in OpenAI-compatible mode.** Use this mode only if you need OpenAI format for a proxy and do not depend on native tool calling behavior.
+
     </Warning>
 
     If you need to use the OpenAI-compatible endpoint instead (for example, behind a proxy that only supports OpenAI format), set `api: "openai-completions"` explicitly:
@@ -381,6 +394,7 @@ For the full setup and behavior details, see [Ollama Web Search](/tools/ollama-s
 
   <Accordion title="Model costs">
     Ollama is free and runs locally, so all model costs are set to $0. This applies to both auto-discovered and manually defined models.
+
   </Accordion>
 
   <Accordion title="Memory embeddings">
@@ -412,6 +426,7 @@ For the full setup and behavior details, see [Ollama Web Search](/tools/ollama-s
 
     <Tip>
     If you need to use the OpenAI-compatible endpoint, see the "Legacy OpenAI-compatible mode" section above. Streaming and tool calling may not work simultaneously in that mode.
+
     </Tip>
 
   </Accordion>
@@ -470,14 +485,18 @@ More help: [Troubleshooting](/help/troubleshooting) and [FAQ](/help/faq).
 <CardGroup cols={2}>
   <Card title="Model providers" href="/concepts/model-providers" icon="layers">
     Overview of all providers, model refs, and failover behavior.
+
   </Card>
   <Card title="Model selection" href="/concepts/models" icon="brain">
     How to choose and configure models.
+
   </Card>
   <Card title="Ollama Web Search" href="/tools/ollama-search" icon="magnifying-glass">
     Full setup and behavior details for Ollama-powered web search.
+
   </Card>
   <Card title="Configuration" href="/gateway/configuration" icon="gear">
     Full config reference.
+
   </Card>
 </CardGroup>

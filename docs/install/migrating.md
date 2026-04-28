@@ -44,6 +44,7 @@ Custom profiles use `~/.velaclaw-<profile>/` or a path set via `VELACLAW_STATE_D
   <Step title="Install Velaclaw on the new machine">
     [Install](/install) the CLI (and Node if needed) on the new machine.
     It is fine if onboarding creates a fresh `~/.velaclaw/` -- you will overwrite it next.
+
   </Step>
 
   <Step title="Copy state directory and workspace">
@@ -77,28 +78,33 @@ Custom profiles use `~/.velaclaw-<profile>/` or a path set via `VELACLAW_STATE_D
     If the old gateway used `--profile` or `VELACLAW_STATE_DIR` and the new one does not,
     channels will appear logged out and sessions will be empty.
     Launch the gateway with the **same** profile or state-dir you migrated, then rerun `velaclaw doctor`.
+
   </Accordion>
 
   <Accordion title="Copying only velaclaw.json">
     The config file alone is not enough. Model auth profiles live under
     `agents/<agentId>/agent/auth-profiles.json`, and channel/provider state still
     lives under `credentials/`. Always migrate the **entire** state directory.
+
   </Accordion>
 
   <Accordion title="Permissions and ownership">
     If you copied as root or switched users, the gateway may fail to read credentials.
     Ensure the state directory and workspace are owned by the user running the gateway.
+
   </Accordion>
 
   <Accordion title="Remote mode">
     If your UI points at a **remote** gateway, the remote host owns sessions and workspace.
     Migrate the gateway host itself, not your local laptop. See [FAQ](/help/faq#where-things-live-on-disk).
+
   </Accordion>
 
   <Accordion title="Secrets in backups">
     The state directory contains auth profiles, channel credentials, and other
     provider state.
     Store backups encrypted, avoid insecure transfer channels, and rotate keys if you suspect exposure.
+
   </Accordion>
 </AccordionGroup>
 

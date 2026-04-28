@@ -60,6 +60,7 @@ velaclaw onboard --non-interactive \
       --gateway-port 18789 \
       --gateway-bind loopback
     ```
+
   </Accordion>
   <Accordion title="Gemini example">
     ```bash
@@ -70,6 +71,7 @@ velaclaw onboard --non-interactive \
       --gateway-port 18789 \
       --gateway-bind loopback
     ```
+
   </Accordion>
   <Accordion title="Z.AI example">
     ```bash
@@ -80,6 +82,7 @@ velaclaw onboard --non-interactive \
       --gateway-port 18789 \
       --gateway-bind loopback
     ```
+
   </Accordion>
   <Accordion title="Vercel AI Gateway example">
     ```bash
@@ -90,6 +93,7 @@ velaclaw onboard --non-interactive \
       --gateway-port 18789 \
       --gateway-bind loopback
     ```
+
   </Accordion>
   <Accordion title="Cloudflare AI Gateway example">
     ```bash
@@ -102,6 +106,7 @@ velaclaw onboard --non-interactive \
       --gateway-port 18789 \
       --gateway-bind loopback
     ```
+
   </Accordion>
   <Accordion title="Moonshot example">
     ```bash
@@ -112,6 +117,7 @@ velaclaw onboard --non-interactive \
       --gateway-port 18789 \
       --gateway-bind loopback
     ```
+
   </Accordion>
   <Accordion title="Mistral example">
     ```bash
@@ -122,6 +128,7 @@ velaclaw onboard --non-interactive \
       --gateway-port 18789 \
       --gateway-bind loopback
     ```
+
   </Accordion>
   <Accordion title="Synthetic example">
     ```bash
@@ -132,6 +139,7 @@ velaclaw onboard --non-interactive \
       --gateway-port 18789 \
       --gateway-bind loopback
     ```
+
   </Accordion>
   <Accordion title="OpenCode example">
     ```bash
@@ -143,6 +151,7 @@ velaclaw onboard --non-interactive \
       --gateway-bind loopback
     ```
     Swap to `--auth-choice opencode-go --opencode-go-api-key "$OPENCODE_API_KEY"` for the Go catalog.
+
   </Accordion>
   <Accordion title="Ollama example">
     ```bash
@@ -154,6 +163,7 @@ velaclaw onboard --non-interactive \
       --gateway-port 18789 \
       --gateway-bind loopback
     ```
+
   </Accordion>
   <Accordion title="Custom provider example">
     ```bash

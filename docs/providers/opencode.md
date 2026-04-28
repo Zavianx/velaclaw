@@ -36,17 +36,21 @@ as one OpenCode setup.
         ```bash
         velaclaw onboard --opencode-zen-api-key "$OPENCODE_API_KEY"
         ```
+
       </Step>
       <Step title="Set a Zen model as the default">
         ```bash
         velaclaw config set agents.defaults.model.primary "opencode/claude-opus-4-6"
         ```
+
       </Step>
       <Step title="Verify models are available">
         ```bash
         velaclaw models list --provider opencode
         ```
+
       </Step>
+
     </Steps>
 
   </Tab>
@@ -65,17 +69,21 @@ as one OpenCode setup.
         ```bash
         velaclaw onboard --opencode-go-api-key "$OPENCODE_API_KEY"
         ```
+
       </Step>
       <Step title="Set a Go model as the default">
         ```bash
         velaclaw config set agents.defaults.model.primary "opencode-go/kimi-k2.5"
         ```
+
       </Step>
       <Step title="Verify models are available">
         ```bash
         velaclaw models list --provider opencode-go
         ```
+
       </Step>
+
     </Steps>
 
   </Tab>
@@ -111,26 +119,31 @@ as one OpenCode setup.
 <AccordionGroup>
   <Accordion title="API key aliases">
     `OPENCODE_ZEN_API_KEY` is also supported as an alias for `OPENCODE_API_KEY`.
+
   </Accordion>
 
   <Accordion title="Shared credentials">
     Entering one OpenCode key during setup stores credentials for both runtime
     providers. You do not need to onboard each catalog separately.
+
   </Accordion>
 
   <Accordion title="Billing and dashboard">
     You sign in to OpenCode, add billing details, and copy your API key. Billing
     and catalog availability are managed from the OpenCode dashboard.
+
   </Accordion>
 
   <Accordion title="Gemini replay behavior">
     Gemini-backed OpenCode refs stay on the proxy-Gemini path, so Velaclaw keeps
     Gemini thought-signature sanitation there without enabling native Gemini
     replay validation or bootstrap rewrites.
+
   </Accordion>
 
   <Accordion title="Non-Gemini replay behavior">
     Non-Gemini OpenCode refs keep the minimal OpenAI-compatible replay policy.
+
   </Accordion>
 </AccordionGroup>
 
@@ -144,8 +157,10 @@ Go runtime providers, so you only need to onboard once.
 <CardGroup cols={2}>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
   <Card title="Configuration reference" href="/gateway/configuration-reference" icon="gear">
     Full config reference for agents, models, and providers.
+
   </Card>
 </CardGroup>

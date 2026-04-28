@@ -46,10 +46,12 @@ it uses the pre-recorded transcription endpoint.
       },
     }
     ```
+
   </Step>
   <Step title="Send a voice note">
     Send an audio message through any connected channel. Velaclaw transcribes it
     via Deepgram and injects the transcript into the reply pipeline.
+
   </Step>
 </Steps>
 
@@ -77,6 +79,7 @@ it uses the pre-recorded transcription endpoint.
       },
     }
     ```
+
   </Tab>
   <Tab title="With Deepgram options">
     ```json5
@@ -98,6 +101,7 @@ it uses the pre-recorded transcription endpoint.
       },
     }
     ```
+
   </Tab>
 </Tabs>
 
@@ -107,14 +111,17 @@ it uses the pre-recorded transcription endpoint.
   <Accordion title="Authentication">
     Authentication follows the standard provider auth order. `DEEPGRAM_API_KEY` is
     the simplest path.
+
   </Accordion>
   <Accordion title="Proxy and custom endpoints">
     Override endpoints or headers with `tools.media.audio.baseUrl` and
     `tools.media.audio.headers` when using a proxy.
+
   </Accordion>
   <Accordion title="Output behavior">
     Output follows the same audio rules as other providers (size caps, timeouts,
     transcript injection).
+
   </Accordion>
 </AccordionGroup>
 
@@ -127,16 +134,20 @@ it into the conversation.
 ## Related
 
 <CardGroup cols={2}>
-  <Card title="Media tools" href="/tools/media" icon="photo-film">
+  <Card title="Media tools" href="/tools/media-overview" icon="photo-film">
     Audio, image, and video processing pipeline overview.
+
   </Card>
-  <Card title="Configuration" href="/configuration" icon="gear">
+  <Card title="Configuration" href="/gateway/configuration" icon="gear">
     Full config reference including media tool settings.
+
   </Card>
   <Card title="Troubleshooting" href="/help/troubleshooting" icon="wrench">
     Common issues and debugging steps.
+
   </Card>
   <Card title="FAQ" href="/help/faq" icon="circle-question">
     Frequently asked questions about Velaclaw setup.
+
   </Card>
 </CardGroup>

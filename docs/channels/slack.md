@@ -12,12 +12,15 @@ Status: production-ready for DMs + channels via Slack app integrations. Default 
 <CardGroup cols={3}>
   <Card title="Pairing" icon="link" href="/channels/pairing">
     Slack DMs default to pairing mode.
+
   </Card>
   <Card title="Slash commands" icon="terminal" href="/tools/slash-commands">
     Native command behavior and command catalog.
+
   </Card>
   <Card title="Channel troubleshooting" icon="wrench" href="/channels/troubleshooting">
     Cross-channel diagnostics and repair playbooks.
+
   </Card>
 </CardGroup>
 
@@ -33,6 +36,7 @@ Status: production-ready for DMs + channels via Slack app integrations. Default 
         - paste the [example manifest](#manifest-and-scope-checklist) from below and continue to create
         - generate an **App-Level Token** (`xapp-...`) with `connections:write`
         - install app and copy the **Bot Token** (`xoxb-...`) shown
+
       </Step>
 
       <Step title="Configure Velaclaw">
@@ -66,6 +70,7 @@ velaclaw gateway
 ```
 
       </Step>
+
     </Steps>
 
   </Tab>
@@ -102,6 +107,7 @@ velaclaw gateway
         Use unique webhook paths for multi-account HTTP
 
         Give each account a distinct `webhookPath` (default `/slack/events`) so registrations do not collide.
+
         </Note>
 
       </Step>
@@ -113,6 +119,7 @@ velaclaw gateway
 ```
 
       </Step>
+
     </Steps>
 
   </Tab>
@@ -552,6 +559,7 @@ Surface different features that extend the above defaults.
 ```
 
       </Tab>
+
     </Tabs>
 
   </Accordion>
@@ -793,6 +801,7 @@ Notes:
     - `channels.slack.chunkMode="newline"` enables paragraph-first splitting
     - file sends use Slack upload APIs and can include thread replies (`thread_ts`)
     - outbound media cap follows `channels.slack.mediaMaxMb` when configured; otherwise channel sends use MIME-kind defaults from media pipeline
+
   </Accordion>
 
   <Accordion title="Delivery targets">

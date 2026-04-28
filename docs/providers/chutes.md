@@ -32,31 +32,40 @@ auth for the bundled `chutes` provider.
         Velaclaw launches the browser flow locally, or shows a URL + redirect-paste
         flow on remote/headless hosts. OAuth tokens auto-refresh through Velaclaw auth
         profiles.
+
       </Step>
       <Step title="Verify the default model">
         After onboarding, the default model is set to
         `chutes/zai-org/GLM-4.7-TEE` and the bundled Chutes catalog is
         registered.
+
       </Step>
+
     </Steps>
+
   </Tab>
   <Tab title="API key">
     <Steps>
       <Step title="Get an API key">
         Create a key at
         [chutes.ai/settings/api-keys](https://chutes.ai/settings/api-keys).
+
       </Step>
       <Step title="Run the API key onboarding flow">
         ```bash
         velaclaw onboard --auth-choice chutes-api-key
         ```
+
       </Step>
       <Step title="Verify the default model">
         After onboarding, the default model is set to
         `chutes/zai-org/GLM-4.7-TEE` and the bundled Chutes catalog is
         registered.
+
       </Step>
+
     </Steps>
+
   </Tab>
 </Tabs>
 
@@ -133,6 +142,7 @@ The bundled fallback catalog includes current Chutes refs:
     - API-key and OAuth discovery both use the same `chutes` provider id.
     - Chutes models are registered as `chutes/<model-id>`.
     - If discovery fails at startup, the bundled static catalog is used automatically.
+
   </Accordion>
 </AccordionGroup>
 
@@ -141,14 +151,18 @@ The bundled fallback catalog includes current Chutes refs:
 <CardGroup cols={2}>
   <Card title="Model providers" href="/concepts/model-providers" icon="layers">
     Provider rules, model refs, and failover behavior.
+
   </Card>
   <Card title="Configuration reference" href="/gateway/configuration-reference" icon="gear">
     Full config schema including provider settings.
+
   </Card>
   <Card title="Chutes" href="https://chutes.ai" icon="arrow-up-right-from-square">
     Chutes dashboard and API docs.
+
   </Card>
   <Card title="Chutes API keys" href="https://chutes.ai/settings/api-keys" icon="key">
     Create and manage Chutes API keys.
+
   </Card>
 </CardGroup>

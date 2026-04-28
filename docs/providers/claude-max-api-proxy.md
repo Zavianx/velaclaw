@@ -58,6 +58,7 @@ The proxy:
     claude-max-api
     # Server runs at http://localhost:3456
     ```
+
   </Step>
   <Step title="Test the proxy">
     ```bash
@@ -177,14 +178,18 @@ For native Anthropic integration with Claude CLI or API keys, see [Anthropic pro
 <CardGroup cols={2}>
   <Card title="Anthropic provider" href="/providers/anthropic" icon="bolt">
     Native Velaclaw integration with Claude CLI or API keys.
+
   </Card>
   <Card title="OpenAI provider" href="/providers/openai" icon="robot">
     For OpenAI/Codex subscriptions.
+
   </Card>
   <Card title="Model providers" href="/concepts/model-providers" icon="layers">
     Overview of all providers, model refs, and failover behavior.
+
   </Card>
   <Card title="Configuration" href="/gateway/configuration" icon="gear">
     Full config reference.
+
   </Card>
 </CardGroup>

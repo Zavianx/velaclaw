@@ -135,6 +135,7 @@ Use explicit config when:
     <Tip>
     If you run SGLang without authentication, any non-empty value for
     `SGLANG_API_KEY` is sufficient to opt in to model discovery.
+
     </Tip>
 
   </Accordion>
@@ -145,8 +146,10 @@ Use explicit config when:
 <CardGroup cols={2}>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
   <Card title="Configuration reference" href="/gateway/configuration-reference" icon="gear">
     Full config schema including provider entries.
+
   </Card>
 </CardGroup>

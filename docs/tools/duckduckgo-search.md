@@ -28,6 +28,7 @@ No API key needed — just set DuckDuckGo as your provider:
     velaclaw configure --section web
     # Select "duckduckgo" as the provider
     ```
+
   </Step>
 </Steps>
 

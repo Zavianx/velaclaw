@@ -71,22 +71,27 @@ Recommended for most interactive installs on macOS/Linux/WSL.
 <Steps>
   <Step title="Detect OS">
     Supports macOS and Linux (including WSL). If macOS is detected, installs Homebrew if missing.
+
   </Step>
   <Step title="Ensure Node.js 24 by default">
     Checks Node version and installs Node 24 if needed (Homebrew on macOS, NodeSource setup scripts on Linux apt/dnf/yum). Velaclaw still supports Node 22 LTS, currently `22.14+`, for compatibility.
+
   </Step>
   <Step title="Ensure Git">
     Installs Git if missing.
+
   </Step>
   <Step title="Install Velaclaw">
     - `npm` method (default): global npm install
     - `git` method: clone/update repo, install deps with pnpm, build, then install wrapper at `~/.local/bin/velaclaw`
+
   </Step>
   <Step title="Post-install tasks">
     - Refreshes a loaded gateway service best-effort (`velaclaw gateway install --force`, then restart)
     - Runs `velaclaw doctor --non-interactive` on upgrades and git installs (best effort)
     - Attempts onboarding when appropriate (TTY available, onboarding not disabled, and bootstrap/config checks pass)
     - Defaults `SHARP_IGNORE_GLOBAL_LIBVIPS=1`
+
   </Step>
 </Steps>
 
@@ -108,26 +113,31 @@ The script exits with code `2` for invalid method selection or invalid `--instal
     ```bash
     curl -fsSL --proto '=https' --tlsv1.2 https://velaclaw.ai/install.sh | bash
     ```
+
   </Tab>
   <Tab title="Skip onboarding">
     ```bash
     curl -fsSL --proto '=https' --tlsv1.2 https://velaclaw.ai/install.sh | bash -s -- --no-onboard
     ```
+
   </Tab>
   <Tab title="Git install">
     ```bash
     curl -fsSL --proto '=https' --tlsv1.2 https://velaclaw.ai/install.sh | bash -s -- --install-method git
     ```
+
   </Tab>
   <Tab title="GitHub main via npm">
     ```bash
     curl -fsSL --proto '=https' --tlsv1.2 https://velaclaw.ai/install.sh | bash -s -- --version main
     ```
+
   </Tab>
   <Tab title="Dry run">
     ```bash
     curl -fsSL --proto '=https' --tlsv1.2 https://velaclaw.ai/install.sh | bash -s -- --dry-run
     ```
+
   </Tab>
 </Tabs>
 
@@ -188,18 +198,22 @@ by default, plus git-checkout installs under the same prefix flow.
 <Steps>
   <Step title="Install local Node runtime">
     Downloads a pinned supported Node LTS tarball (the version is embedded in the script and updated independently) to `<prefix>/tools/node-v<version>` and verifies SHA-256.
+
   </Step>
   <Step title="Ensure Git">
     If Git is missing, attempts install via apt/dnf/yum on Linux or Homebrew on macOS.
+
   </Step>
   <Step title="Install Velaclaw under prefix">
     - `npm` method (default): installs under the prefix with npm, then writes wrapper to `<prefix>/bin/velaclaw`
     - `git` method: clones/updates a checkout (default `~/velaclaw`) and still writes the wrapper to `<prefix>/bin/velaclaw`
+
   </Step>
   <Step title="Refresh loaded gateway service">
     If a gateway service is already loaded from that same prefix, the script runs
     `velaclaw gateway install --force`, then `velaclaw gateway restart`, and
     probes gateway health best-effort.
+
   </Step>
 </Steps>
 
@@ -210,26 +224,31 @@ by default, plus git-checkout installs under the same prefix flow.
     ```bash
     curl -fsSL --proto '=https' --tlsv1.2 https://velaclaw.ai/install-cli.sh | bash
     ```
+
   </Tab>
   <Tab title="Custom prefix + version">
     ```bash
     curl -fsSL --proto '=https' --tlsv1.2 https://velaclaw.ai/install-cli.sh | bash -s -- --prefix /opt/velaclaw --version latest
     ```
+
   </Tab>
   <Tab title="Git install">
     ```bash
     curl -fsSL --proto '=https' --tlsv1.2 https://velaclaw.ai/install-cli.sh | bash -s -- --install-method git --git-dir ~/velaclaw
     ```
+
   </Tab>
   <Tab title="Automation JSON output">
     ```bash
     curl -fsSL --proto '=https' --tlsv1.2 https://velaclaw.ai/install-cli.sh | bash -s -- --json --prefix /opt/velaclaw
     ```
+
   </Tab>
   <Tab title="Run onboarding">
     ```bash
     curl -fsSL --proto '=https' --tlsv1.2 https://velaclaw.ai/install-cli.sh | bash -s -- --onboard
     ```
+
   </Tab>
 </Tabs>
 
@@ -281,18 +300,22 @@ by default, plus git-checkout installs under the same prefix flow.
 <Steps>
   <Step title="Ensure PowerShell + Windows environment">
     Requires PowerShell 5+.
+
   </Step>
   <Step title="Ensure Node.js 24 by default">
     If missing, attempts install via winget, then Chocolatey, then Scoop. Node 22 LTS, currently `22.14+`, remains supported for compatibility.
+
   </Step>
   <Step title="Install Velaclaw">
     - `npm` method (default): global npm install using selected `-Tag`
     - `git` method: clone/update repo, install/build with pnpm, and install wrapper at `%USERPROFILE%\.local\bin\velaclaw.cmd`
+
   </Step>
   <Step title="Post-install tasks">
     - Adds needed bin directory to user PATH when possible
     - Refreshes a loaded gateway service best-effort (`velaclaw gateway install --force`, then restart)
     - Runs `velaclaw doctor --non-interactive` on upgrades and git installs (best effort)
+
   </Step>
 </Steps>
 
@@ -303,26 +326,31 @@ by default, plus git-checkout installs under the same prefix flow.
     ```powershell
     iwr -useb https://velaclaw.ai/install.ps1 | iex
     ```
+
   </Tab>
   <Tab title="Git install">
     ```powershell
     & ([scriptblock]::Create((iwr -useb https://velaclaw.ai/install.ps1))) -InstallMethod git
     ```
+
   </Tab>
   <Tab title="GitHub main via npm">
     ```powershell
     & ([scriptblock]::Create((iwr -useb https://velaclaw.ai/install.ps1))) -Tag main
     ```
+
   </Tab>
   <Tab title="Custom git directory">
     ```powershell
     & ([scriptblock]::Create((iwr -useb https://velaclaw.ai/install.ps1))) -InstallMethod git -GitDir "C:\velaclaw"
     ```
+
   </Tab>
   <Tab title="Dry run">
     ```powershell
     & ([scriptblock]::Create((iwr -useb https://velaclaw.ai/install.ps1))) -DryRun
     ```
+
   </Tab>
   <Tab title="Debug trace">
     ```powershell
@@ -331,6 +359,7 @@ by default, plus git-checkout installs under the same prefix flow.
     & ([scriptblock]::Create((iwr -useb https://velaclaw.ai/install.ps1))) -NoOnboard
     Set-PSDebug -Trace 0
     ```
+
   </Tab>
 </Tabs>
 
@@ -376,22 +405,26 @@ Use non-interactive flags/env vars for predictable runs.
     ```bash
     curl -fsSL --proto '=https' --tlsv1.2 https://velaclaw.ai/install.sh | bash -s -- --no-prompt --no-onboard
     ```
+
   </Tab>
   <Tab title="install.sh (non-interactive git)">
     ```bash
     VELACLAW_INSTALL_METHOD=git VELACLAW_NO_PROMPT=1 \
       curl -fsSL --proto '=https' --tlsv1.2 https://velaclaw.ai/install.sh | bash
     ```
+
   </Tab>
   <Tab title="install-cli.sh (JSON)">
     ```bash
     curl -fsSL --proto '=https' --tlsv1.2 https://velaclaw.ai/install-cli.sh | bash -s -- --json --prefix /opt/velaclaw
     ```
+
   </Tab>
   <Tab title="install.ps1 (skip onboarding)">
     ```powershell
     & ([scriptblock]::Create((iwr -useb https://velaclaw.ai/install.ps1))) -NoOnboard
     ```
+
   </Tab>
 </Tabs>
 
@@ -402,10 +435,12 @@ Use non-interactive flags/env vars for predictable runs.
 <AccordionGroup>
   <Accordion title="Why is Git required?">
     Git is required for `git` install method. For `npm` installs, Git is still checked/installed to avoid `spawn git ENOENT` failures when dependencies use git URLs.
+
   </Accordion>
 
   <Accordion title="Why does npm hit EACCES on Linux?">
     Some Linux setups point npm global prefix to root-owned paths. `install.sh` can switch prefix to `~/.npm-global` and append PATH exports to shell rc files (when those files exist).
+
   </Accordion>
 
   <Accordion title="sharp/libvips issues">
@@ -419,10 +454,12 @@ Use non-interactive flags/env vars for predictable runs.
 
   <Accordion title='Windows: "npm error spawn git / ENOENT"'>
     Install Git for Windows, reopen PowerShell, rerun installer.
+
   </Accordion>
 
   <Accordion title='Windows: "velaclaw is not recognized"'>
     Run `npm config get prefix` and add that directory to your user PATH (no `\bin` suffix needed on Windows), then reopen PowerShell.
+
   </Accordion>
 
   <Accordion title="Windows: how to get verbose installer output">
@@ -439,5 +476,6 @@ Use non-interactive flags/env vars for predictable runs.
 
   <Accordion title="velaclaw not found after install">
     Usually a PATH issue. See [Node.js troubleshooting](/install/node#troubleshooting).
+
   </Accordion>
 </AccordionGroup>

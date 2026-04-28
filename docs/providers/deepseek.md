@@ -22,6 +22,7 @@ read_when:
 <Steps>
   <Step title="Get your API key">
     Create an API key at [platform.deepseek.com](https://platform.deepseek.com/api_keys).
+
   </Step>
   <Step title="Run onboarding">
     ```bash
@@ -35,6 +36,7 @@ read_when:
     ```bash
     velaclaw models list --provider deepseek
     ```
+
   </Step>
 </Steps>
 
@@ -89,8 +91,10 @@ Both bundled models currently advertise streaming usage compatibility in source.
 <CardGroup cols={2}>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
   <Card title="Configuration reference" href="/gateway/configuration-reference" icon="gear">
     Full config reference for agents, models, and providers.
+
   </Card>
 </CardGroup>

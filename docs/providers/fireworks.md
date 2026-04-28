@@ -33,6 +33,7 @@ read_when:
     ```bash
     velaclaw models list --provider fireworks
     ```
+
   </Step>
 </Steps>
 
@@ -91,6 +92,7 @@ Velaclaw accepts dynamic Fireworks model ids too. Use the exact model or router 
 
     <Warning>
     A key sitting only in `~/.profile` will not help a launchd/systemd daemon unless that environment is imported there as well. Set the key in `~/.velaclaw/.env` or via `env.shellEnv` to ensure the gateway process can read it.
+
     </Warning>
 
   </Accordion>
@@ -101,8 +103,10 @@ Velaclaw accepts dynamic Fireworks model ids too. Use the exact model or router 
 <CardGroup cols={2}>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
   <Card title="Troubleshooting" href="/help/troubleshooting" icon="wrench">
     General troubleshooting and FAQ.
+
   </Card>
 </CardGroup>

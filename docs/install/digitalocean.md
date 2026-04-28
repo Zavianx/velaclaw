@@ -22,6 +22,7 @@ Run a persistent Velaclaw Gateway on a DigitalOcean Droplet.
   <Step title="Create a Droplet">
     <Warning>
     Use a clean base image (Ubuntu 24.04 LTS). Avoid third-party Marketplace 1-click images unless you have reviewed their startup scripts and firewall defaults.
+
     </Warning>
 
     1. Log into [DigitalOcean](https://cloud.digitalocean.com/).
@@ -69,6 +70,7 @@ Run a persistent Velaclaw Gateway on a DigitalOcean Droplet.
     swapon /swapfile
     echo '/swapfile none swap sw 0 0' >> /etc/fstab
     ```
+
   </Step>
 
   <Step title="Verify the gateway">
@@ -77,6 +79,7 @@ Run a persistent Velaclaw Gateway on a DigitalOcean Droplet.
     systemctl --user status velaclaw-gateway.service
     journalctl --user -u velaclaw-gateway.service -f
     ```
+
   </Step>
 
   <Step title="Access the Control UI">

@@ -16,11 +16,13 @@ endpoint and API key. It is OpenAI-compatible, so most OpenAI SDKs work by switc
 <Steps>
   <Step title="Get your API key">
     Create an API key at [openrouter.ai/keys](https://openrouter.ai/keys).
+
   </Step>
   <Step title="Run onboarding">
     ```bash
     velaclaw onboard --auth-choice openrouter-api-key
     ```
+
   </Step>
   <Step title="(Optional) Switch to a specific model">
     Onboarding defaults to `openrouter/auto`. Pick a concrete model later:
@@ -77,29 +79,34 @@ does **not** inject those OpenRouter-specific headers or Anthropic cache markers
     On verified OpenRouter routes, Anthropic model refs keep the
     OpenRouter-specific Anthropic `cache_control` markers that Velaclaw uses for
     better prompt-cache reuse on system/developer prompt blocks.
+
   </Accordion>
 
   <Accordion title="Thinking / reasoning injection">
     On supported non-`auto` routes, Velaclaw maps the selected thinking level to
     OpenRouter proxy reasoning payloads. Unsupported model hints and
     `openrouter/auto` skip that reasoning injection.
+
   </Accordion>
 
   <Accordion title="OpenAI-only request shaping">
     OpenRouter still runs through the proxy-style OpenAI-compatible path, so
     native OpenAI-only request shaping such as `serviceTier`, Responses `store`,
     OpenAI reasoning-compat payloads, and prompt-cache hints is not forwarded.
+
   </Accordion>
 
   <Accordion title="Gemini-backed routes">
     Gemini-backed OpenRouter refs stay on the proxy-Gemini path: Velaclaw keeps
     Gemini thought-signature sanitation there, but does not enable native Gemini
     replay validation or bootstrap rewrites.
+
   </Accordion>
 
   <Accordion title="Provider routing metadata">
     If you pass OpenRouter provider routing under model params, Velaclaw forwards
     it as OpenRouter routing metadata before the shared stream wrappers run.
+
   </Accordion>
 </AccordionGroup>
 
@@ -108,8 +115,10 @@ does **not** inject those OpenRouter-specific headers or Anthropic cache markers
 <CardGroup cols={2}>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
   <Card title="Configuration reference" href="/gateway/configuration-reference" icon="gear">
     Full config reference for agents, models, and providers.
+
   </Card>
 </CardGroup>

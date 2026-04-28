@@ -27,6 +27,7 @@ with a Z.AI API key.
         ```bash
         velaclaw onboard --auth-choice zai-api-key
         ```
+
       </Step>
       <Step title="Set a default model">
         ```json5
@@ -35,12 +36,15 @@ with a Z.AI API key.
           agents: { defaults: { model: { primary: "zai/glm-5.1" } } },
         }
         ```
+
       </Step>
       <Step title="Verify the model is available">
         ```bash
         velaclaw models list --provider zai
         ```
+
       </Step>
+
     </Steps>
 
   </Tab>
@@ -63,6 +67,7 @@ with a Z.AI API key.
         # General API CN (China region)
         velaclaw onboard --auth-choice zai-cn
         ```
+
       </Step>
       <Step title="Set a default model">
         ```json5
@@ -71,12 +76,15 @@ with a Z.AI API key.
           agents: { defaults: { model: { primary: "zai/glm-5.1" } } },
         }
         ```
+
       </Step>
       <Step title="Verify the model is available">
         ```bash
         velaclaw models list --provider zai
         ```
+
       </Step>
+
     </Steps>
 
   </Tab>
@@ -113,6 +121,7 @@ GLM models are available as `zai/<model>` (example: `zai/glm-5`). The default bu
     Unknown `glm-5*` ids still forward-resolve on the bundled provider path by
     synthesizing provider-owned metadata from the `glm-4.7` template when the id
     matches the current GLM-5 family shape.
+
   </Accordion>
 
   <Accordion title="Tool-call streaming">
@@ -150,6 +159,7 @@ GLM models are available as `zai/<model>` (example: `zai/glm-5`). The default bu
     - Z.AI uses Bearer auth with your API key.
     - The `zai-api-key` onboarding choice auto-detects the matching Z.AI endpoint from the key prefix.
     - Use the explicit regional choices (`zai-coding-global`, `zai-coding-cn`, `zai-global`, `zai-cn`) when you want to force a specific API surface.
+
   </Accordion>
 </AccordionGroup>
 
@@ -158,8 +168,10 @@ GLM models are available as `zai/<model>` (example: `zai/glm-5`). The default bu
 <CardGroup cols={2}>
   <Card title="GLM model family" href="/providers/glm" icon="microchip">
     Model family overview for GLM.
+
   </Card>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
 </CardGroup>

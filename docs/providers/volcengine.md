@@ -41,12 +41,14 @@ workloads.
       },
     }
     ```
+
   </Step>
   <Step title="Verify the model is available">
     ```bash
     velaclaw models list --provider volcengine
     velaclaw models list --provider volcengine-plan
     ```
+
   </Step>
 </Steps>
 
@@ -84,6 +86,7 @@ Both providers are configured from a single API key. Setup registers both automa
     | `volcengine/kimi-k2-5-260127`                | Kimi K2.5                       | text, image | 256,000 |
     | `volcengine/glm-4-7-251222`                  | GLM 4.7                         | text, image | 200,000 |
     | `volcengine/deepseek-v3-2-251201`            | DeepSeek V3.2                   | text, image | 128,000 |
+
   </Tab>
   <Tab title="Coding (volcengine-plan)">
     | Model ref                                         | Name                     | Input | Context |
@@ -94,6 +97,7 @@ Both providers are configured from a single API key. Setup registers both automa
     | `volcengine-plan/kimi-k2-thinking`                | Kimi K2 Thinking         | text  | 256,000 |
     | `volcengine-plan/kimi-k2.5`                       | Kimi K2.5 Coding         | text  | 256,000 |
     | `volcengine-plan/doubao-seed-code-preview-251028` | Doubao Seed Code Preview | text  | 256,000 |
+
   </Tab>
 </Tabs>
 
@@ -104,6 +108,7 @@ Both providers are configured from a single API key. Setup registers both automa
     `velaclaw onboard --auth-choice volcengine-api-key` currently sets
     `volcengine-plan/ark-code-latest` as the default model while also registering
     the general `volcengine` catalog.
+
   </Accordion>
 
   <Accordion title="Model picker fallback behavior">
@@ -111,12 +116,14 @@ Both providers are configured from a single API key. Setup registers both automa
     both `volcengine/*` and `volcengine-plan/*` rows. If those models are not
     loaded yet, Velaclaw falls back to the unfiltered catalog instead of showing an
     empty provider-scoped picker.
+
   </Accordion>
 
   <Accordion title="Environment variables for daemon processes">
     If the Gateway runs as a daemon (launchd/systemd), make sure
     `VOLCANO_ENGINE_API_KEY` is available to that process (for example, in
     `~/.velaclaw/.env` or via `env.shellEnv`).
+
   </Accordion>
 </AccordionGroup>
 
@@ -130,14 +137,18 @@ interactive shell are not automatically inherited. See the daemon note above.
 <CardGroup cols={2}>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
-  <Card title="Configuration" href="/configuration" icon="gear">
+  <Card title="Configuration" href="/gateway/configuration" icon="gear">
     Full config reference for agents, models, and providers.
+
   </Card>
   <Card title="Troubleshooting" href="/help/troubleshooting" icon="wrench">
     Common issues and debugging steps.
+
   </Card>
   <Card title="FAQ" href="/help/faq" icon="circle-question">
     Frequently asked questions about Velaclaw setup.
+
   </Card>
 </CardGroup>

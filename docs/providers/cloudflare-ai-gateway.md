@@ -52,6 +52,7 @@ For Anthropic models routed through Cloudflare AI Gateway, use your **Anthropic 
     ```bash
     velaclaw models list --provider cloudflare-ai-gateway
     ```
+
   </Step>
 </Steps>
 
@@ -90,6 +91,7 @@ velaclaw onboard --non-interactive \
 
     <Tip>
     The `cf-aig-authorization` header authenticates with the Cloudflare Gateway itself, while the provider API key (for example, your Anthropic key) authenticates with the upstream provider.
+
     </Tip>
 
   </Accordion>
@@ -99,6 +101,7 @@ velaclaw onboard --non-interactive \
 
     <Warning>
     A key sitting only in `~/.profile` will not help a launchd/systemd daemon unless that environment is imported there as well. Set the key in `~/.velaclaw/.env` or via `env.shellEnv` to ensure the gateway process can read it.
+
     </Warning>
 
   </Accordion>
@@ -109,8 +112,10 @@ velaclaw onboard --non-interactive \
 <CardGroup cols={2}>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
   <Card title="Troubleshooting" href="/help/troubleshooting" icon="wrench">
     General troubleshooting and FAQ.
+
   </Card>
 </CardGroup>

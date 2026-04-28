@@ -19,12 +19,15 @@ Status: legacy external CLI integration. Gateway spawns `imsg rpc` and communica
 <CardGroup cols={3}>
   <Card title="BlueBubbles (recommended)" icon="message-circle" href="/channels/bluebubbles">
     Preferred iMessage path for new setups.
+
   </Card>
   <Card title="Pairing" icon="link" href="/channels/pairing">
     iMessage DMs default to pairing mode.
+
   </Card>
   <Card title="Configuration reference" icon="settings" href="/gateway/configuration-reference#imessage">
     Full iMessage field reference.
+
   </Card>
 </CardGroup>
 
@@ -74,7 +77,9 @@ velaclaw pairing approve imessage <CODE>
 ```
 
         Pairing requests expire after 1 hour.
+
       </Step>
+
     </Steps>
 
   </Tab>
@@ -308,6 +313,7 @@ exec ssh -T bot@mac-mini.tailnet-1234.ts.net imsg "$@"
       - default root pattern: `/Users/*/Library/Messages/Attachments`
     - SCP uses strict host-key checking (`StrictHostKeyChecking=yes`)
     - outbound media size uses `channels.imessage.mediaMaxMb` (default 16 MB)
+
   </Accordion>
 
   <Accordion title="Outbound chunking">
@@ -315,6 +321,7 @@ exec ssh -T bot@mac-mini.tailnet-1234.ts.net imsg "$@"
     - chunk mode: `channels.imessage.chunkMode`
       - `length` (default)
       - `newline` (paragraph-first splitting)
+
   </Accordion>
 
   <Accordion title="Addressing formats">

@@ -63,24 +63,29 @@ The gateway runs directly on the host (not in Docker), but agent sandboxes use D
     ```bash
     sudo -i -u velaclaw
     ```
+
   </Step>
   <Step title="Run the onboarding wizard">
     The post-install script guides you through configuring Velaclaw settings.
+
   </Step>
   <Step title="Connect messaging providers">
     Log in to WhatsApp, Telegram, Discord, or Signal:
     ```bash
     velaclaw channels login
     ```
+
   </Step>
   <Step title="Verify the installation">
     ```bash
     sudo systemctl status velaclaw
     sudo journalctl -u velaclaw -f
     ```
+
   </Step>
   <Step title="Connect to Tailscale">
     Join your VPN mesh for secure remote access.
+
   </Step>
 </Steps>
 
@@ -129,17 +134,20 @@ If you prefer manual control over the automation:
     ```bash
     sudo apt update && sudo apt install -y ansible git
     ```
+
   </Step>
   <Step title="Clone the repository">
     ```bash
     git clone https://github.com/Zavianx/velaclaw-dev-ansible.git
     cd velaclaw-ansible
     ```
+
   </Step>
   <Step title="Install Ansible collections">
     ```bash
     ansible-galaxy collection install -r requirements.yml
     ```
+
   </Step>
   <Step title="Run the playbook">
     ```bash
@@ -175,6 +183,7 @@ This is idempotent and safe to run multiple times.
     - Ensure you can access via Tailscale VPN first
     - SSH access (port 22) is always allowed
     - The gateway is only accessible via Tailscale by design
+
   </Accordion>
   <Accordion title="Service will not start">
     ```bash
@@ -211,6 +220,7 @@ This is idempotent and safe to run multiple times.
     sudo -i -u velaclaw
     velaclaw channels login
     ```
+
   </Accordion>
 </AccordionGroup>
 

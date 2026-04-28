@@ -1,189 +1,192 @@
 ---
-summary: "VelaClaw is a multi-channel gateway for AI agents that runs on any OS."
+summary: "Velaclaw is a local AI runtime where private skills, memory, and workflows accumulate on your own machine, and teams share what they choose through draft → review → approve."
 read_when:
-  - Introducing VelaClaw to newcomers
-title: "VelaClaw"
+  - Introducing Velaclaw to newcomers
+title: "Velaclaw"
 ---
 
-# VelaClaw 🦞
-
 <p align="center">
-    <img
-        src="/assets/velaclaw-icon.png"
-        alt="VelaClaw"
-        width="144"
-    />
+  <img src="/assets/velaclaw-icon.png" alt="Velaclaw" width="120" />
 </p>
 
-> _"EXFOLIATE! EXFOLIATE!"_ — A space lobster, probably
+<h1 align="center">Velaclaw</h1>
 
 <p align="center">
-  <strong>Any OS gateway for AI agents across Discord, Google Chat, iMessage, Matrix, Microsoft Teams, Signal, Slack, Telegram, WhatsApp, Zalo, and more.</strong><br />
-  Send a message, get an agent response from your pocket. Run one Gateway across built-in channels, bundled channel plugins, WebChat, and mobile nodes.
+  <strong>Using AI is easy; making knowledge stick is hard.</strong><br />
+  Everyone on your team is using AI, but few teams really own what comes out of it. Velaclaw is built for that.
 </p>
 
-<Columns>
-  <Card title="Get Started" href="/start/getting-started" icon="rocket">
-    Install VelaClaw and bring up the Gateway in minutes.
+<Columns cols={2}>
+  <Card title="Get started" href="/start/getting-started" icon="rocket">
+    Install Velaclaw and run the setup wizard in five minutes.
+
   </Card>
-  <Card title="Run Onboarding" href="/start/wizard" icon="sparkles">
-    Guided setup with `velaclaw onboard` and pairing flows.
-  </Card>
-  <Card title="Open the Control UI" href="/web/control-ui" icon="layout-dashboard">
-    Launch the browser dashboard for chat, config, and sessions.
+  <Card title="Team setup" href="/concepts/team" icon="users">
+    Add your team. Each member gets an isolated runtime; shared knowledge stays governed.
+
   </Card>
 </Columns>
 
-## What is VelaClaw?
+## What Velaclaw is
 
-VelaClaw is a **self-hosted gateway** that connects your favorite chat apps and channel surfaces — built-in channels plus bundled or external channel plugins such as Discord, Google Chat, iMessage, Matrix, Microsoft Teams, Signal, Slack, Telegram, WhatsApp, Zalo, and more — to AI coding agents like Pi. You run a single Gateway process on your own machine (or a server), and it becomes the bridge between your messaging apps and an always-available AI assistant.
+When you use it alone, the skills, memory, and workflows you build up are **your own** — they stay on your machine, never uploaded, never visible to anyone else.
 
-**Who is it for?** Developers and power users who want a personal AI assistant they can message from anywhere — without giving up control of their data or relying on a hosted service.
+When a team joins, you can hand selected items over for review; once the team approves, they are synced to every member. **What's yours stays yours by default; sharing takes a deliberate move.**
 
-**What makes it different?**
+<Columns cols={3}>
+  <Card title="Private assets" icon="lock">
+    Your own skills, memory, workflows. Stay local. Never auto-shared.
 
-- **Self-hosted**: runs on your hardware, your rules
-- **Multi-channel**: one Gateway serves built-in channels plus bundled or external channel plugins simultaneously
-- **Agent-native**: built for coding agents with tool use, sessions, memory, and multi-agent routing
-- **Open source**: MIT licensed, community-driven
+  </Card>
+  <Card title="Shared assets" icon="users-round">
+    Reviewed-and-approved items distributed to every team member.
 
-**What do you need?** Node 24 (recommended), or Node 22 LTS (`22.14+`) for compatibility, an API key from your chosen provider, and 5 minutes. For best quality and security, use the strongest latest-generation model available.
+  </Card>
+  <Card title="Evolution engine" icon="sparkles">
+    Drafts new shared assets from anonymized team patterns; humans approve.
 
-## How it works
+  </Card>
+</Columns>
+
+## How knowledge moves
 
 ```mermaid
 flowchart LR
-  A["Chat apps + plugins"] --> B["Gateway"]
-  B --> C["Pi agent"]
-  B --> D["CLI"]
-  B --> E["Web Control UI"]
-  B --> F["macOS app"]
-  B --> G["iOS and Android nodes"]
+  A["Your runtime<br/>(private memory + skills)"] -->|propose| B["Review queue"]
+  B -->|approve| C["Shared pool"]
+  C -->|distribute| D["Every member"]
+  E["Evolution engine"] -.->|drafts from anonymized digests| B
 ```
 
-The Gateway is the single source of truth for sessions, routing, and channel connections.
-
-## Key capabilities
-
-<Columns>
-  <Card title="Multi-channel gateway" icon="network">
-    Discord, iMessage, Signal, Slack, Telegram, WhatsApp, WebChat, and more with a single Gateway process.
-  </Card>
-  <Card title="Plugin channels" icon="plug">
-    Bundled plugins add Matrix, Nostr, Twitch, Zalo, and more in normal current releases.
-  </Card>
-  <Card title="Multi-agent routing" icon="route">
-    Isolated sessions per agent, workspace, or sender.
-  </Card>
-  <Card title="Media support" icon="image">
-    Send and receive images, audio, and documents.
-  </Card>
-  <Card title="Web Control UI" icon="monitor">
-    Browser dashboard for chat, config, sessions, and nodes.
-  </Card>
-  <Card title="Mobile nodes" icon="smartphone">
-    Pair iOS and Android nodes for Canvas, camera, and voice-enabled workflows.
-  </Card>
-</Columns>
+Nothing reaches the shared pool without explicit human review. The evolution engine reads only anonymized session digests — never raw conversations — and drafts candidates that still go through the same approval path.
 
 ## Quick start
 
 <Steps>
-  <Step title="Install VelaClaw">
+  <Step title="Install">
     ```bash
     npm install -g velaclaw@latest
     ```
-  </Step>
-  <Step title="Onboard and install the service">
-    ```bash
-    velaclaw onboard --install-daemon
-    ```
-  </Step>
-  <Step title="Chat">
-    Open the Control UI in your browser and send a message:
 
+  </Step>
+  <Step title="Run the wizard">
     ```bash
-    velaclaw dashboard
+    velaclaw setup --wizard
     ```
+    The wizard walks you through workspace, auth (bring your own API key for OpenAI / Anthropic / DeepSeek / Gemini / OpenRouter / LiteLLM, or reuse a `claude` / `codex` / `gemini` CLI login), and gateway binding. Configuration lands in `~/.velaclaw/velaclaw.json` and is safe to re-run.
 
-    Or connect a channel ([Telegram](/channels/telegram) is fastest) and chat from your phone.
+  </Step>
+  <Step title="Start the runtime">
+    ```bash
+    velaclaw gateway run
+    ```
+    Open <strong>http://127.0.0.1:18789</strong>. That's the Control UI — chat, sessions, agents, and config in one place.
 
   </Step>
 </Steps>
 
-Need the full install and dev setup? See [Getting Started](/start/getting-started).
+## Add your team
 
-## Dashboard
+<Steps>
+  <Step title="Build the member runtime image">
+    ```bash
+    docker build -t velaclaw-member-runtime:local .
+    ```
 
-Open the browser Control UI after the Gateway starts.
+  </Step>
+  <Step title="Initialize a team workspace and start the control plane">
+    ```bash
+    velaclaw init my-workspace && cd my-workspace
+    velaclaw start
+    ```
 
-- Local default: [http://127.0.0.1:18789/](http://127.0.0.1:18789/)
-- Remote access: [Web surfaces](/web) and [Tailscale](/gateway/tailscale)
+  </Step>
+  <Step title="Create a team and invite a member">
+    ```bash
+    velaclaw team create --name "My Team"
+    velaclaw team invitations create my-team \
+      --invitee-label "Alice" --member-email alice@example.com --role contributor
+    velaclaw team invitations accept <invite-code>
+    ```
 
-<p align="center">
-  <img src="/whatsapp-velaclaw.jpg" alt="VelaClaw" width="420" />
-</p>
+  </Step>
+</Steps>
 
-## Configuration (optional)
+Each member gets an isolated Docker runtime — `cap_drop: ALL`, read-only FS, no host socket. Knowledge moves through `propose → review → approve → distribute`.
 
-Config lives at `~/.Zavianx/velaclaw-dev.json`.
+## Why teams pick Velaclaw
 
-- If you **do nothing**, VelaClaw uses the bundled Pi binary in RPC mode with per-sender sessions.
-- If you want to lock it down, start with `channels.whatsapp.allowFrom` and (for groups) mention rules.
+<Columns cols={2}>
+  <Card title="Local-first by default" icon="house">
+    Conversations and knowledge stay on your infrastructure. No SaaS account; no remote dashboard.
 
-Example:
-
-```json5
-{
-  channels: {
-    whatsapp: {
-      allowFrom: ["+15555550123"],
-      groups: { "*": { requireMention: true } },
-    },
-  },
-  messages: { groupChat: { mentionPatterns: ["@velaclaw"] } },
-}
-```
-
-## Start here
-
-<Columns>
-  <Card title="Docs hubs" href="/start/hubs" icon="book-open">
-    All docs and guides, organized by use case.
   </Card>
-  <Card title="Configuration" href="/gateway/configuration" icon="settings">
-    Core Gateway settings, tokens, and provider config.
+  <Card title="Bring your own model" icon="braces">
+    OpenAI, Anthropic, Gemini, DeepSeek, Ollama, OpenRouter, LiteLLM, or any OpenAI-compatible endpoint — 40+ providers.
+
   </Card>
-  <Card title="Remote access" href="/gateway/remote" icon="globe">
-    SSH and tailnet access patterns.
+  <Card title="Governed sharing" icon="shield-check">
+    Draft → review → approve → publish. 7 roles plus an `system-evolution` role for the engine itself.
+
   </Card>
-  <Card title="Channels" href="/channels/telegram" icon="message-square">
-    Channel-specific setup for Feishu, Microsoft Teams, WhatsApp, Telegram, Discord, and more.
+  <Card title="15-event audit trail" icon="search">
+    Every proposal, approval, publish, membership change, and quota update is logged and queryable.
+
   </Card>
-  <Card title="Nodes" href="/nodes" icon="smartphone">
-    iOS and Android nodes with pairing, Canvas, camera, and device actions.
+  <Card title="Heartbeat & quota" icon="activity">
+    Members report health and daily-message usage. Stale nodes surface in the UI; per-member quotas are enforced.
+
   </Card>
-  <Card title="Help" href="/help" icon="life-buoy">
-    Common fixes and troubleshooting entry point.
+  <Card title="Backup & restore" icon="archive">
+    `velaclaw team backup <slug>` packs the full team state — members, assets, audit log — into a tar.gz.
+
   </Card>
 </Columns>
 
-## Learn more
+## Connect anywhere
 
-<Columns>
-  <Card title="Full feature list" href="/concepts/features" icon="list">
-    Complete channel, routing, and media capabilities.
+Velaclaw also includes a multi-channel gateway so members can reach their AI from wherever they already work:
+
+<Columns cols={3}>
+  <Card title="Channels" href="/channels/telegram" icon="message-square">
+    Discord, Slack, Telegram, WhatsApp, iMessage, Microsoft Teams, Google Chat, Matrix, Zalo, and more.
+
   </Card>
-  <Card title="Multi-agent routing" href="/concepts/multi-agent" icon="route">
-    Workspace isolation and per-agent sessions.
+  <Card title="Web Control UI" href="/web/control-ui" icon="layout-dashboard">
+    Browser dashboard for chat, configuration, sessions, and team panel.
+
   </Card>
-  <Card title="Security" href="/gateway/security" icon="shield">
-    Tokens, allowlists, and safety controls.
+  <Card title="Mobile nodes" href="/nodes" icon="smartphone">
+    Pair iOS and Android nodes for Canvas, camera, and voice-enabled workflows.
+
+  </Card>
+</Columns>
+
+## Explore further
+
+<Columns cols={3}>
+  <Card title="Plugin SDK" href="/plugins" icon="plug">
+    Extend Velaclaw — register asset types, channels, or runtime hooks.
+
+  </Card>
+  <Card title="Configuration" href="/gateway/configuration" icon="settings">
+    Gateway settings, tokens, provider config, and environment variables.
+
+  </Card>
+  <Card title="Security" href="/gateway/security" icon="lock-keyhole">
+    Tokens, allowlists, sandboxing, and trust boundaries.
+
+  </Card>
+  <Card title="Reference" href="/reference" icon="book">
+    CLI commands, APIs, and runtime internals.
+
   </Card>
   <Card title="Troubleshooting" href="/gateway/troubleshooting" icon="wrench">
     Gateway diagnostics and common errors.
+
   </Card>
-  <Card title="About and credits" href="/reference/credits" icon="info">
-    Project origins, contributors, and license.
+  <Card title="Help" href="/help" icon="life-buoy">
+    Quick fixes and where to ask.
+
   </Card>
 </Columns>

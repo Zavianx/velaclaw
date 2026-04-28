@@ -23,11 +23,13 @@ to Groq through its OpenAI-compatible API.
 <Steps>
   <Step title="Get an API key">
     Create an API key at [console.groq.com/keys](https://console.groq.com/keys).
+
   </Step>
   <Step title="Set the API key">
     ```bash
     export GROQ_API_KEY="gsk_..."
     ```
+
   </Step>
   <Step title="Set a default model">
     ```json5
@@ -39,6 +41,7 @@ to Groq through its OpenAI-compatible API.
       },
     }
     ```
+
   </Step>
 </Steps>
 
@@ -100,6 +103,7 @@ surface.
     | Default base URL   | `https://api.groq.com/openai/v1` |
     | Default model      | `whisper-large-v3-turbo` |
     | API endpoint       | OpenAI-compatible `/audio/transcriptions` |
+
   </Accordion>
 
   <Accordion title="Environment note">
@@ -111,6 +115,7 @@ surface.
     Keys set only in your interactive shell are not visible to daemon-managed
     gateway processes. Use `~/.velaclaw/.env` or `env.shellEnv` config for
     persistent availability.
+
     </Warning>
 
   </Accordion>
@@ -121,14 +126,18 @@ surface.
 <CardGroup cols={2}>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
   <Card title="Configuration reference" href="/gateway/configuration-reference" icon="gear">
     Full config schema including provider and audio settings.
+
   </Card>
   <Card title="Groq Console" href="https://console.groq.com" icon="arrow-up-right-from-square">
     Groq dashboard, API docs, and pricing.
+
   </Card>
   <Card title="Groq model list" href="https://console.groq.com/docs/models" icon="list">
     Official Groq model catalog.
+
   </Card>
 </CardGroup>

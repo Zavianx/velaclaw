@@ -74,6 +74,7 @@ Send `/elevated` with no argument to see the current level.
     `gateway` by default, or `node` when the configured/session exec target is
     `node`. In `full` mode, exec approvals are skipped. In `on`/`ask` mode,
     configured approval rules still apply.
+
   </Step>
 </Steps>
 

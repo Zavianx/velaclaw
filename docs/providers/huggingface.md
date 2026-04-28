@@ -23,6 +23,7 @@ title: "Hugging Face (Inference)"
 
     <Warning>
     The token must have the **Make calls to Inference Providers** permission enabled or API requests will be rejected.
+
     </Warning>
 
   </Step>
@@ -54,6 +55,7 @@ title: "Hugging Face (Inference)"
     ```bash
     velaclaw models list --provider huggingface
     ```
+
   </Step>
 </Steps>
 
@@ -137,6 +139,7 @@ You can append `:fastest` or `:cheapest` to any model id. Set your default order
 
     <Note>
     Velaclaw accepts both `HUGGINGFACE_HUB_TOKEN` and `HF_TOKEN` as env var aliases. Either one works; if both are set, `HUGGINGFACE_HUB_TOKEN` takes precedence.
+
     </Note>
 
   </Accordion>
@@ -158,6 +161,7 @@ You can append `:fastest` or `:cheapest` to any model id. Set your default order
       },
     }
     ```
+
   </Accordion>
 
   <Accordion title="Config: Qwen with cheapest and fastest variants">
@@ -175,6 +179,7 @@ You can append `:fastest` or `:cheapest` to any model id. Set your default order
       },
     }
     ```
+
   </Accordion>
 
   <Accordion title="Config: DeepSeek + Llama + GPT-OSS with aliases">
@@ -198,6 +203,7 @@ You can append `:fastest` or `:cheapest` to any model id. Set your default order
       },
     }
     ```
+
   </Accordion>
 
   <Accordion title="Config: Multiple Qwen and DeepSeek with policy suffixes">
@@ -216,6 +222,7 @@ You can append `:fastest` or `:cheapest` to any model id. Set your default order
       },
     }
     ```
+
   </Accordion>
 </AccordionGroup>
 
@@ -224,14 +231,18 @@ You can append `:fastest` or `:cheapest` to any model id. Set your default order
 <CardGroup cols={2}>
   <Card title="Model providers" href="/concepts/model-providers" icon="layers">
     Overview of all providers, model refs, and failover behavior.
+
   </Card>
   <Card title="Model selection" href="/concepts/models" icon="brain">
     How to choose and configure models.
+
   </Card>
   <Card title="Inference Providers docs" href="https://huggingface.co/docs/inference-providers" icon="book">
     Official Hugging Face Inference Providers documentation.
+
   </Card>
   <Card title="Configuration" href="/gateway/configuration" icon="gear">
     Full config reference.
+
   </Card>
 </CardGroup>

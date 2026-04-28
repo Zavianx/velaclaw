@@ -28,18 +28,22 @@ The intended model is:
 <Steps>
   <Step title="One-time setup">
     From the repo root, run `./scripts/podman/setup.sh`.
+
   </Step>
 
   <Step title="Start the Gateway container">
     Start the container with `./scripts/run-velaclaw-podman.sh launch`.
+
   </Step>
 
   <Step title="Run onboarding inside the container">
     Run `./scripts/run-velaclaw-podman.sh launch setup`, then open `http://127.0.0.1:18789/`.
+
   </Step>
 
   <Step title="Manage the running container from the host CLI">
     Set `VELACLAW_CONTAINER=velaclaw`, then use normal `velaclaw` commands from the host.
+
   </Step>
 </Steps>
 

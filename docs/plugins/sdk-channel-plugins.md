@@ -311,6 +311,7 @@ should use `resolveInboundMentionDecision({ facts, policy })`.
       }
     }
     ```
+
     </CodeGroup>
 
   </Step>
@@ -425,6 +426,7 @@ should use `resolveInboundMentionDecision({ facts, policy })`.
 
       You can also pass raw adapter objects instead of the declarative options
       if you need full control.
+
     </Accordion>
 
   </Step>
@@ -530,6 +532,7 @@ should use `resolveInboundMentionDecision({ facts, policy })`.
       Inbound message handling is channel-specific. Each channel plugin owns
       its own inbound pipeline. Look at bundled channel plugins
       (for example the Microsoft Teams or Google Chat plugin package) for real patterns.
+
     </Note>
 
   </Step>
@@ -601,15 +604,19 @@ Write colocated tests in `src/channel.test.ts`:
 <CardGroup cols={2}>
   <Card title="Threading options" icon="git-branch" href="/plugins/sdk-entrypoints#registration-mode">
     Fixed, account-scoped, or custom reply modes
+
   </Card>
   <Card title="Message tool integration" icon="puzzle" href="/plugins/architecture#channel-plugins-and-the-shared-message-tool">
     describeMessageTool and action discovery
+
   </Card>
   <Card title="Target resolution" icon="crosshair" href="/plugins/architecture#channel-target-resolution">
     inferTargetChatType, looksLikeId, resolveTarget
+
   </Card>
   <Card title="Runtime helpers" icon="settings" href="/plugins/sdk-runtime">
     TTS, STT, media, subagent via api.runtime
+
   </Card>
 </CardGroup>
 

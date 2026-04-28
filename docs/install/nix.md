@@ -27,6 +27,7 @@ The [nix-velaclaw](https://github.com/velaclaw/nix-velaclaw) repo is the source 
 <Steps>
   <Step title="Install Determinate Nix">
     If Nix is not already installed, follow the [Determinate Nix installer](https://github.com/DeterminateSystems/nix-installer) instructions.
+
   </Step>
   <Step title="Create a local flake">
     Use the agent-first template from the nix-velaclaw repo:
@@ -34,17 +35,21 @@ The [nix-velaclaw](https://github.com/velaclaw/nix-velaclaw) repo is the source 
     mkdir -p ~/code/velaclaw-local
     # Copy templates/agent-first/flake.nix from the nix-velaclaw repo
     ```
+
   </Step>
   <Step title="Configure secrets">
     Set up your messaging bot token and model provider API key. Plain files at `~/.secrets/` work fine.
+
   </Step>
   <Step title="Fill in template placeholders and switch">
     ```bash
     home-manager switch
     ```
+
   </Step>
   <Step title="Verify">
     Confirm the launchd service is running and your bot responds to messages.
+
   </Step>
 </Steps>
 

@@ -43,6 +43,7 @@ Choose your plan type and follow the setup steps.
     <Steps>
       <Step title="Get your API key">
         Create or copy an API key from [home.qwencloud.com/api-keys](https://home.qwencloud.com/api-keys).
+
       </Step>
       <Step title="Run onboarding">
         For the **Global** endpoint:
@@ -56,6 +57,7 @@ Choose your plan type and follow the setup steps.
         ```bash
         velaclaw onboard --auth-choice qwen-api-key-cn
         ```
+
       </Step>
       <Step title="Set a default model">
         ```json5
@@ -67,18 +69,22 @@ Choose your plan type and follow the setup steps.
           },
         }
         ```
+
       </Step>
       <Step title="Verify the model is available">
         ```bash
         velaclaw models list --provider qwen
         ```
+
       </Step>
+
     </Steps>
 
     <Note>
     Legacy `modelstudio-*` auth-choice ids and `modelstudio/...` model refs still
     work as compatibility aliases, but new setup flows should prefer the canonical
     `qwen-*` auth-choice ids and `qwen/...` model refs.
+
     </Note>
 
   </Tab>
@@ -89,6 +95,7 @@ Choose your plan type and follow the setup steps.
     <Steps>
       <Step title="Get your API key">
         Create or copy an API key from [home.qwencloud.com/api-keys](https://home.qwencloud.com/api-keys).
+
       </Step>
       <Step title="Run onboarding">
         For the **Global** endpoint:
@@ -102,6 +109,7 @@ Choose your plan type and follow the setup steps.
         ```bash
         velaclaw onboard --auth-choice qwen-standard-api-key-cn
         ```
+
       </Step>
       <Step title="Set a default model">
         ```json5
@@ -113,18 +121,22 @@ Choose your plan type and follow the setup steps.
           },
         }
         ```
+
       </Step>
       <Step title="Verify the model is available">
         ```bash
         velaclaw models list --provider qwen
         ```
+
       </Step>
+
     </Steps>
 
     <Note>
     Legacy `modelstudio-*` auth-choice ids and `modelstudio/...` model refs still
     work as compatibility aliases, but new setup flows should prefer the canonical
     `qwen-*` auth-choice ids and `qwen/...` model refs.
+
     </Note>
 
   </Tab>
@@ -294,6 +306,7 @@ See [Video Generation](/tools/video-generation) for shared tool parameters, prov
     If the Gateway runs as a daemon (launchd/systemd), make sure `QWEN_API_KEY` is
     available to that process (for example, in `~/.velaclaw/.env` or via
     `env.shellEnv`).
+
   </Accordion>
 </AccordionGroup>
 
@@ -302,14 +315,18 @@ See [Video Generation](/tools/video-generation) for shared tool parameters, prov
 <CardGroup cols={2}>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
   <Card title="Video generation" href="/tools/video-generation" icon="video">
     Shared video tool parameters and provider selection.
+
   </Card>
   <Card title="Alibaba (ModelStudio)" href="/providers/alibaba" icon="cloud">
     Legacy ModelStudio provider and migration notes.
+
   </Card>
   <Card title="Troubleshooting" href="/help/troubleshooting" icon="wrench">
     General troubleshooting and FAQ.
+
   </Card>
 </CardGroup>

@@ -93,6 +93,7 @@ Built-in commands available today:
 - `/compact [instructions]` compacts the session context. See [/concepts/compaction](/concepts/compaction).
 - `/stop` aborts the current run.
 - `/session idle <duration|off>` and `/session max-age <duration|off>` manage thread-binding expiry.
+- `/claw new|attach|detach|ls|current|edit|kill-session` manages named claw sessions under the current bot. Tmux-style aliases such as `new-session -s`, `attach-session -t`, `list-sessions`, and `kill-session -t` are supported.
 - `/think <off|minimal|low|medium|high|xhigh>` sets the thinking level. Aliases: `/thinking`, `/t`.
 - `/verbose on|off|full` toggles verbose output. Alias: `/v`.
 - `/trace on|off` toggles plugin trace output for the current session.
@@ -173,6 +174,7 @@ Notes:
 
 - Commands accept an optional `:` between the command and args (e.g. `/think: high`, `/send: on`, `/help:`).
 - `/new <model>` accepts a model alias, `provider/model`, or a provider name (fuzzy match); if no match, the text is treated as the message body.
+- `/claw new <name> [role text]` creates an isolated named session and activates it for the current sender/conversation. `/new claw <name> ...` and `/claw new-session -s <name> ...` are aliases. Use `/claw detach` or `/claw use main` to return to the main session. Use `/claw kill-session -t <name> [--purge]` to delete a claw; `--purge` also removes its stored session.
 - For full provider usage breakdown, use `velaclaw status --usage`.
 - `/allowlist add|remove` requires `commands.config=true` and honors channel `configWrites`.
 - In multi-account channels, config-targeted `/allowlist --account <id>` and `/config set channels.<provider>.accounts.<id>...` also honor the target account's `configWrites`.

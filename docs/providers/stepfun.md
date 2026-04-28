@@ -55,6 +55,7 @@ Choose your provider surface and follow the setup steps.
         | -------------------------------- | -------------------------------- | ------------- |
         | `stepfun-standard-api-key-intl`  | `https://api.stepfun.ai/v1`     | International |
         | `stepfun-standard-api-key-cn`    | `https://api.stepfun.com/v1`    | China         |
+
       </Step>
       <Step title="Run onboarding">
         ```bash
@@ -66,18 +67,22 @@ Choose your provider surface and follow the setup steps.
         ```bash
         velaclaw onboard --auth-choice stepfun-standard-api-key-cn
         ```
+
       </Step>
       <Step title="Non-interactive alternative">
         ```bash
         velaclaw onboard --auth-choice stepfun-standard-api-key-intl \
           --stepfun-api-key "$STEPFUN_API_KEY"
         ```
+
       </Step>
       <Step title="Verify models are available">
         ```bash
         velaclaw models list --provider stepfun
         ```
+
       </Step>
+
     </Steps>
 
     ### Model refs
@@ -95,6 +100,7 @@ Choose your provider surface and follow the setup steps.
         | ---------------------------- | --------------------------------------- | ------------- |
         | `stepfun-plan-api-key-intl`  | `https://api.stepfun.ai/step_plan/v1`  | International |
         | `stepfun-plan-api-key-cn`    | `https://api.stepfun.com/step_plan/v1` | China         |
+
       </Step>
       <Step title="Run onboarding">
         ```bash
@@ -106,18 +112,22 @@ Choose your provider surface and follow the setup steps.
         ```bash
         velaclaw onboard --auth-choice stepfun-plan-api-key-cn
         ```
+
       </Step>
       <Step title="Non-interactive alternative">
         ```bash
         velaclaw onboard --auth-choice stepfun-plan-api-key-intl \
           --stepfun-api-key "$STEPFUN_API_KEY"
         ```
+
       </Step>
       <Step title="Verify models are available">
         ```bash
         velaclaw models list --provider stepfun-plan
         ```
+
       </Step>
+
     </Steps>
 
     ### Model refs
@@ -159,6 +169,7 @@ Choose your provider surface and follow the setup steps.
       },
     }
     ```
+
   </Accordion>
 
   <Accordion title="Full config: Step Plan provider">
@@ -198,6 +209,7 @@ Choose your provider surface and follow the setup steps.
       },
     }
     ```
+
   </Accordion>
 
   <Accordion title="Notes">
@@ -205,6 +217,7 @@ Choose your provider surface and follow the setup steps.
     - `step-3.5-flash-2603` is currently exposed only on `stepfun-plan`.
     - A single auth flow writes region-matched profiles for both `stepfun` and `stepfun-plan`, so both surfaces can be discovered together.
     - Use `velaclaw models list` and `velaclaw models set <provider/model>` to inspect or switch models.
+
   </Accordion>
 </AccordionGroup>
 
@@ -217,14 +230,18 @@ For the broader provider overview, see [Model providers](/concepts/model-provide
 <CardGroup cols={2}>
   <Card title="Model providers" href="/concepts/model-providers" icon="layers">
     Overview of all providers, model refs, and failover behavior.
+
   </Card>
   <Card title="Configuration reference" href="/gateway/configuration-reference" icon="gear">
     Full config schema for providers, models, and plugins.
+
   </Card>
   <Card title="Model selection" href="/concepts/models" icon="brain">
     How to choose and configure models.
+
   </Card>
   <Card title="StepFun Platform" href="https://platform.stepfun.com" icon="globe">
     StepFun API key management and documentation.
+
   </Card>
 </CardGroup>

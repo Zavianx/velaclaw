@@ -26,15 +26,18 @@ backend, not a dedicated Velaclaw provider plugin.
       --port 8080 \
       --device metal
     ```
+
   </Step>
   <Step title="Verify the server is reachable">
     ```bash
     curl http://127.0.0.1:8080/health
     curl http://127.0.0.1:8080/v1/models
     ```
+
   </Step>
   <Step title="Add an Velaclaw provider entry">
     Add an explicit provider entry and point your default model at it. See the full config example below.
+
   </Step>
 </Steps>
 
@@ -96,6 +99,7 @@ This example uses Gemma 4 on a local `inferrs` server.
     ```
 
     set `compat.requiresStringContent: true` in your model entry.
+
     </Warning>
 
     ```json5
@@ -172,22 +176,26 @@ This example uses Gemma 4 on a local `inferrs` server.
     `inferrs` is not running, not reachable, or not bound to the expected
     host/port. Make sure the server is started and listening on the address you
     configured.
+
   </Accordion>
 
   <Accordion title="messages[].content expected a string">
     Set `compat.requiresStringContent: true` in the model entry. See the
     `requiresStringContent` section above for details.
+
   </Accordion>
 
   <Accordion title="Direct /v1/chat/completions calls pass but velaclaw infer model run fails">
     Try setting `compat.supportsTools: false` to disable the tool schema surface.
     See the Gemma tool-schema caveat above.
+
   </Accordion>
 
   <Accordion title="inferrs still crashes on larger agent turns">
     If Velaclaw no longer gets schema errors but `inferrs` still crashes on larger
     agent turns, treat it as an upstream `inferrs` or model limitation. Reduce
     prompt pressure or switch to a different local backend or model.
+
   </Accordion>
 </AccordionGroup>
 
@@ -200,11 +208,14 @@ For general help, see [Troubleshooting](/help/troubleshooting) and [FAQ](/help/f
 <CardGroup cols={2}>
   <Card title="Local models" href="/gateway/local-models" icon="server">
     Running Velaclaw against local model servers.
+
   </Card>
   <Card title="Gateway troubleshooting" href="/gateway/troubleshooting#local-openai-compatible-backend-passes-direct-probes-but-agent-runs-fail" icon="wrench">
     Debugging local OpenAI-compatible backends that pass probes but fail agent runs.
+
   </Card>
   <Card title="Model providers" href="/concepts/model-providers" icon="layers">
     Overview of all providers, model refs, and failover behavior.
+
   </Card>
 </CardGroup>

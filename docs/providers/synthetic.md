@@ -25,17 +25,20 @@ Messages API.
   <Step title="Get an API key">
     Obtain a `SYNTHETIC_API_KEY` from your Synthetic account, or let the
     onboarding wizard prompt you for one.
+
   </Step>
   <Step title="Run onboarding">
     ```bash
     velaclaw onboard --auth-choice synthetic-api-key
     ```
+
   </Step>
   <Step title="Verify the default model">
     After onboarding the default model is set to:
     ```
     synthetic/hf:MiniMaxAI/MiniMax-M2.5
     ```
+
   </Step>
 </Steps>
 
@@ -119,6 +122,7 @@ account.
     If you enable a model allowlist (`agents.defaults.models`), add every
     Synthetic model you plan to use. Models not in the allowlist will be hidden
     from the agent.
+
   </Accordion>
 
   <Accordion title="Base URL override">
@@ -146,11 +150,14 @@ account.
 <CardGroup cols={2}>
   <Card title="Model providers" href="/concepts/model-providers" icon="layers">
     Provider rules, model refs, and failover behavior.
+
   </Card>
   <Card title="Configuration reference" href="/gateway/configuration-reference" icon="gear">
     Full config schema including provider settings.
+
   </Card>
   <Card title="Synthetic" href="https://synthetic.new" icon="arrow-up-right-from-square">
     Synthetic dashboard and API docs.
+
   </Card>
 </CardGroup>

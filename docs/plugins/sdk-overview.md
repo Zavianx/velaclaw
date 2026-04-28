@@ -115,6 +115,7 @@ explicitly promotes one as public.
     | `plugin-sdk/channel-contract` | Channel contract types |
     | `plugin-sdk/channel-feedback` | Feedback/reaction wiring |
     | `plugin-sdk/channel-secret-runtime` | Narrow secret-contract helpers such as `collectSimpleChannelFieldAssignments`, `getChannelSurface`, `pushAssignment`, and secret target types |
+
   </Accordion>
 
   <Accordion title="Provider subpaths">
@@ -143,6 +144,7 @@ explicitly promotes one as public.
     | `plugin-sdk/provider-stream` | `ProviderStreamFamily`, `buildProviderStreamFamilyHooks`, `composeProviderStreamWrappers`, stream wrapper types, and shared Anthropic/Bedrock/Google/Kilocode/Moonshot/OpenAI/OpenRouter/Z.A.I/MiniMax/Copilot wrapper helpers |
     | `plugin-sdk/provider-onboard` | Onboarding config patch helpers |
     | `plugin-sdk/global-singleton` | Process-local singleton/map/cache helpers |
+
   </Accordion>
 
   <Accordion title="Auth and security subpaths">
@@ -170,6 +172,7 @@ explicitly promotes one as public.
     | `plugin-sdk/secret-input` | Secret input parsing helpers |
     | `plugin-sdk/webhook-ingress` | Webhook request/target helpers |
     | `plugin-sdk/webhook-request-guards` | Request body size/timeout helpers |
+
   </Accordion>
 
   <Accordion title="Runtime and storage subpaths">
@@ -231,6 +234,7 @@ explicitly promotes one as public.
     | `plugin-sdk/agent-runtime` | Agent dir/identity/workspace helpers |
     | `plugin-sdk/directory-runtime` | Config-backed directory query/dedup |
     | `plugin-sdk/keyed-async-queue` | `KeyedAsyncQueue` |
+
   </Accordion>
 
   <Accordion title="Capability and testing subpaths">
@@ -256,6 +260,7 @@ explicitly promotes one as public.
     | `plugin-sdk/web-media` | Shared remote/local media loading helpers |
     | `plugin-sdk/zod` | Re-exported `zod` for plugin SDK consumers |
     | `plugin-sdk/testing` | `shouldAckReaction`, `buildDispatchInboundCaptureMock`, `createCliRuntimeCapture` |
+
   </Accordion>
 
   <Accordion title="Memory subpaths">
@@ -282,6 +287,7 @@ explicitly promotes one as public.
     | `plugin-sdk/memory-host-search` | Active memory runtime facade for search-manager access |
     | `plugin-sdk/memory-host-status` | Vendor-neutral alias for memory host status helpers |
     | `plugin-sdk/memory-lancedb` | Bundled memory-lancedb helper surface |
+
   </Accordion>
 
   <Accordion title="Reserved bundled-helper subpaths">
@@ -293,6 +299,7 @@ explicitly promotes one as public.
     | IRC | `plugin-sdk/irc`, `plugin-sdk/irc-surface` | Bundled IRC helper surface |
     | Channel-specific helpers | `plugin-sdk/googlechat`, `plugin-sdk/zalouser`, `plugin-sdk/bluebubbles`, `plugin-sdk/bluebubbles-policy`, `plugin-sdk/mattermost`, `plugin-sdk/mattermost-policy`, `plugin-sdk/feishu-conversation`, `plugin-sdk/msteams`, `plugin-sdk/nextcloud-talk`, `plugin-sdk/nostr`, `plugin-sdk/tlon`, `plugin-sdk/twitch` | Bundled channel compatibility/helper seams |
     | Auth/plugin-specific helpers | `plugin-sdk/github-copilot-login`, `plugin-sdk/github-copilot-token`, `plugin-sdk/diagnostics-otel`, `plugin-sdk/diffs`, `plugin-sdk/llm-task`, `plugin-sdk/thread-ownership`, `plugin-sdk/voice-call` | Bundled feature/plugin helper seams; `plugin-sdk/github-copilot-token` currently exports `DEFAULT_COPILOT_API_BASE_URL`, `deriveCopilotApiBaseUrlFromToken`, and `resolveCopilotApiToken` |
+
   </Accordion>
 </AccordionGroup>
 

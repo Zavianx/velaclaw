@@ -23,6 +23,7 @@ Alibaba Model Studio / DashScope.
     ```bash
     velaclaw onboard --auth-choice qwen-standard-api-key
     ```
+
   </Step>
   <Step title="Set a default video model">
     ```json5
@@ -36,11 +37,13 @@ Alibaba Model Studio / DashScope.
       },
     }
     ```
+
   </Step>
   <Step title="Verify the provider is available">
     ```bash
     velaclaw models list --provider alibaba
     ```
+
   </Step>
 </Steps>
 
@@ -106,11 +109,14 @@ Reference image/video mode currently requires **remote http(s) URLs**. Local fil
 <CardGroup cols={2}>
   <Card title="Video generation" href="/tools/video-generation" icon="video">
     Shared video tool parameters and provider selection.
+
   </Card>
   <Card title="Qwen" href="/providers/qwen" icon="microchip">
     Qwen provider setup and DashScope integration.
+
   </Card>
   <Card title="Configuration reference" href="/gateway/configuration-reference#agent-defaults" icon="gear">
     Agent defaults and model configuration.
+
   </Card>
 </CardGroup>

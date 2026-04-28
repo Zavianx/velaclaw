@@ -236,6 +236,7 @@ See [ClawDock](/install/clawdock) for the full helper guide.
     commands can reach the gateway over `127.0.0.1`. Treat this as a shared
     trust boundary. The compose config drops `NET_RAW`/`NET_ADMIN` and enables
     `no-new-privileges` on `velaclaw-cli`.
+
   </Accordion>
 
   <Accordion title="Permissions and EACCES">
@@ -293,6 +294,7 @@ See [ClawDock](/install/clawdock) for the full helper guide.
     If you pick OpenAI Codex OAuth in the wizard, it opens a browser URL. In
     Docker or headless setups, copy the full redirect URL you land on and paste
     it back into the wizard to finish auth.
+
   </Accordion>
 
   <Accordion title="Base image metadata">
@@ -300,6 +302,7 @@ See [ClawDock](/install/clawdock) for the full helper guide.
     annotations including `org.opencontainers.image.base.name`,
     `org.opencontainers.image.source`, and others. See
     [OCI image annotations](https://github.com/opencontainers/image-spec/blob/main/annotations.md).
+
   </Accordion>
 </AccordionGroup>
 
@@ -356,21 +359,25 @@ scripts/sandbox-setup.sh
     [`scripts/sandbox-setup.sh`](https://github.com/Zavianx/velaclaw/blob/main/scripts/sandbox-setup.sh)
     or set `agents.defaults.sandbox.docker.image` to your custom image.
     Containers are auto-created per session on demand.
+
   </Accordion>
 
   <Accordion title="Permission errors in sandbox">
     Set `docker.user` to a UID:GID that matches your mounted workspace ownership,
     or chown the workspace folder.
+
   </Accordion>
 
   <Accordion title="Custom tools not found in sandbox">
     Velaclaw runs commands with `sh -lc` (login shell), which sources
     `/etc/profile` and may reset PATH. Set `docker.env.PATH` to prepend your
     custom tool paths, or add a script under `/etc/profile.d/` in your Dockerfile.
+
   </Accordion>
 
   <Accordion title="OOM-killed during image build (exit 137)">
     The VM needs at least 2 GB RAM. Use a larger machine class and retry.
+
   </Accordion>
 
   <Accordion title="Unauthorized or pairing required in Control UI">

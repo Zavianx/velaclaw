@@ -20,6 +20,7 @@ citations.
   <Step title="Create a key">
     Go to [Google AI Studio](https://aistudio.google.com/apikey) and create an
     API key.
+
   </Step>
   <Step title="Store the key">
     Set `GEMINI_API_KEY` in the Gateway environment, or configure via:

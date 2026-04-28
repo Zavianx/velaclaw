@@ -18,11 +18,13 @@ The fastest way to install. It detects your OS, installs Node if needed, install
     ```bash
     curl -fsSL https://velaclaw.ai/install.sh | bash
     ```
+
   </Tab>
   <Tab title="Windows (PowerShell)">
     ```powershell
     iwr -useb https://velaclaw.ai/install.ps1 | iex
     ```
+
   </Tab>
 </Tabs>
 
@@ -33,11 +35,13 @@ To install without running onboarding:
     ```bash
     curl -fsSL https://velaclaw.ai/install.sh | bash -s -- --no-onboard
     ```
+
   </Tab>
   <Tab title="Windows (PowerShell)">
     ```powershell
     & ([scriptblock]::Create((iwr -useb https://velaclaw.ai/install.ps1))) -NoOnboard
     ```
+
   </Tab>
 </Tabs>
 
@@ -73,6 +77,7 @@ If you already manage Node yourself:
     npm install -g velaclaw@latest
     velaclaw onboard --install-daemon
     ```
+
   </Tab>
   <Tab title="pnpm">
     ```bash
@@ -83,6 +88,7 @@ If you already manage Node yourself:
 
     <Note>
     pnpm requires explicit approval for packages with build scripts. Run `pnpm approve-builds -g` after the first install.
+
     </Note>
 
   </Tab>
@@ -94,6 +100,7 @@ If you already manage Node yourself:
 
     <Note>
     Bun is supported for the global CLI install path. For the Gateway runtime, Node remains the recommended daemon runtime.
+
     </Note>
 
   </Tab>
@@ -139,18 +146,23 @@ velaclaw update --tag main
 <CardGroup cols={2}>
   <Card title="Docker" href="/install/docker" icon="container">
     Containerized or headless deployments.
+
   </Card>
   <Card title="Podman" href="/install/podman" icon="container">
     Rootless container alternative to Docker.
+
   </Card>
   <Card title="Nix" href="/install/nix" icon="snowflake">
     Declarative install via Nix flake.
+
   </Card>
   <Card title="Ansible" href="/install/ansible" icon="server">
     Automated fleet provisioning.
+
   </Card>
   <Card title="Bun" href="/install/bun" icon="zap">
     CLI-only usage via the Bun runtime.
+
   </Card>
 </CardGroup>
 
@@ -190,12 +202,15 @@ Deploy Velaclaw on a cloud server or VPS:
 <CardGroup cols={3}>
   <Card title="Updating" href="/install/updating" icon="refresh-cw">
     Keep Velaclaw up to date.
+
   </Card>
   <Card title="Migrating" href="/install/migrating" icon="arrow-right">
     Move to a new machine.
+
   </Card>
   <Card title="Uninstall" href="/install/uninstall" icon="trash-2">
     Remove Velaclaw completely.
+
   </Card>
 </CardGroup>
 

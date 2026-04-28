@@ -41,6 +41,7 @@ Run a persistent, always-on Velaclaw Gateway on a Raspberry Pi. Since the Pi is 
     ```bash
     ssh user@gateway-host
     ```
+
   </Step>
 
   <Step title="Update the system">
@@ -60,6 +61,7 @@ Run a persistent, always-on Velaclaw Gateway on a Raspberry Pi. Since the Pi is 
     sudo apt install -y nodejs
     node --version
     ```
+
   </Step>
 
   <Step title="Add swap (important for 2 GB or less)">
@@ -81,6 +83,7 @@ Run a persistent, always-on Velaclaw Gateway on a Raspberry Pi. Since the Pi is 
     ```bash
     curl -fsSL https://velaclaw.ai/install.sh | bash
     ```
+
   </Step>
 
   <Step title="Run onboarding">
@@ -98,6 +101,7 @@ Run a persistent, always-on Velaclaw Gateway on a Raspberry Pi. Since the Pi is 
     systemctl --user status velaclaw-gateway.service
     journalctl --user -u velaclaw-gateway.service -f
     ```
+
   </Step>
 
   <Step title="Access the Control UI">

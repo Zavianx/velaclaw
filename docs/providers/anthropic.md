@@ -26,7 +26,8 @@ Anthropic's current public docs:
 - [Claude Agent SDK overview](https://platform.claude.com/docs/en/agent-sdk/overview)
 - [Using Claude Code with your Pro or Max plan](https://support.claude.com/en/articles/11145838-using-claude-code-with-your-pro-or-max-plan)
 - [Using Claude Code with your Team or Enterprise plan](https://support.anthropic.com/en/articles/11845131-using-claude-code-with-your-team-or-enterprise-plan/)
-  </Warning>
+
+</Warning>
 
 ## Getting started
 
@@ -37,6 +38,7 @@ Anthropic's current public docs:
     <Steps>
       <Step title="Get your API key">
         Create an API key in the [Anthropic Console](https://console.anthropic.com/).
+
       </Step>
       <Step title="Run onboarding">
         ```bash
@@ -49,12 +51,15 @@ Anthropic's current public docs:
         ```bash
         velaclaw onboard --anthropic-api-key "$ANTHROPIC_API_KEY"
         ```
+
       </Step>
       <Step title="Verify the model is available">
         ```bash
         velaclaw models list --provider anthropic
         ```
+
       </Step>
+
     </Steps>
 
     ### Config example
@@ -78,6 +83,7 @@ Anthropic's current public docs:
         ```bash
         claude --version
         ```
+
       </Step>
       <Step title="Run onboarding">
         ```bash
@@ -86,20 +92,25 @@ Anthropic's current public docs:
         ```
 
         Velaclaw detects and reuses the existing Claude CLI credentials.
+
       </Step>
       <Step title="Verify the model is available">
         ```bash
         velaclaw models list --provider anthropic
         ```
+
       </Step>
+
     </Steps>
 
     <Note>
     Setup and runtime details for the Claude CLI backend are in [CLI Backends](/gateway/cli-backends).
+
     </Note>
 
     <Tip>
     If you want the clearest billing path, use an Anthropic API key instead. Velaclaw also supports subscription-style options from [OpenAI Codex](/providers/openai), [Qwen Cloud](/providers/qwen), [MiniMax](/providers/minimax), and [Z.AI / GLM](/providers/glm).
+
     </Tip>
 
   </Tab>
@@ -191,6 +202,7 @@ Velaclaw supports Anthropic's prompt caching feature for API-key auth.
     - Anthropic Claude models on Bedrock (`amazon-bedrock/*anthropic.claude*`) accept `cacheRetention` pass-through when configured.
     - Non-Anthropic Bedrock models are forced to `cacheRetention: "none"` at runtime.
     - API-key smart defaults also seed `cacheRetention: "short"` for Claude-on-Bedrock refs when no explicit value is set.
+
   </Accordion>
 </AccordionGroup>
 
@@ -223,6 +235,7 @@ Velaclaw supports Anthropic's prompt caching feature for API-key auth.
     - Only injected for direct `api.anthropic.com` requests. Proxy routes leave `service_tier` untouched.
     - Explicit `serviceTier` or `service_tier` params override `/fast` when both are set.
     - On accounts without Priority Tier capacity, `service_tier: "auto"` may resolve to `standard`.
+
     </Note>
 
   </Accordion>
@@ -263,6 +276,7 @@ Velaclaw supports Anthropic's prompt caching feature for API-key auth.
 
     <Warning>
     Requires long-context access on your Anthropic credential. Legacy token auth (`sk-ant-oat-*`) is rejected for 1M context requests — Velaclaw logs a warning and falls back to the standard context window.
+
     </Warning>
 
   </Accordion>
@@ -273,18 +287,22 @@ Velaclaw supports Anthropic's prompt caching feature for API-key auth.
 <AccordionGroup>
   <Accordion title="401 errors / token suddenly invalid">
     Anthropic token auth can expire or be revoked. For new setups, migrate to an Anthropic API key.
+
   </Accordion>
 
   <Accordion title='No API key found for provider "anthropic"'>
     Auth is **per agent**. New agents don't inherit the main agent's keys. Re-run onboarding for that agent, or configure an API key on the gateway host, then verify with `velaclaw models status`.
+
   </Accordion>
 
   <Accordion title='No credentials found for profile "anthropic:default"'>
     Run `velaclaw models status` to see which auth profile is active. Re-run onboarding, or configure an API key for that profile path.
+
   </Accordion>
 
   <Accordion title="No available auth profile (all in cooldown)">
     Check `velaclaw models status --json` for `auth.unusableProfiles`. Anthropic rate-limit cooldowns can be model-scoped, so a sibling Anthropic model may still be usable. Add another Anthropic profile or wait for cooldown.
+
   </Accordion>
 </AccordionGroup>
 
@@ -297,14 +315,18 @@ More help: [Troubleshooting](/help/troubleshooting) and [FAQ](/help/faq).
 <CardGroup cols={2}>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
   <Card title="CLI backends" href="/gateway/cli-backends" icon="terminal">
     Claude CLI backend setup and runtime details.
+
   </Card>
   <Card title="Prompt caching" href="/reference/prompt-caching" icon="database">
     How prompt caching works across providers.
+
   </Card>
   <Card title="OAuth and auth" href="/gateway/authentication" icon="key">
     Auth details and credential reuse rules.
+
   </Card>
 </CardGroup>

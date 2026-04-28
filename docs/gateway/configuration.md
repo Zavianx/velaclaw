@@ -41,6 +41,7 @@ See the [full reference](/gateway/configuration-reference) for every available f
     velaclaw onboard       # full onboarding flow
     velaclaw configure     # config wizard
     ```
+
   </Tab>
   <Tab title="CLI (one-liners)">
     ```bash
@@ -48,6 +49,7 @@ See the [full reference](/gateway/configuration-reference) for every available f
     velaclaw config set agents.defaults.heartbeat.every "2h"
     velaclaw config unset plugins.entries.brave.config.webSearch.apiKey
     ```
+
   </Tab>
   <Tab title="Control UI">
     Open [http://127.0.0.1:18789](http://127.0.0.1:18789) and use the **Config** tab.
@@ -56,9 +58,11 @@ See the [full reference](/gateway/configuration-reference) for every available f
     available, with a **Raw JSON** editor as an escape hatch. For drill-down
     UIs and other tooling, the gateway also exposes `config.schema.lookup` to
     fetch one path-scoped schema node plus immediate child summaries.
+
   </Tab>
   <Tab title="Direct edit">
     Edit `~/.Zavianx/velaclaw-dev.json` directly. The Gateway watches the file and applies changes automatically (see [hot reload](#config-hot-reload)).
+
   </Tab>
 </Tabs>
 
@@ -554,6 +558,7 @@ then `config.patch`.
 
     <Warning>
     `config.apply` replaces the **entire config**. Use `config.patch` for partial updates, or `velaclaw config set` for single keys.
+
     </Warning>
 
     Params:

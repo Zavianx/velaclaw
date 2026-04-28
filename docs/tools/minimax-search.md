@@ -19,6 +19,7 @@ snippets, and related queries.
   <Step title="Create a key">
     Create or copy a MiniMax Coding Plan key from
     [MiniMax Platform](https://platform.minimax.io/user-center/basic-information/interface-key).
+
   </Step>
   <Step title="Store the key">
     Set `MINIMAX_CODE_PLAN_KEY` in the Gateway environment, or configure via:

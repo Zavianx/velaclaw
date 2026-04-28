@@ -23,6 +23,7 @@ are **external** (published on npm by the community).
     ```bash
     velaclaw plugins list
     ```
+
   </Step>
 
   <Step title="Install a plugin">
@@ -99,20 +100,24 @@ and the [Plugin SDK Overview](/plugins/sdk-overview).
     `moonshot`, `nvidia`, `openai`, `opencode`, `opencode-go`, `openrouter`,
     `qianfan`, `synthetic`, `together`, `venice`,
     `vercel-ai-gateway`, `volcengine`, `xiaomi`, `zai`
+
   </Accordion>
 
   <Accordion title="Memory plugins">
     - `memory-core` — bundled memory search (default via `plugins.slots.memory`)
     - `memory-lancedb` — install-on-demand long-term memory with auto-recall/capture (set `plugins.slots.memory = "memory-lancedb"`)
+
   </Accordion>
 
   <Accordion title="Speech providers (enabled by default)">
     `elevenlabs`, `microsoft`
+
   </Accordion>
 
   <Accordion title="Other">
     - `browser` — bundled browser plugin for the browser tool, `velaclaw browser` CLI, `browser.request` gateway method, browser runtime, and default browser control service (enabled by default; disable before replacing it)
     - `copilot-proxy` — VS Code Copilot Proxy bridge (disabled by default)
+
   </Accordion>
 </AccordionGroup>
 
@@ -160,19 +165,23 @@ Velaclaw scans for plugins in this order (first match wins):
 <Steps>
   <Step title="Config paths">
     `plugins.load.paths` — explicit file or directory paths.
+
   </Step>
 
   <Step title="Workspace extensions">
     `\<workspace\>/.velaclaw/<plugin-root>/*.ts` and `\<workspace\>/.velaclaw/<plugin-root>/*/index.ts`.
+
   </Step>
 
   <Step title="Global extensions">
     `~/.velaclaw/<plugin-root>/*.ts` and `~/.velaclaw/<plugin-root>/*/index.ts`.
+
   </Step>
 
   <Step title="Bundled plugins">
     Shipped with Velaclaw. Many are enabled by default (model providers, speech).
     Others require explicit enablement.
+
   </Step>
 </Steps>
 

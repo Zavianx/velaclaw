@@ -83,6 +83,7 @@ fnm use 24
 
   <Warning>
   Make sure your version manager is initialized in your shell startup file (`~/.zshrc` or `~/.bashrc`). If it isn't, `velaclaw` may not be found in new terminal sessions because the PATH won't include Node's bin directory.
+
   </Warning>
 </Accordion>
 
@@ -97,6 +98,7 @@ This almost always means npm's global bin directory isn't on your PATH.
     ```bash
     npm prefix -g
     ```
+
   </Step>
   <Step title="Check if it's on your PATH">
     ```bash
@@ -116,10 +118,13 @@ This almost always means npm's global bin directory isn't on your PATH.
         ```
 
         Then open a new terminal (or run `rehash` in zsh / `hash -r` in bash).
+
       </Tab>
       <Tab title="Windows">
         Add the output of `npm prefix -g` to your system PATH via Settings → System → Environment Variables.
+
       </Tab>
+
     </Tabs>
 
   </Step>

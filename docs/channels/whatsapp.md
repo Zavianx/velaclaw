@@ -27,12 +27,15 @@ velaclaw plugins install @velaclaw/whatsapp
 <CardGroup cols={3}>
   <Card title="Pairing" icon="link" href="/channels/pairing">
     Default DM policy is pairing for unknown senders.
+
   </Card>
   <Card title="Channel troubleshooting" icon="wrench" href="/channels/troubleshooting">
     Cross-channel diagnostics and repair playbooks.
+
   </Card>
   <Card title="Gateway configuration" icon="settings" href="/gateway/configuration">
     Full channel config patterns and examples.
+
   </Card>
 </CardGroup>
 
@@ -312,6 +315,7 @@ When the linked self number is also present in `allowFrom`, WhatsApp self-chat s
     - default chunk limit: `channels.whatsapp.textChunkLimit = 4000`
     - `channels.whatsapp.chunkMode = "length" | "newline"`
     - `newline` mode prefers paragraph boundaries (blank lines), then falls back to length-safe chunking
+
   </Accordion>
 
   <Accordion title="Outbound media behavior">
@@ -320,6 +324,7 @@ When the linked self number is also present in `allowFrom`, WhatsApp self-chat s
     - animated GIF playback is supported via `gifPlayback: true` on video sends
     - captions are applied to the first media item when sending multi-media reply payloads
     - media source can be HTTP(S), `file://`, or local paths
+
   </Accordion>
 
   <Accordion title="Media size limits and fallback behavior">
@@ -328,6 +333,7 @@ When the linked self number is also present in `allowFrom`, WhatsApp self-chat s
     - per-account overrides use `channels.whatsapp.accounts.<accountId>.mediaMaxMb`
     - images are auto-optimized (resize/quality sweep) to fit limits
     - on media send failure, first-item fallback sends text warning instead of dropping the response silently
+
   </Accordion>
 </AccordionGroup>
 
@@ -389,12 +395,14 @@ Behavior notes:
     - account ids come from `channels.whatsapp.accounts`
     - default account selection: `default` if present, otherwise first configured account id (sorted)
     - account ids are normalized internally for lookup
+
   </Accordion>
 
   <Accordion title="Credential paths and legacy compatibility">
     - current auth path: `~/.velaclaw/credentials/whatsapp/<accountId>/creds.json`
     - backup file: `creds.json.bak`
     - legacy default auth in `~/.velaclaw/credentials/` is still recognized/migrated for default-account flows
+
   </Accordion>
 
   <Accordion title="Logout behavior">
@@ -462,6 +470,7 @@ Behavior notes:
 
   <Accordion title="Bun runtime warning">
     WhatsApp gateway runtime should use Node. Bun is flagged as incompatible for stable WhatsApp/Telegram gateway operation.
+
   </Accordion>
 </AccordionGroup>
 

@@ -36,6 +36,7 @@ local while `web_search` and `x_search` can use xAI Responses under the hood.
     Pick a provider and complete any required setup. Some providers are
     key-free, while others use API keys. See the provider pages below for
     details.
+
   </Step>
   <Step title="Configure">
     ```bash
@@ -44,6 +45,7 @@ local while `web_search` and `x_search` can use xAI Responses under the hood.
     This stores the provider and any needed credential. You can also set an env
     var (for example `BRAVE_API_KEY`) and skip this step for API-backed
     providers.
+
   </Step>
   <Step title="Use it">
     The agent can now call `research_task` for structured current research:
@@ -76,39 +78,51 @@ local while `web_search` and `x_search` can use xAI Responses under the hood.
 <CardGroup cols={2}>
   <Card title="Brave Search" icon="shield" href="/tools/brave-search">
     Structured results with snippets. Supports `llm-context` mode, country/language filters. Free tier available.
+
   </Card>
   <Card title="DuckDuckGo" icon="bird" href="/tools/duckduckgo-search">
     Key-free fallback. No API key needed. Unofficial HTML-based integration.
+
   </Card>
   <Card title="Exa" icon="brain" href="/tools/exa-search">
     Neural + keyword search with content extraction (highlights, text, summaries).
+
   </Card>
   <Card title="Firecrawl" icon="flame" href="/tools/firecrawl">
     Structured results. Best paired with `firecrawl_search` and `firecrawl_scrape` for deep extraction.
+
   </Card>
   <Card title="Gemini" icon="sparkles" href="/tools/gemini-search">
     AI-synthesized answers with citations via Google Search grounding.
+
   </Card>
   <Card title="Grok" icon="zap" href="/tools/grok-search">
     AI-synthesized answers with citations via xAI web grounding.
+
   </Card>
   <Card title="Kimi" icon="moon" href="/tools/kimi-search">
     AI-synthesized answers with citations via Moonshot web search.
+
   </Card>
   <Card title="MiniMax Search" icon="globe" href="/tools/minimax-search">
     Structured results via the MiniMax Coding Plan search API.
+
   </Card>
   <Card title="Ollama Web Search" icon="globe" href="/tools/ollama-search">
     Key-free search via your configured Ollama host. Requires `ollama signin`.
+
   </Card>
   <Card title="Perplexity" icon="search" href="/tools/perplexity-search">
     Structured results with content extraction controls and domain filtering.
+
   </Card>
   <Card title="SearXNG" icon="server" href="/tools/searxng-search">
     Self-hosted meta-search. No API key needed. Aggregates Google, Bing, DuckDuckGo, and more.
+
   </Card>
   <Card title="Tavily" icon="globe" href="/tools/tavily">
     Structured results with search depth, topic filtering, and `tavily_extract` for URL extraction.
+
   </Card>
 </CardGroup>
 

@@ -24,11 +24,13 @@ models including Llama, DeepSeek, Kimi, and more through a unified API.
   <Step title="Get an API key">
     Create an API key at
     [api.together.ai/settings/api-keys](https://api.together.ai/settings/api-keys).
+
   </Step>
   <Step title="Run onboarding">
     ```bash
     velaclaw onboard --auth-choice together-api-key
     ```
+
   </Step>
   <Step title="Set a default model">
     ```json5
@@ -40,6 +42,7 @@ models including Llama, DeepSeek, Kimi, and more through a unified API.
       },
     }
     ```
+
   </Step>
 </Steps>
 
@@ -112,6 +115,7 @@ provider selection, and failover behavior.
     Keys set only in your interactive shell are not visible to daemon-managed
     gateway processes. Use `~/.velaclaw/.env` or `env.shellEnv` config for
     persistent availability.
+
     </Warning>
 
   </Accordion>
@@ -121,6 +125,7 @@ provider selection, and failover behavior.
     - If models are not appearing, confirm the API key is set in the correct
       environment for your Gateway process.
     - Model refs use the form `together/<model-id>`.
+
   </Accordion>
 </AccordionGroup>
 
@@ -129,14 +134,18 @@ provider selection, and failover behavior.
 <CardGroup cols={2}>
   <Card title="Model providers" href="/concepts/model-providers" icon="layers">
     Provider rules, model refs, and failover behavior.
+
   </Card>
   <Card title="Video generation" href="/tools/video-generation" icon="video">
     Shared video generation tool parameters and provider selection.
+
   </Card>
   <Card title="Configuration reference" href="/gateway/configuration-reference" icon="gear">
     Full config schema including provider settings.
+
   </Card>
   <Card title="Together AI" href="https://together.ai" icon="arrow-up-right-from-square">
     Together AI dashboard, API docs, and pricing.
+
   </Card>
 </CardGroup>

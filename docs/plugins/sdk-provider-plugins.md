@@ -87,6 +87,7 @@ API key auth, and dynamic model resolution.
       }
     }
     ```
+
     </CodeGroup>
 
     The manifest declares `providerAuthEnvVars` so Velaclaw can detect
@@ -430,6 +431,7 @@ API key auth, and dynamic model resolution.
           };
         },
         ```
+
       </Tab>
       <Tab title="Custom headers">
         For providers that need custom request headers or body modifications:
@@ -448,6 +450,7 @@ API key auth, and dynamic model resolution.
           };
         },
         ```
+
       </Tab>
       <Tab title="Native transport identity">
         For providers that need native request/session headers or metadata on
@@ -470,6 +473,7 @@ API key auth, and dynamic model resolution.
           degradeCooldownMs: 60_000,
         }),
         ```
+
       </Tab>
       <Tab title="Usage and billing">
         For providers that expose usage/billing data:
@@ -483,7 +487,9 @@ API key auth, and dynamic model resolution.
           return await fetchAcmeUsage(ctx.token, ctx.timeoutMs);
         },
         ```
+
       </Tab>
+
     </Tabs>
 
     <Accordion title="All available provider hooks">
@@ -555,6 +561,7 @@ API key auth, and dynamic model resolution.
 
       For detailed descriptions and real-world examples, see
       [Internals: Provider Runtime Hooks](/plugins/architecture#provider-runtime-hooks).
+
     </Accordion>
 
   </Step>

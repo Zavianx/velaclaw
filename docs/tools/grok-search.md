@@ -42,6 +42,7 @@ If you skip it, you can enable or change `x_search` later in config.
 <Steps>
   <Step title="Create a key">
     Get an API key from [xAI](https://console.x.ai/).
+
   </Step>
   <Step title="Store the key">
     Set `XAI_API_KEY` in the Gateway environment, or configure via:

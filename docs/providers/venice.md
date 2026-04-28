@@ -48,6 +48,7 @@ Anonymized models are **not** fully private. Venice strips metadata before forwa
     1. Sign up at [venice.ai](https://venice.ai)
     2. Go to **Settings > API Keys > Create new key**
     3. Copy your API key (format: `vapi_xxxxxxxxxxxx`)
+
   </Step>
   <Step title="Configure Velaclaw">
     Choose your preferred setup method:
@@ -63,11 +64,13 @@ Anonymized models are **not** fully private. Venice strips metadata before forwa
         2. Show all available Venice models
         3. Let you pick your default model
         4. Configure the provider automatically
+
       </Tab>
       <Tab title="Environment variable">
         ```bash
         export VENICE_API_KEY="vapi_xxxxxxxxxxxx"
         ```
+
       </Tab>
       <Tab title="Non-interactive">
         ```bash
@@ -75,7 +78,9 @@ Anonymized models are **not** fully private. Venice strips metadata before forwa
           --auth-choice venice-api-key \
           --venice-api-key "vapi_xxxxxxxxxxxx"
         ```
+
       </Tab>
+
     </Tabs>
 
   </Step>
@@ -83,6 +88,7 @@ Anonymized models are **not** fully private. Venice strips metadata before forwa
     ```bash
     velaclaw agent --model venice/kimi-k2-5 --message "Hello, are you working?"
     ```
+
   </Step>
 </Steps>
 
@@ -157,6 +163,7 @@ Use the table below to pick the right model for your use case.
     | `zai-org-glm-5`                        | GLM 5                              | 198k    | Reasoning                  |
     | `minimax-m21`                          | MiniMax M2.1                       | 198k    | Reasoning                  |
     | `minimax-m25`                          | MiniMax M2.5                       | 198k    | Reasoning                  |
+
   </Accordion>
 
   <Accordion title="Anonymized models (15) — via Venice proxy">
@@ -177,6 +184,7 @@ Use the table below to pick the right model for your use case.
     | `gemini-3-flash-preview`        | Gemini 3 Flash (via Venice)    | 256k    | Reasoning, vision         |
     | `grok-41-fast`                  | Grok 4.1 Fast (via Venice)     | 1M      | Reasoning, vision         |
     | `grok-code-fast-1`              | Grok Code Fast 1 (via Venice)  | 256k    | Reasoning, coding         |
+
   </Accordion>
 </AccordionGroup>
 
@@ -245,10 +253,12 @@ velaclaw agent --model venice/qwen3-coder-480b-a35b-instruct --message "Refactor
 
   <Accordion title="Model not available">
     The Venice model catalog updates dynamically. Run `velaclaw models list` to see currently available models. Some models may be temporarily offline.
+
   </Accordion>
 
   <Accordion title="Connection issues">
     Venice API is at `https://api.venice.ai/api/v1`. Ensure your network allows HTTPS connections.
+
   </Accordion>
 </AccordionGroup>
 
@@ -287,6 +297,7 @@ More help: [Troubleshooting](/help/troubleshooting) and [FAQ](/help/faq).
       },
     }
     ```
+
   </Accordion>
 </AccordionGroup>
 
@@ -295,14 +306,18 @@ More help: [Troubleshooting](/help/troubleshooting) and [FAQ](/help/faq).
 <CardGroup cols={2}>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
   <Card title="Venice AI" href="https://venice.ai" icon="globe">
     Venice AI homepage and account signup.
+
   </Card>
   <Card title="API documentation" href="https://docs.venice.ai" icon="book">
     Venice API reference and developer docs.
+
   </Card>
   <Card title="Pricing" href="https://venice.ai/pricing" icon="credit-card">
     Current Venice credit rates and plans.
+
   </Card>
 </CardGroup>

@@ -39,6 +39,7 @@ Choose your preferred auth method and follow the setup steps.
           --auth-choice gemini-api-key \
           --gemini-api-key "$GEMINI_API_KEY"
         ```
+
       </Step>
       <Step title="Set a default model">
         ```json5
@@ -50,16 +51,20 @@ Choose your preferred auth method and follow the setup steps.
           },
         }
         ```
+
       </Step>
       <Step title="Verify the model is available">
         ```bash
         velaclaw models list --provider google
         ```
+
       </Step>
+
     </Steps>
 
     <Tip>
     The environment variables `GEMINI_API_KEY` and `GOOGLE_API_KEY` are both accepted. Use whichever you already have configured.
+
     </Tip>
 
   </Tab>
@@ -70,6 +75,7 @@ Choose your preferred auth method and follow the setup steps.
     <Warning>
     The `google-gemini-cli` provider is an unofficial integration. Some users
     report account restrictions when using OAuth this way. Use at your own risk.
+
     </Warning>
 
     <Steps>
@@ -86,17 +92,21 @@ Choose your preferred auth method and follow the setup steps.
 
         Velaclaw supports both Homebrew installs and global npm installs, including
         common Windows/npm layouts.
+
       </Step>
       <Step title="Log in via OAuth">
         ```bash
         velaclaw models auth login --provider google-gemini-cli --set-default
         ```
+
       </Step>
       <Step title="Verify the model is available">
         ```bash
         velaclaw models list --provider google-gemini-cli
         ```
+
       </Step>
+
     </Steps>
 
     - Default model: `google-gemini-cli/gemini-3-flash-preview`
@@ -112,11 +122,13 @@ Choose your preferred auth method and follow the setup steps.
     <Note>
     If Gemini CLI OAuth requests fail after login, set `GOOGLE_CLOUD_PROJECT` or
     `GOOGLE_CLOUD_PROJECT_ID` on the gateway host and retry.
+
     </Note>
 
     <Note>
     If login fails before the browser flow starts, make sure the local `gemini`
     command is installed and on `PATH`.
+
     </Note>
 
     The OAuth-only `google-gemini-cli` provider is a separate text-inference
@@ -281,6 +293,7 @@ See [Music Generation](/tools/music-generation) for shared tool parameters, prov
     If the Gateway runs as a daemon (launchd/systemd), make sure `GEMINI_API_KEY`
     is available to that process (for example, in `~/.velaclaw/.env` or via
     `env.shellEnv`).
+
   </Accordion>
 </AccordionGroup>
 
@@ -289,14 +302,18 @@ See [Music Generation](/tools/music-generation) for shared tool parameters, prov
 <CardGroup cols={2}>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
   <Card title="Image generation" href="/tools/image-generation" icon="image">
     Shared image tool parameters and provider selection.
+
   </Card>
   <Card title="Video generation" href="/tools/video-generation" icon="video">
     Shared video tool parameters and provider selection.
+
   </Card>
   <Card title="Music generation" href="/tools/music-generation" icon="music">
     Shared music tool parameters and provider selection.
+
   </Card>
 </CardGroup>

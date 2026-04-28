@@ -15,6 +15,7 @@ Velaclaw ships a bundled `xai` provider plugin for Grok models.
 <Steps>
   <Step title="Create an API key">
     Create an API key in the [xAI console](https://console.x.ai/).
+
   </Step>
   <Step title="Set your API key">
     Set `XAI_API_KEY`, or run:
@@ -30,6 +31,7 @@ Velaclaw ships a bundled `xai` provider plugin for Grok models.
       agents: { defaults: { model: { primary: "xai/grok-4" } } },
     }
     ```
+
   </Step>
 </Steps>
 
@@ -109,6 +111,7 @@ Legacy aliases still normalize to the canonical bundled ids:
     <Warning>
     Local video buffers are not accepted. Use remote `http(s)` URLs for
     video-reference and edit inputs.
+
     </Warning>
 
     To use xAI as the default video provider:
@@ -128,6 +131,7 @@ Legacy aliases still normalize to the canonical bundled ids:
     <Note>
     See [Video Generation](/tools/video-generation) for shared tool parameters,
     provider selection, and failover behavior.
+
     </Note>
 
   </Accordion>
@@ -182,6 +186,7 @@ Legacy aliases still normalize to the canonical bundled ids:
 
     <Note>
     This is remote xAI sandbox execution, not local [`exec`](/tools/exec).
+
     </Note>
 
     ```json5
@@ -209,6 +214,7 @@ Legacy aliases still normalize to the canonical bundled ids:
     - `grok-4.20-multi-agent-experimental-beta-0304` is not supported on the
       normal xAI provider path because it requires a different upstream API
       surface than the standard Velaclaw xAI transport.
+
   </Accordion>
 
   <Accordion title="Advanced notes">
@@ -226,6 +232,7 @@ Legacy aliases still normalize to the canonical bundled ids:
       than hardcoded into the core model runtime.
     - `code_execution` is remote xAI sandbox execution, not local
       [`exec`](/tools/exec).
+
   </Accordion>
 </AccordionGroup>
 
@@ -234,14 +241,18 @@ Legacy aliases still normalize to the canonical bundled ids:
 <CardGroup cols={2}>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
   <Card title="Video generation" href="/tools/video-generation" icon="video">
     Shared video tool parameters and provider selection.
+
   </Card>
   <Card title="All providers" href="/providers/index" icon="grid-2">
     The broader provider overview.
+
   </Card>
   <Card title="Troubleshooting" href="/help/troubleshooting" icon="wrench">
     Common issues and fixes.
+
   </Card>
 </CardGroup>

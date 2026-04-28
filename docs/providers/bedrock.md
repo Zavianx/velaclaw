@@ -39,6 +39,7 @@ Choose your preferred auth method and follow the setup steps.
         # Optional (Bedrock API key/bearer token):
         export AWS_BEARER_TOKEN_BEDROCK="..."
         ```
+
       </Step>
       <Step title="Add a Bedrock provider and model to your config">
         No `apiKey` is required. Configure the provider with `auth: "aws-sdk"`:
@@ -72,16 +73,20 @@ Choose your preferred auth method and follow the setup steps.
           },
         }
         ```
+
       </Step>
       <Step title="Verify models are available">
         ```bash
         velaclaw models list
         ```
+
       </Step>
+
     </Steps>
 
     <Tip>
     With env-marker auth (`AWS_ACCESS_KEY_ID`, `AWS_PROFILE`, or `AWS_BEARER_TOKEN_BEDROCK`), Velaclaw auto-enables the implicit Bedrock provider for model discovery without extra config.
+
     </Tip>
 
   </Tab>
@@ -97,6 +102,7 @@ Choose your preferred auth method and follow the setup steps.
         velaclaw config set plugins.entries.amazon-bedrock.config.discovery.enabled true
         velaclaw config set plugins.entries.amazon-bedrock.config.discovery.region us-east-1
         ```
+
       </Step>
       <Step title="Optionally add an env marker for auto mode">
         If you also want the env-marker auto-detection path to work (for example, for `velaclaw status` surfaces):
@@ -107,12 +113,15 @@ Choose your preferred auth method and follow the setup steps.
         ```
 
         You do **not** need a fake API key.
+
       </Step>
       <Step title="Verify models are discovered">
         ```bash
         velaclaw models list
         ```
+
       </Step>
+
     </Steps>
 
     <Warning>
@@ -124,10 +133,12 @@ Choose your preferred auth method and follow the setup steps.
     - `bedrock:ListInferenceProfiles` (for inference profile discovery)
 
     Or attach the managed policy `AmazonBedrockFullAccess`.
+
     </Warning>
 
     <Note>
     You only need `AWS_PROFILE=default` if you specifically want an env marker for auto mode or status surfaces. The actual Bedrock runtime auth path uses the AWS SDK default chain, so IMDS instance-role auth works even without env markers.
+
     </Note>
 
   </Tab>
@@ -293,6 +304,7 @@ velaclaw models list
 
     <Warning>
     The IAM principal used by the gateway must have the `bedrock:ApplyGuardrail` permission in addition to the standard invoke permissions.
+
     </Warning>
 
   </Accordion>
@@ -341,6 +353,7 @@ velaclaw models list
       current capabilities.
     - If you prefer a managed key flow, you can also place an OpenAI-compatible
       proxy in front of Bedrock and configure it as an OpenAI provider instead.
+
   </Accordion>
 </AccordionGroup>
 
@@ -349,14 +362,18 @@ velaclaw models list
 <CardGroup cols={2}>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
   <Card title="Memory search" href="/concepts/memory-search" icon="magnifying-glass">
     Bedrock embeddings for memory search configuration.
+
   </Card>
   <Card title="Memory config reference" href="/reference/memory-config#bedrock-embedding-config" icon="database">
     Full Bedrock embedding model list and dimension options.
+
   </Card>
   <Card title="Troubleshooting" href="/help/troubleshooting" icon="wrench">
     General troubleshooting and FAQ.
+
   </Card>
 </CardGroup>

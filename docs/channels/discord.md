@@ -12,12 +12,15 @@ Status: ready for DMs and guild channels via the official Discord gateway.
 <CardGroup cols={3}>
   <Card title="Pairing" icon="link" href="/channels/pairing">
     Discord DMs default to pairing mode.
+
   </Card>
   <Card title="Slash commands" icon="terminal" href="/tools/slash-commands">
     Native command behavior and command catalog.
+
   </Card>
   <Card title="Channel troubleshooting" icon="wrench" href="/channels/troubleshooting">
     Cross-channel diagnostics and repair flow.
+
   </Card>
 </CardGroup>
 
@@ -47,6 +50,7 @@ You will need to create a new application with a bot, add the bot to your server
 
     <Note>
     Despite the name, this generates your first token — nothing is being "reset."
+
     </Note>
 
     Copy the token and save it somewhere. This is your **Bot Token** and you will need it shortly.
@@ -114,6 +118,7 @@ velaclaw gateway
         Chat with your Velaclaw agent on any existing channel (e.g. Telegram) and tell it. If Discord is your first channel, use the CLI / config tab instead.
 
         > "I already set my Discord bot token in config. Please finish Discord setup with User ID `<user_id>` and Server ID `<server_id>`."
+
       </Tab>
       <Tab title="CLI / config">
         If you prefer file-based config, set:
@@ -142,6 +147,7 @@ DISCORD_BOT_TOKEN=...
         Plaintext `token` values are supported. SecretRef values are also supported for `channels.discord.token` across env/file/exec providers. See [Secrets Management](/gateway/secrets).
 
       </Tab>
+
     </Tabs>
 
   </Step>
@@ -154,6 +160,7 @@ DISCORD_BOT_TOKEN=...
         Send the pairing code to your agent on your existing channel:
 
         > "Approve this Discord pairing code: `<CODE>`"
+
       </Tab>
       <Tab title="CLI">
 
@@ -163,6 +170,7 @@ velaclaw pairing approve discord <CODE>
 ```
 
       </Tab>
+
     </Tabs>
 
     Pairing codes expire after 1 hour.
@@ -188,6 +196,7 @@ Once DMs are working, you can set up your Discord server as a full workspace whe
     <Tabs>
       <Tab title="Ask your agent">
         > "Add my Discord Server ID `<server_id>` to the guild allowlist"
+
       </Tab>
       <Tab title="Config">
 
@@ -208,6 +217,7 @@ Once DMs are working, you can set up your Discord server as a full workspace whe
 ```
 
       </Tab>
+
     </Tabs>
 
   </Step>
@@ -218,6 +228,7 @@ Once DMs are working, you can set up your Discord server as a full workspace whe
     <Tabs>
       <Tab title="Ask your agent">
         > "Allow my agent to respond on this server without having to be @mentioned"
+
       </Tab>
       <Tab title="Config">
         Set `requireMention: false` in your guild config:
@@ -237,6 +248,7 @@ Once DMs are working, you can set up your Discord server as a full workspace whe
 ```
 
       </Tab>
+
     </Tabs>
 
   </Step>
@@ -247,10 +259,13 @@ Once DMs are working, you can set up your Discord server as a full workspace whe
     <Tabs>
       <Tab title="Ask your agent">
         > "When I ask questions in Discord channels, use memory_search or memory_get if you need long-term context from MEMORY.md."
+
       </Tab>
       <Tab title="Manual">
         If you need shared context in every channel, put the stable instructions in `AGENTS.md` or `USER.md` (they are injected for every session). Keep long-term notes in `MEMORY.md` and access them on demand with memory tools.
+
       </Tab>
+
     </Tabs>
 
   </Step>

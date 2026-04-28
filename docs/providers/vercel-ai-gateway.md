@@ -53,6 +53,7 @@ Velaclaw auto-discovers the Gateway `/v1/models` catalog, so
     ```bash
     velaclaw models list --provider vercel-ai-gateway
     ```
+
   </Step>
 </Steps>
 
@@ -94,6 +95,7 @@ configuration. Velaclaw resolves the canonical form automatically.
     daemon unless that environment is explicitly imported. Set the key in
     `~/.velaclaw/.env` or via `env.shellEnv` to ensure the gateway process can
     read it.
+
     </Warning>
 
   </Accordion>
@@ -104,6 +106,7 @@ configuration. Velaclaw resolves the canonical form automatically.
     through Anthropic, while `vercel-ai-gateway/openai/gpt-5.4` routes through
     OpenAI. Your single `AI_GATEWAY_API_KEY` handles authentication for all
     upstream providers.
+
   </Accordion>
 </AccordionGroup>
 
@@ -112,8 +115,10 @@ configuration. Velaclaw resolves the canonical form automatically.
 <CardGroup cols={2}>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
   <Card title="Troubleshooting" href="/help/troubleshooting" icon="wrench">
     General troubleshooting and FAQ.
+
   </Card>
 </CardGroup>

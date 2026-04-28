@@ -56,6 +56,7 @@ Velaclaw can also **auto-discover** available models from vLLM when you opt in w
     ```bash
     velaclaw models list --provider vllm
     ```
+
   </Step>
 </Steps>
 
@@ -173,12 +174,14 @@ Use explicit config when:
 
     <Tip>
     If your vLLM server does not enforce auth, any non-empty value for `VLLM_API_KEY` works as an opt-in signal for Velaclaw.
+
     </Tip>
 
   </Accordion>
 
   <Accordion title="No models discovered">
     Auto-discovery requires `VLLM_API_KEY` to be set **and** no explicit `models.providers.vllm` config entry. If you have defined the provider manually, Velaclaw skips discovery and uses only your declared models.
+
   </Accordion>
 </AccordionGroup>
 
@@ -191,14 +194,18 @@ More help: [Troubleshooting](/help/troubleshooting) and [FAQ](/help/faq).
 <CardGroup cols={2}>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
   <Card title="OpenAI" href="/providers/openai" icon="bolt">
     Native OpenAI provider and OpenAI-compatible route behavior.
+
   </Card>
   <Card title="OAuth and auth" href="/gateway/authentication" icon="key">
     Auth details and credential reuse rules.
+
   </Card>
   <Card title="Troubleshooting" href="/help/troubleshooting" icon="wrench">
     Common issues and how to resolve them.
+
   </Card>
 </CardGroup>

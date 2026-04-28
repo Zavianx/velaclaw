@@ -26,11 +26,13 @@ Arcee AI models can be accessed directly via the Arcee platform or through [Open
     <Steps>
       <Step title="Get an API key">
         Create an API key at [Arcee AI](https://chat.arcee.ai/).
+
       </Step>
       <Step title="Run onboarding">
         ```bash
         velaclaw onboard --auth-choice arceeai-api-key
         ```
+
       </Step>
       <Step title="Set a default model">
         ```json5
@@ -42,19 +44,24 @@ Arcee AI models can be accessed directly via the Arcee platform or through [Open
           },
         }
         ```
+
       </Step>
+
     </Steps>
+
   </Tab>
 
   <Tab title="Via OpenRouter">
     <Steps>
       <Step title="Get an API key">
         Create an API key at [OpenRouter](https://openrouter.ai/keys).
+
       </Step>
       <Step title="Run onboarding">
         ```bash
         velaclaw onboard --auth-choice arceeai-openrouter
         ```
+
       </Step>
       <Step title="Set a default model">
         ```json5
@@ -68,7 +75,9 @@ Arcee AI models can be accessed directly via the Arcee platform or through [Open
         ```
 
         The same model refs work for both direct and OpenRouter setups (for example `arcee/trinity-large-thinking`).
+
       </Step>
+
     </Steps>
 
   </Tab>
@@ -84,6 +93,7 @@ Arcee AI models can be accessed directly via the Arcee platform or through [Open
       --auth-choice arceeai-api-key \
       --arceeai-api-key "$ARCEEAI_API_KEY"
     ```
+
   </Tab>
 
   <Tab title="Via OpenRouter">
@@ -93,6 +103,7 @@ Arcee AI models can be accessed directly via the Arcee platform or through [Open
       --auth-choice arceeai-openrouter \
       --openrouter-api-key "$OPENROUTER_API_KEY"
     ```
+
   </Tab>
 </Tabs>
 
@@ -124,6 +135,7 @@ The onboarding preset sets `arcee/trinity-large-thinking` as the default model.
     If the Gateway runs as a daemon (launchd/systemd), make sure `ARCEEAI_API_KEY`
     (or `OPENROUTER_API_KEY`) is available to that process (for example, in
     `~/.velaclaw/.env` or via `env.shellEnv`).
+
   </Accordion>
 
   <Accordion title="OpenRouter routing">
@@ -131,6 +143,7 @@ The onboarding preset sets `arcee/trinity-large-thinking` as the default model.
     Velaclaw handles routing transparently based on your auth choice. See the
     [OpenRouter provider docs](/providers/openrouter) for OpenRouter-specific
     configuration details.
+
   </Accordion>
 </AccordionGroup>
 
@@ -139,8 +152,10 @@ The onboarding preset sets `arcee/trinity-large-thinking` as the default model.
 <CardGroup cols={2}>
   <Card title="OpenRouter" href="/providers/openrouter" icon="shuffle">
     Access Arcee models and many others through a single API key.
+
   </Card>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
 </CardGroup>

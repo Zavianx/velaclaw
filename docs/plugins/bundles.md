@@ -267,21 +267,25 @@ bundles as trusted content for the features they do expose.
   <Accordion title="Bundle is detected but capabilities do not run">
     Run `velaclaw plugins inspect <id>`. If a capability is listed but marked as
     not wired, that is a product limit — not a broken install.
+
   </Accordion>
 
   <Accordion title="Claude command files do not appear">
     Make sure the bundle is enabled and the markdown files are inside a detected
     `commands/` or `skills/` root.
+
   </Accordion>
 
   <Accordion title="Claude settings do not apply">
     Only embedded Pi settings from `settings.json` are supported. Velaclaw does
     not treat bundle settings as raw config patches.
+
   </Accordion>
 
   <Accordion title="Claude hooks do not execute">
     `hooks/hooks.json` is detect-only. If you need runnable hooks, use the
     Velaclaw hook-pack layout or ship a native plugin.
+
   </Accordion>
 </AccordionGroup>
 

@@ -12,15 +12,19 @@ Use this page for day-1 startup and day-2 operations of the Gateway service.
 <CardGroup cols={2}>
   <Card title="Deep troubleshooting" icon="siren" href="/gateway/troubleshooting">
     Symptom-first diagnostics with exact command ladders and log signatures.
+
   </Card>
   <Card title="Configuration" icon="sliders" href="/gateway/configuration">
     Task-oriented setup guide + full configuration reference.
+
   </Card>
   <Card title="Secrets management" icon="key-round" href="/gateway/secrets">
     SecretRef contract, runtime snapshot behavior, and migrate/reload operations.
+
   </Card>
   <Card title="Secrets plan contract" icon="shield-check" href="/gateway/secrets-plan-contract">
     Exact `secrets apply` target/path rules and ref-only auth-profile behavior.
+
   </Card>
 </CardGroup>
 

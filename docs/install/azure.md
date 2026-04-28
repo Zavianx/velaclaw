@@ -124,6 +124,7 @@ This guide sets up an Azure Linux VM with the Azure CLI, applies Network Securit
     ```bash
     az group create -n "${RG}" -l "${LOCATION}"
     ```
+
   </Step>
 
   <Step title="Create the network security group">

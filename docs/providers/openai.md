@@ -27,6 +27,7 @@ Choose your preferred auth method and follow the setup steps.
     <Steps>
       <Step title="Get your API key">
         Create or copy an API key from the [OpenAI Platform dashboard](https://platform.openai.com/api-keys).
+
       </Step>
       <Step title="Run onboarding">
         ```bash
@@ -38,12 +39,15 @@ Choose your preferred auth method and follow the setup steps.
         ```bash
         velaclaw onboard --openai-api-key "$OPENAI_API_KEY"
         ```
+
       </Step>
       <Step title="Verify the model is available">
         ```bash
         velaclaw models list --provider openai
         ```
+
       </Step>
+
     </Steps>
 
     ### Route summary
@@ -55,6 +59,7 @@ Choose your preferred auth method and follow the setup steps.
 
     <Note>
     ChatGPT/Codex sign-in is routed through `openai-codex/*`, not `openai/*`.
+
     </Note>
 
     ### Config example
@@ -68,6 +73,7 @@ Choose your preferred auth method and follow the setup steps.
 
     <Warning>
     Velaclaw does **not** expose `openai/gpt-5.3-codex-spark` on the direct API path. Live OpenAI API requests reject that model. Spark is Codex-only.
+
     </Warning>
 
   </Tab>
@@ -86,17 +92,21 @@ Choose your preferred auth method and follow the setup steps.
         ```bash
         velaclaw models auth login --provider openai-codex
         ```
+
       </Step>
       <Step title="Set the default model">
         ```bash
         velaclaw config set agents.defaults.model.primary openai-codex/gpt-5.4
         ```
+
       </Step>
       <Step title="Verify the model is available">
         ```bash
         velaclaw models list --provider openai-codex
         ```
+
       </Step>
+
     </Steps>
 
     ### Route summary
@@ -108,6 +118,7 @@ Choose your preferred auth method and follow the setup steps.
 
     <Note>
     This route is intentionally separate from `openai/gpt-5.4`. Use `openai/*` with an API key for direct Platform access, and `openai-codex/*` for Codex subscription access.
+
     </Note>
 
     ### Config example
@@ -120,6 +131,7 @@ Choose your preferred auth method and follow the setup steps.
 
     <Tip>
     If onboarding reuses an existing Codex CLI login, those credentials stay managed by Codex CLI. On expiry, Velaclaw re-reads the external Codex source first and writes the refreshed credential back to Codex storage.
+
     </Tip>
 
     ### Context window cap
@@ -147,6 +159,7 @@ Choose your preferred auth method and follow the setup steps.
 
     <Note>
     Use `contextWindow` to declare native model metadata. Use `contextTokens` to limit the runtime context budget.
+
     </Note>
 
   </Tab>
@@ -225,11 +238,13 @@ Velaclaw adds a small OpenAI-specific prompt overlay for `openai/*` and `openai-
       },
     }
     ```
+
   </Tab>
   <Tab title="CLI">
     ```bash
     velaclaw config set plugins.entries.openai.config.personality off
     ```
+
   </Tab>
 </Tabs>
 
@@ -269,6 +284,7 @@ Values are case-insensitive at runtime, so `"Off"` and `"off"` both disable the 
 
     <Note>
     Set `OPENAI_TTS_BASE_URL` to override the TTS base URL without affecting the chat API endpoint.
+
     </Note>
 
   </Accordion>
@@ -285,6 +301,7 @@ Values are case-insensitive at runtime, so `"Off"` and `"off"` both disable the 
 
     <Note>
     Uses a WebSocket connection to `wss://api.openai.com/v1/realtime` with G.711 u-law audio.
+
     </Note>
 
   </Accordion>
@@ -303,6 +320,7 @@ Values are case-insensitive at runtime, so `"Off"` and `"off"` both disable the 
 
     <Note>
     Supports Azure OpenAI via `azureEndpoint` and `azureDeployment` config keys. Supports bidirectional tool calling. Uses G.711 u-law audio format.
+
     </Note>
 
   </Accordion>
@@ -389,6 +407,7 @@ Values are case-insensitive at runtime, so `"Off"` and `"off"` both disable the 
 
     <Note>
     Session overrides win over config. Clearing the session override in the Sessions UI returns the session to the configured default.
+
     </Note>
 
   </Accordion>
@@ -413,6 +432,7 @@ Values are case-insensitive at runtime, so `"Off"` and `"off"` both disable the 
 
     <Warning>
     `serviceTier` is only forwarded to native OpenAI endpoints (`api.openai.com`) and native Codex endpoints (`chatgpt.com/backend-api`). If you route either provider through a proxy, Velaclaw leaves `service_tier` untouched.
+
     </Warning>
 
   </Accordion>
@@ -441,6 +461,7 @@ Values are case-insensitive at runtime, so `"Off"` and `"off"` both disable the 
           },
         }
         ```
+
       </Tab>
       <Tab title="Custom threshold">
         ```json5
@@ -459,6 +480,7 @@ Values are case-insensitive at runtime, so `"Off"` and `"off"` both disable the 
           },
         }
         ```
+
       </Tab>
       <Tab title="Disable">
         ```json5
@@ -474,11 +496,14 @@ Values are case-insensitive at runtime, so `"Off"` and `"off"` both disable the 
           },
         }
         ```
+
       </Tab>
+
     </Tabs>
 
     <Note>
     `responsesServerCompaction` only controls `context_management` injection. Direct OpenAI Responses models still force `store: true` unless compat sets `supportsStore: false`.
+
     </Note>
 
   </Accordion>
@@ -504,6 +529,7 @@ Values are case-insensitive at runtime, so `"Off"` and `"off"` both disable the 
 
     <Note>
     Scoped to OpenAI and Codex GPT-5-family runs only. Other providers and older model families keep default behavior.
+
     </Note>
 
   </Accordion>
@@ -531,14 +557,18 @@ Values are case-insensitive at runtime, so `"Off"` and `"off"` both disable the 
 <CardGroup cols={2}>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
   <Card title="Image generation" href="/tools/image-generation" icon="image">
     Shared image tool parameters and provider selection.
+
   </Card>
   <Card title="Video generation" href="/tools/video-generation" icon="video">
     Shared video tool parameters and provider selection.
+
   </Card>
   <Card title="OAuth and auth" href="/gateway/authentication" icon="key">
     Auth details and credential reuse rules.
+
   </Card>
 </CardGroup>

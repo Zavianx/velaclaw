@@ -39,9 +39,11 @@ Choose between running ComfyUI on your own machine or using Comfy Cloud.
     <Steps>
       <Step title="Start ComfyUI locally">
         Make sure your local ComfyUI instance is running (defaults to `http://127.0.0.1:8188`).
+
       </Step>
       <Step title="Prepare your workflow JSON">
         Export or create a ComfyUI workflow JSON file. Note the node IDs for the prompt input node and the output node you want Velaclaw to read from.
+
       </Step>
       <Step title="Configure the provider">
         Set `mode: "local"` and point at your workflow file. Here is a minimal image example:
@@ -63,6 +65,7 @@ Choose between running ComfyUI on your own machine or using Comfy Cloud.
           },
         }
         ```
+
       </Step>
       <Step title="Set the default model">
         Point Velaclaw at the `comfy/workflow` model for the capability you configured:
@@ -78,12 +81,15 @@ Choose between running ComfyUI on your own machine or using Comfy Cloud.
           },
         }
         ```
+
       </Step>
       <Step title="Verify">
         ```bash
         velaclaw models list --provider comfy
         ```
+
       </Step>
+
     </Steps>
 
   </Tab>
@@ -94,6 +100,7 @@ Choose between running ComfyUI on your own machine or using Comfy Cloud.
     <Steps>
       <Step title="Get an API key">
         Sign up at [comfy.org](https://comfy.org) and generate an API key from your account dashboard.
+
       </Step>
       <Step title="Set the API key">
         Provide your key through one of these methods:
@@ -108,9 +115,11 @@ Choose between running ComfyUI on your own machine or using Comfy Cloud.
         # Or inline in config
         velaclaw config set models.providers.comfy.apiKey "your-key"
         ```
+
       </Step>
       <Step title="Prepare your workflow JSON">
         Export or create a ComfyUI workflow JSON file. Note the node IDs for the prompt input node and the output node.
+
       </Step>
       <Step title="Configure the provider">
         Set `mode: "cloud"` and point at your workflow file:
@@ -134,7 +143,9 @@ Choose between running ComfyUI on your own machine or using Comfy Cloud.
 
         <Tip>
         Cloud mode defaults `baseUrl` to `https://cloud.comfy.org`. You only need to set `baseUrl` if you use a custom cloud endpoint.
+
         </Tip>
+
       </Step>
       <Step title="Set the default model">
         ```json5
@@ -148,12 +159,15 @@ Choose between running ComfyUI on your own machine or using Comfy Cloud.
           },
         }
         ```
+
       </Step>
       <Step title="Verify">
         ```bash
         velaclaw models list --provider comfy
         ```
+
       </Step>
+
     </Steps>
 
   </Tab>
@@ -281,6 +295,7 @@ The `image` and `video` sections also support:
 
     <Note>
     Velaclaw does not pass input videos into Comfy workflows. Only text prompts and single reference images are supported as inputs.
+
     </Note>
 
   </Accordion>
@@ -317,6 +332,7 @@ The `image` and `video` sections also support:
 
     <Tip>
     If you only use image generation, the legacy flat config and the new nested `image` section are functionally equivalent.
+
     </Tip>
 
   </Accordion>
@@ -338,17 +354,22 @@ The `image` and `video` sections also support:
 <CardGroup cols={2}>
   <Card title="Image Generation" href="/tools/image-generation" icon="image">
     Image generation tool configuration and usage.
+
   </Card>
   <Card title="Video Generation" href="/tools/video-generation" icon="video">
     Video generation tool configuration and usage.
+
   </Card>
   <Card title="Music Generation" href="/tools/music-generation" icon="music">
     Music and audio generation tool setup.
+
   </Card>
   <Card title="Provider Directory" href="/providers/index" icon="layers">
     Overview of all providers and model refs.
+
   </Card>
   <Card title="Configuration Reference" href="/gateway/configuration-reference#agent-defaults" icon="gear">
     Full config reference including agent defaults.
+
   </Card>
 </CardGroup>

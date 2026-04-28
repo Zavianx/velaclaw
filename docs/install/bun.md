@@ -34,6 +34,7 @@ Bun is an optional local runtime for running TypeScript directly (`bun run ...`,
     bun run build
     bun run vitest run
     ```
+
   </Step>
 </Steps>
 

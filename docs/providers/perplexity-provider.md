@@ -42,6 +42,7 @@ This page covers the Perplexity **provider** setup. For the Perplexity
   <Step title="Start searching">
     The agent will automatically use Perplexity for web searches once the key is
     configured. No additional steps are required.
+
   </Step>
 </Steps>
 
@@ -54,11 +55,13 @@ The plugin auto-selects the transport based on API key prefix:
     When your key starts with `pplx-`, Velaclaw uses the native Perplexity Search
     API. This transport returns structured results and supports domain, language,
     and date filters (see filtering options below).
+
   </Tab>
   <Tab title="OpenRouter / Sonar (sk-or-)">
     When your key starts with `sk-or-`, Velaclaw routes through OpenRouter using
     the Perplexity Sonar model. This transport returns AI-synthesized answers with
     citations.
+
   </Tab>
 </Tabs>
 
@@ -96,6 +99,7 @@ When using the native Perplexity API, searches support the following filters:
     daemon unless that environment is explicitly imported. Set the key in
     `~/.velaclaw/.env` or via `env.shellEnv` to ensure the gateway process can
     read it.
+
     </Warning>
 
   </Accordion>
@@ -109,6 +113,7 @@ When using the native Perplexity API, searches support the following filters:
     <Tip>
     The OpenRouter transport is useful if you already have an OpenRouter account
     and want consolidated billing across multiple providers.
+
     </Tip>
 
   </Accordion>
@@ -119,8 +124,10 @@ When using the native Perplexity API, searches support the following filters:
 <CardGroup cols={2}>
   <Card title="Perplexity search tool" href="/tools/perplexity-search" icon="magnifying-glass">
     How the agent invokes Perplexity searches and interprets results.
+
   </Card>
   <Card title="Configuration reference" href="/gateway/configuration-reference" icon="gear">
     Full configuration reference including plugin entries.
+
   </Card>
 </CardGroup>

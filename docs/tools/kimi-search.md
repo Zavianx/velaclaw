@@ -16,6 +16,7 @@ to produce AI-synthesized answers with citations.
 <Steps>
   <Step title="Create a key">
     Get an API key from [Moonshot AI](https://platform.moonshot.cn/).
+
   </Step>
   <Step title="Store the key">
     Set `KIMI_API_KEY` or `MOONSHOT_API_KEY` in the Gateway environment, or

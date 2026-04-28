@@ -31,12 +31,15 @@ falls back to npm automatically.
 <CardGroup cols={3}>
   <Card title="Channel plugin" icon="messages-square" href="/plugins/sdk-channel-plugins">
     Connect Velaclaw to a messaging platform (Discord, IRC, etc.)
+
   </Card>
   <Card title="Provider plugin" icon="cpu" href="/plugins/sdk-provider-plugins">
     Add a model provider (LLM, proxy, or custom endpoint)
+
   </Card>
   <Card title="Tool / hook plugin" icon="wrench">
     Register agent tools, event hooks, or services — continue below
+
   </Card>
 </CardGroup>
 
@@ -84,6 +87,7 @@ and provider plugins have dedicated guides linked above.
       }
     }
     ```
+
     </CodeGroup>
 
     Every plugin needs a manifest, even with no config. See
@@ -293,21 +297,27 @@ surfaces, not as the default pattern for new third-party plugins.
 <CardGroup cols={2}>
   <Card title="Channel Plugins" icon="messages-square" href="/plugins/sdk-channel-plugins">
     Build a messaging channel plugin
+
   </Card>
   <Card title="Provider Plugins" icon="cpu" href="/plugins/sdk-provider-plugins">
     Build a model provider plugin
+
   </Card>
   <Card title="SDK Overview" icon="book-open" href="/plugins/sdk-overview">
     Import map and registration API reference
+
   </Card>
   <Card title="Runtime Helpers" icon="settings" href="/plugins/sdk-runtime">
     TTS, search, subagent via api.runtime
+
   </Card>
   <Card title="Testing" icon="test-tubes" href="/plugins/sdk-testing">
     Test utilities and patterns
+
   </Card>
   <Card title="Plugin Manifest" icon="file-json" href="/plugins/manifest">
     Full manifest schema reference
+
   </Card>
 </CardGroup>
 

@@ -44,6 +44,7 @@ Choose your provider and follow the setup steps.
         | ---------------------- | ------------------------------ | ------------- |
         | `moonshot-api-key`     | `https://api.moonshot.ai/v1`   | International |
         | `moonshot-api-key-cn`  | `https://api.moonshot.cn/v1`   | China         |
+
       </Step>
       <Step title="Run onboarding">
         ```bash
@@ -55,6 +56,7 @@ Choose your provider and follow the setup steps.
         ```bash
         velaclaw onboard --auth-choice moonshot-api-key-cn
         ```
+
       </Step>
       <Step title="Set a default model">
         ```json5
@@ -66,12 +68,15 @@ Choose your provider and follow the setup steps.
           },
         }
         ```
+
       </Step>
       <Step title="Verify models are available">
         ```bash
         velaclaw models list --provider moonshot
         ```
+
       </Step>
+
     </Steps>
 
     ### Config example
@@ -152,6 +157,7 @@ Choose your provider and follow the setup steps.
 
     <Note>
     Kimi Coding uses a different API key and provider prefix (`kimi/...`) than Moonshot (`moonshot/...`). Legacy model ref `kimi/k2p5` remains accepted as a compatibility id.
+
     </Note>
 
     <Steps>
@@ -159,6 +165,7 @@ Choose your provider and follow the setup steps.
         ```bash
         velaclaw onboard --auth-choice kimi-code-api-key
         ```
+
       </Step>
       <Step title="Set a default model">
         ```json5
@@ -170,12 +177,15 @@ Choose your provider and follow the setup steps.
           },
         }
         ```
+
       </Step>
       <Step title="Verify the model is available">
         ```bash
         velaclaw models list --provider kimi
         ```
+
       </Step>
+
     </Steps>
 
     ### Config example
@@ -286,6 +296,7 @@ Config lives under `plugins.entries.moonshot.config.webSearch`:
 
     <Warning>
     When Moonshot thinking is enabled, `tool_choice` must be `auto` or `none`. Velaclaw normalizes incompatible `tool_choice` values to `auto` for compatibility.
+
     </Warning>
 
   </Accordion>
@@ -296,6 +307,7 @@ Config lives under `plugins.entries.moonshot.config.webSearch`:
     shared `openai-completions` transport. Velaclaw keys that off endpoint
     capabilities, so compatible custom provider ids targeting the same native
     Moonshot hosts inherit the same streaming-usage behavior.
+
   </Accordion>
 
   <Accordion title="Endpoint and model ref reference">
@@ -318,14 +330,18 @@ Config lives under `plugins.entries.moonshot.config.webSearch`:
 <CardGroup cols={2}>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
-  <Card title="Web search" href="/tools/web-search" icon="magnifying-glass">
+  <Card title="Web search" href="/tools/web" icon="magnifying-glass">
     Configuring web search providers including Kimi.
+
   </Card>
   <Card title="Configuration reference" href="/gateway/configuration-reference" icon="gear">
     Full config schema for providers, models, and plugins.
+
   </Card>
   <Card title="Moonshot Open Platform" href="https://platform.moonshot.ai" icon="globe">
     Moonshot API key management and documentation.
+
   </Card>
 </CardGroup>

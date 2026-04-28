@@ -24,6 +24,7 @@ Velaclaw ships a bundled `fal` provider for hosted image and video generation.
     ```bash
     velaclaw onboard --auth-choice fal-api-key
     ```
+
   </Step>
   <Step title="Set a default image model">
     ```json5
@@ -37,6 +38,7 @@ Velaclaw ships a bundled `fal` provider for hosted image and video generation.
       },
     }
     ```
+
   </Step>
 </Steps>
 
@@ -108,6 +110,7 @@ The bundled `fal` video-generation provider defaults to
       },
     }
     ```
+
   </Accordion>
 
   <Accordion title="HeyGen video-agent config example">
@@ -122,6 +125,7 @@ The bundled `fal` video-generation provider defaults to
       },
     }
     ```
+
   </Accordion>
 </AccordionGroup>
 
@@ -135,11 +139,14 @@ models, including any recently added entries.
 <CardGroup cols={2}>
   <Card title="Image generation" href="/tools/image-generation" icon="image">
     Shared image tool parameters and provider selection.
+
   </Card>
   <Card title="Video generation" href="/tools/video-generation" icon="video">
     Shared video tool parameters and provider selection.
+
   </Card>
   <Card title="Configuration reference" href="/gateway/configuration-reference#agent-defaults" icon="gear">
     Agent defaults including image and video model selection.
+
   </Card>
 </CardGroup>

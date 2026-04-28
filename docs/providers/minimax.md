@@ -54,13 +54,17 @@ Choose your preferred auth method and follow the setup steps.
             ```
 
             This authenticates against `api.minimax.io`.
+
           </Step>
           <Step title="Verify the model is available">
             ```bash
             velaclaw models list --provider minimax-portal
             ```
+
           </Step>
+
         </Steps>
+
       </Tab>
       <Tab title="China">
         <Steps>
@@ -70,22 +74,29 @@ Choose your preferred auth method and follow the setup steps.
             ```
 
             This authenticates against `api.minimaxi.com`.
+
           </Step>
           <Step title="Verify the model is available">
             ```bash
             velaclaw models list --provider minimax-portal
             ```
+
           </Step>
+
         </Steps>
+
       </Tab>
+
     </Tabs>
 
     <Note>
     OAuth setups use the `minimax-portal` provider id. Model refs follow the form `minimax-portal/MiniMax-M2.7`.
+
     </Note>
 
     <Tip>
     Referral link for MiniMax Coding Plan (10% off): [MiniMax Coding Plan](https://platform.minimax.io/subscribe/coding-plan?code=DbXJTRClnb&source=link)
+
     </Tip>
 
   </Tab>
@@ -102,13 +113,17 @@ Choose your preferred auth method and follow the setup steps.
             ```
 
             This configures `api.minimax.io` as the base URL.
+
           </Step>
           <Step title="Verify the model is available">
             ```bash
             velaclaw models list --provider minimax
             ```
+
           </Step>
+
         </Steps>
+
       </Tab>
       <Tab title="China">
         <Steps>
@@ -118,14 +133,19 @@ Choose your preferred auth method and follow the setup steps.
             ```
 
             This configures `api.minimaxi.com` as the base URL.
+
           </Step>
           <Step title="Verify the model is available">
             ```bash
             velaclaw models list --provider minimax
             ```
+
           </Step>
+
         </Steps>
+
       </Tab>
+
     </Tabs>
 
     ### Config example
@@ -169,10 +189,12 @@ Choose your preferred auth method and follow the setup steps.
 
     <Warning>
     On the Anthropic-compatible streaming path, Velaclaw disables MiniMax thinking by default unless you explicitly set `thinking` yourself. MiniMax's streaming endpoint emits `reasoning_content` in OpenAI-style delta chunks instead of native Anthropic thinking blocks, which can leak internal reasoning into visible output if left enabled implicitly.
+
     </Warning>
 
     <Note>
     API-key setups use the `minimax` provider id. Model refs follow the form `minimax/MiniMax-M2.7`.
+
     </Note>
 
   </Tab>
@@ -187,9 +209,11 @@ Use the interactive config wizard to set MiniMax without editing JSON:
     ```bash
     velaclaw configure
     ```
+
   </Step>
   <Step title="Select Model/auth">
     Choose **Model/auth** from the menu.
+
   </Step>
   <Step title="Choose a MiniMax auth option">
     Pick one of the available MiniMax options:
@@ -204,6 +228,7 @@ Use the interactive config wizard to set MiniMax without editing JSON:
   </Step>
   <Step title="Pick your default model">
     Select your default model when prompted.
+
   </Step>
 </Steps>
 
@@ -349,6 +374,7 @@ See [MiniMax Search](/tools/minimax-search) for full web search configuration an
     | `models.providers.minimax.models` | Define `id`, `name`, `reasoning`, `contextWindow`, `maxTokens`, `cost` |
     | `agents.defaults.models` | Alias models you want in the allowlist |
     | `models.mode` | Keep `merge` if you want to add MiniMax alongside built-ins |
+
   </Accordion>
 
   <Accordion title="Thinking defaults">
@@ -360,6 +386,7 @@ See [MiniMax Search](/tools/minimax-search) for full web search configuration an
 
   <Accordion title="Fast mode">
     `/fast on` or `params.fastMode: true` rewrites `MiniMax-M2.7` to `MiniMax-M2.7-highspeed` on the Anthropic-compatible stream path.
+
   </Accordion>
 
   <Accordion title="Fallback example">
@@ -390,6 +417,7 @@ See [MiniMax Search](/tools/minimax-search) for full web search configuration an
     - Velaclaw normalizes MiniMax coding-plan usage to the same `% left` display used by other providers. MiniMax's raw `usage_percent` / `usagePercent` fields are remaining quota, not consumed quota, so Velaclaw inverts them. Count-based fields win when present.
     - When the API returns `model_remains`, Velaclaw prefers the chat-model entry, derives the window label from `start_time` / `end_time` when needed, and includes the selected model name in the plan label so coding-plan windows are easier to distinguish.
     - Usage snapshots treat `minimax`, `minimax-cn`, and `minimax-portal` as the same MiniMax quota surface, and prefer stored MiniMax OAuth before falling back to Coding Plan key env vars.
+
   </Accordion>
 </AccordionGroup>
 
@@ -447,20 +475,26 @@ More help: [Troubleshooting](/help/troubleshooting) and [FAQ](/help/faq).
 <CardGroup cols={2}>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
   <Card title="Image generation" href="/tools/image-generation" icon="image">
     Shared image tool parameters and provider selection.
+
   </Card>
   <Card title="Music generation" href="/tools/music-generation" icon="music">
     Shared music tool parameters and provider selection.
+
   </Card>
   <Card title="Video generation" href="/tools/video-generation" icon="video">
     Shared video tool parameters and provider selection.
+
   </Card>
   <Card title="MiniMax Search" href="/tools/minimax-search" icon="magnifying-glass">
     Web search configuration via MiniMax Coding Plan.
+
   </Card>
   <Card title="Troubleshooting" href="/help/troubleshooting" icon="wrench">
     General troubleshooting and FAQ.
+
   </Card>
 </CardGroup>

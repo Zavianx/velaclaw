@@ -38,11 +38,13 @@ models are accessed via the `zai` provider and model IDs like `zai/glm-5`.
     ```bash
     velaclaw config set agents.defaults.model.primary "zai/glm-5.1"
     ```
+
   </Step>
   <Step title="Verify models are available">
     ```bash
     velaclaw models list --provider zai
     ```
+
   </Step>
 </Steps>
 
@@ -89,12 +91,14 @@ can change; check Z.AI's docs for the latest.
     to determine the correct Z.AI base URL. Explicit regional choices
     (`zai-coding-global`, `zai-coding-cn`, `zai-global`, `zai-cn`) override
     auto-detection and pin the endpoint directly.
+
   </Accordion>
 
   <Accordion title="Provider details">
     GLM models are served by the `zai` runtime provider. For full provider
     configuration, regional endpoints, and additional capabilities, see
     [Z.AI provider docs](/providers/zai).
+
   </Accordion>
 </AccordionGroup>
 
@@ -103,8 +107,10 @@ can change; check Z.AI's docs for the latest.
 <CardGroup cols={2}>
   <Card title="Z.AI provider" href="/providers/zai" icon="server">
     Full Z.AI provider configuration and regional endpoints.
+
   </Card>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
 </CardGroup>

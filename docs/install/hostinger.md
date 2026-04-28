@@ -26,6 +26,7 @@ The fastest way to get started. Hostinger handles infrastructure, Docker, and au
 
     <Note>
     During checkout you can select **Ready-to-Use AI** credits that are pre-purchased and integrated instantly inside Velaclaw -- no external accounts or API keys from other providers needed. You can start chatting right away. Alternatively, provide your own key from Anthropic, OpenAI, Google Gemini, or xAI during setup.
+
     </Note>
 
   </Step>
@@ -40,6 +41,7 @@ The fastest way to get started. Hostinger handles infrastructure, Docker, and au
 
   <Step title="Complete installation">
     Click **Finish** to deploy the instance. Once ready, access the Velaclaw dashboard from **Velaclaw Overview** in hPanel.
+
   </Step>
 
 </Steps>
@@ -54,6 +56,7 @@ More control over your server. Hostinger deploys Velaclaw via Docker on your VPS
 
     <Note>
     You can select **Ready-to-Use AI** credits during checkout -- these are pre-purchased and integrated instantly inside Velaclaw, so you can start chatting without any external accounts or API keys from other providers.
+
     </Note>
 
   </Step>
@@ -70,6 +73,7 @@ More control over your server. Hostinger deploys Velaclaw via Docker on your VPS
 
   <Step title="Start Velaclaw">
     Click **Deploy**. Once running, open the Velaclaw dashboard from the hPanel by clicking on **Open**.
+
   </Step>
 
 </Steps>

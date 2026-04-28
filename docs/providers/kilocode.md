@@ -23,6 +23,7 @@ endpoint and API key. It is OpenAI-compatible, so most OpenAI SDKs work by switc
 <Steps>
   <Step title="Create an account">
     Go to [app.kilo.ai](https://app.kilo.ai), sign in or create an account, then navigate to API Keys and generate a new key.
+
   </Step>
   <Step title="Run onboarding">
     ```bash
@@ -40,6 +41,7 @@ endpoint and API key. It is OpenAI-compatible, so most OpenAI SDKs work by switc
     ```bash
     velaclaw models list --provider kilocode
     ```
+
   </Step>
 </Steps>
 
@@ -110,6 +112,7 @@ includes `kilocode/kilo/auto` (`Kilo Auto`) with `input: ["text", "image"]`,
     `kilocode/kilo/auto` and other proxy-reasoning-unsupported hints skip reasoning
     injection. If you need reasoning support, use a concrete model ref such as
     `kilocode/anthropic/claude-sonnet-4`.
+
     </Warning>
 
   </Accordion>
@@ -118,6 +121,7 @@ includes `kilocode/kilo/auto` (`Kilo Auto`) with `input: ["text", "image"]`,
     - If model discovery fails at startup, Velaclaw falls back to the bundled static catalog containing `kilocode/kilo/auto`.
     - Confirm your API key is valid and that your Kilo account has the desired models enabled.
     - When the Gateway runs as a daemon, ensure `KILOCODE_API_KEY` is available to that process (for example in `~/.velaclaw/.env` or via `env.shellEnv`).
+
   </Accordion>
 </AccordionGroup>
 
@@ -126,11 +130,14 @@ includes `kilocode/kilo/auto` (`Kilo Auto`) with `input: ["text", "image"]`,
 <CardGroup cols={2}>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
   <Card title="Configuration reference" href="/gateway/configuration" icon="gear">
     Full Velaclaw configuration reference.
+
   </Card>
   <Card title="Kilo Gateway" href="https://app.kilo.ai" icon="arrow-up-right-from-square">
     Kilo Gateway dashboard, API keys, and account management.
+
   </Card>
 </CardGroup>

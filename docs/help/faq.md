@@ -170,6 +170,7 @@ Quick answers plus deeper troubleshooting for real-world setups (local dev, VPS,
 
   <Accordion title="How do I open the dashboard after onboarding?">
     The wizard opens your browser with a clean (non-tokenized) dashboard URL right after onboarding and also prints the link in the summary. Keep that tab open; if it didn't launch, copy/paste the printed URL on the same machine.
+
   </Accordion>
 
   <Accordion title="How do I authenticate the dashboard on localhost vs remote?">
@@ -218,6 +219,7 @@ Quick answers plus deeper troubleshooting for real-world setups (local dev, VPS,
 
   <Accordion title="What runtime do I need?">
     Node **>= 22** is required. `pnpm` is recommended. Bun is **not recommended** for the Gateway.
+
   </Accordion>
 
   <Accordion title="Does it run on Raspberry Pi?">
@@ -651,10 +653,12 @@ for usage/billing and raise limits as needed.
 
   <Accordion title="Is AWS Bedrock supported?">
     Yes. Velaclaw has a bundled **Amazon Bedrock (Converse)** provider. With AWS env markers present, Velaclaw can auto-discover the streaming/text Bedrock catalog and merge it as an implicit `amazon-bedrock` provider; otherwise you can explicitly enable `plugins.entries.amazon-bedrock.config.discovery.enabled` or add a manual provider entry. See [Amazon Bedrock](/providers/bedrock) and [Model providers](/providers/models). If you prefer a managed key flow, an OpenAI-compatible proxy in front of Bedrock is still a valid option.
+
   </Accordion>
 
   <Accordion title="How does Codex auth work?">
     Velaclaw supports **OpenAI Code (Codex)** via OAuth (ChatGPT sign-in). Onboarding can run the OAuth flow and will set the default model to `openai-codex/gpt-5.4` when appropriate. See [Model providers](/concepts/model-providers) and [Onboarding (CLI)](/start/wizard).
+
   </Accordion>
 
   <Accordion title="Why does ChatGPT GPT-5.4 not unlock openai/gpt-5.4 in Velaclaw?">
@@ -710,10 +714,12 @@ for usage/billing and raise limits as needed.
 
   <Accordion title="Is a local model OK for casual chats?">
     Usually no. Velaclaw needs large context + strong safety; small cards truncate and leak. If you must, run the **largest** model build you can locally (LM Studio) and see [/gateway/local-models](/gateway/local-models). Smaller/quantized models increase prompt-injection risk - see [Security](/gateway/security).
+
   </Accordion>
 
   <Accordion title="How do I keep hosted model traffic in a specific region?">
     Pick region-pinned endpoints. OpenRouter exposes US-hosted options for MiniMax, Kimi, and GLM; choose the US-hosted variant to keep data in-region. You can still list Anthropic/OpenAI alongside these by using `models.mode: "merge"` so fallbacks stay available while respecting the regioned provider you select.
+
   </Accordion>
 
   <Accordion title="Do I have to buy a Mac Mini to install this?">
@@ -787,10 +793,12 @@ for usage/billing and raise limits as needed.
 
   <Accordion title="Can multiple people use one WhatsApp number with different Velaclaw instances?">
     Yes, via **multi-agent routing**. Bind each sender's WhatsApp **DM** (peer `kind: "direct"`, sender E.164 like `+15551234567`) to a different `agentId`, so each person gets their own workspace and session store. Replies still come from the **same WhatsApp account**, and DM access control (`channels.whatsapp.dmPolicy` / `channels.whatsapp.allowFrom`) is global per WhatsApp account. See [Multi-Agent Routing](/concepts/multi-agent) and [WhatsApp](/channels/whatsapp).
+
   </Accordion>
 
   <Accordion title='Can I run a "fast chat" agent and an "Opus for coding" agent?'>
     Yes. Use multi-agent routing: give each agent its own default model, then bind inbound routes (provider account or specific peers) to each agent. Example config lives in [Multi-Agent Routing](/concepts/multi-agent). See also [Models](/concepts/models) and [Configuration](/gateway/configuration).
+
   </Accordion>
 
   <Accordion title="Does Homebrew work on Linux?">
@@ -913,6 +921,7 @@ for usage/billing and raise limits as needed.
 <AccordionGroup>
   <Accordion title="What is Velaclaw, in one paragraph?">
     Velaclaw is a personal AI assistant you run on your own devices. It replies on the messaging surfaces you already use (WhatsApp, Telegram, Slack, Mattermost, Discord, Google Chat, Signal, iMessage, WebChat, and bundled channel plugins such as QQ Bot) and can also do voice + a live Canvas on supported platforms. The **Gateway** is the always-on control plane; the assistant is the product.
+
   </Accordion>
 
   <Accordion title="Value proposition">
@@ -998,10 +1007,12 @@ for usage/billing and raise limits as needed.
 <AccordionGroup>
   <Accordion title="How do I customize skills without keeping the repo dirty?">
     Use managed overrides instead of editing the repo copy. Put your changes in `~/.velaclaw/skills/<name>/SKILL.md` (or add a folder via `skills.load.extraDirs` in `~/.Zavianx/velaclaw-dev.json`). Precedence is `<workspace>/skills` → `<workspace>/.agents/skills` → `~/.agents/skills` → `~/.velaclaw/skills` → bundled → `skills.load.extraDirs`, so managed overrides still win over bundled skills without touching git. If you need the skill installed globally but only visible to some agents, keep the shared copy in `~/.velaclaw/skills` and control visibility with `agents.defaults.skills` and `agents.list[].skills`. Only upstream-worthy edits should live in the repo and go out as PRs.
+
   </Accordion>
 
   <Accordion title="Can I load skills from a custom folder?">
     Yes. Add extra directories via `skills.load.extraDirs` in `~/.Zavianx/velaclaw-dev.json` (lowest precedence). Default precedence is `<workspace>/skills` → `<workspace>/.agents/skills` → `~/.agents/skills` → `~/.velaclaw/skills` → bundled → `skills.load.extraDirs`. `clawhub` installs into `./skills` by default, which Velaclaw treats as `<workspace>/skills` on the next session. If the skill should only be visible to certain agents, pair that with `agents.defaults.skills` or `agents.list[].skills`.
+
   </Accordion>
 
   <Accordion title="How can I use different models for different tasks?">
@@ -1274,6 +1285,7 @@ for usage/billing and raise limits as needed.
 <AccordionGroup>
   <Accordion title="Is there a dedicated sandboxing doc?">
     Yes. See [Sandboxing](/gateway/sandboxing). For Docker-specific setup (full gateway in Docker or sandbox images), see [Docker](/install/docker).
+
   </Accordion>
 
   <Accordion title="Docker feels limited - how do I enable full features?">
@@ -1450,6 +1462,7 @@ for usage/billing and raise limits as needed.
 
   <Accordion title="How do I completely uninstall Velaclaw?">
     See the dedicated guide: [Uninstall](/install/uninstall).
+
   </Accordion>
 
   <Accordion title="Can agents work outside the workspace?">
@@ -1477,6 +1490,7 @@ for usage/billing and raise limits as needed.
 
   <Accordion title="Remote mode: where is the session store?">
     Session state is owned by the **gateway host**. If you're in remote mode, the session store you care about is on the remote machine, not your local laptop. See [Session management](/concepts/session).
+
   </Accordion>
 </AccordionGroup>
 
@@ -1688,6 +1702,7 @@ for usage/billing and raise limits as needed.
   <Accordion title="How do I use Brave for browser control?">
     Set `browser.executablePath` to your Brave binary (or any Chromium-based browser) and restart the Gateway.
     See the full config examples in [Browser](/tools/browser#use-brave-or-another-chromium-based-browser).
+
   </Accordion>
 </AccordionGroup>
 
@@ -1975,6 +1990,7 @@ for usage/billing and raise limits as needed.
 <AccordionGroup>
   <Accordion title="How do I start a fresh conversation?">
     Send `/new` or `/reset` as a standalone message. See [Session management](/concepts/session).
+
   </Accordion>
 
   <Accordion title="Do sessions reset automatically if I never send /new?">
@@ -2157,6 +2173,7 @@ for usage/billing and raise limits as needed.
 
   <Accordion title="Do groups/threads share context with DMs?">
     Direct chats collapse to the main session by default. Groups/channels have their own session keys, and Telegram topics / Discord threads are separate sessions. See [Groups](/channels/groups) and [Group messages](/channels/group-messages).
+
   </Accordion>
 
   <Accordion title="How many workspaces and agents can I create?">
@@ -2279,6 +2296,7 @@ for usage/billing and raise limits as needed.
     - These deployments can differ and may change over time; there is no fixed provider recommendation.
     - Check the current runtime setting on each gateway with `velaclaw models status`.
     - For security-sensitive/tool-enabled agents, use the strongest latest-generation model available.
+
   </Accordion>
 
   <Accordion title="How do I switch models on the fly (without restarting)?">
@@ -3059,6 +3077,7 @@ Related: [/concepts/oauth](/concepts/oauth) (OAuth flows, token storage, multi-a
 
   <Accordion title="Fastest way to get more details when something fails">
     Start the Gateway with `--verbose` to get more console detail. Then inspect the log file for channel auth, model routing, and RPC errors.
+
   </Accordion>
 </AccordionGroup>
 
@@ -3151,6 +3170,7 @@ Related: [/concepts/oauth](/concepts/oauth) (OAuth flows, token storage, multi-a
     more susceptible to instruction hijacking, so avoid them for tool-enabled agents
     or when reading untrusted content. If you must use a smaller model, lock down
     tools and run inside a sandbox. See [Security](/gateway/security).
+
   </Accordion>
 
   <Accordion title="I ran /start in Telegram but did not get a pairing code">
@@ -3292,6 +3312,7 @@ Related: [/concepts/oauth](/concepts/oauth) (OAuth flows, token storage, multi-a
 <AccordionGroup>
   <Accordion title='What is the default model for Anthropic with an API key?'>
     In Velaclaw, credentials and model selection are separate. Setting `ANTHROPIC_API_KEY` (or storing an Anthropic API key in auth profiles) enables authentication, but the actual default model is whatever you configure in `agents.defaults.model.primary` (for example, `anthropic/claude-sonnet-4-6` or `anthropic/claude-opus-4-6`). If you see `No credentials found for profile "anthropic:default"`, it means the Gateway couldn't find Anthropic credentials in the expected `auth-profiles.json` for the agent that's running.
+
   </Accordion>
 </AccordionGroup>
 

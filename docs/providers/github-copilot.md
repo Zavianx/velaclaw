@@ -28,6 +28,7 @@ provider in two different ways.
 
         You will be prompted to visit a URL and enter a one-time code. Keep the
         terminal open until it completes.
+
       </Step>
       <Step title="Set a default model">
         ```bash
@@ -41,7 +42,9 @@ provider in two different ways.
           agents: { defaults: { model: { primary: "github-copilot/gpt-4o" } } },
         }
         ```
+
       </Step>
+
     </Steps>
 
   </Tab>
@@ -53,6 +56,7 @@ provider in two different ways.
     <Note>
     Choose this when you already run Copilot Proxy in VS Code or need to route
     through it. You must enable the plugin and keep the VS Code extension running.
+
     </Note>
 
   </Tab>
@@ -77,17 +81,20 @@ velaclaw models auth login --provider github-copilot --method device --set-defau
   <Accordion title="Interactive TTY required">
     The device-login flow requires an interactive TTY. Run it directly in a
     terminal, not in a non-interactive script or CI pipeline.
+
   </Accordion>
 
   <Accordion title="Model availability depends on your plan">
     Copilot model availability depends on your GitHub plan. If a model is
     rejected, try another ID (for example `github-copilot/gpt-4.1`).
+
   </Accordion>
 
   <Accordion title="Transport selection">
     Claude model IDs use the Anthropic Messages transport automatically. GPT,
     o-series, and Gemini models keep the OpenAI Responses transport. Velaclaw
     selects the correct transport based on the model ref.
+
   </Accordion>
 
   <Accordion title="Environment variable resolution order">
@@ -111,6 +118,7 @@ velaclaw models auth login --provider github-copilot --method device --set-defau
     The login stores a GitHub token in the auth profile store and exchanges it
     for a Copilot API token when Velaclaw runs. You do not need to manage the
     token manually.
+
   </Accordion>
 </AccordionGroup>
 
@@ -164,8 +172,10 @@ available, Velaclaw skips Copilot and tries the next provider.
 <CardGroup cols={2}>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
   <Card title="OAuth and auth" href="/gateway/authentication" icon="key">
     Auth details and credential reuse rules.
+
   </Card>
 </CardGroup>

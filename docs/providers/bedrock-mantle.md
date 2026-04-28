@@ -39,6 +39,7 @@ Choose your preferred auth method and follow the setup steps.
         ```bash
         export AWS_REGION="us-west-2"
         ```
+
       </Step>
       <Step title="Verify models are discovered">
         ```bash
@@ -47,7 +48,9 @@ Choose your preferred auth method and follow the setup steps.
 
         Discovered models appear under the `amazon-bedrock-mantle` provider. No
         additional config is required unless you want to override defaults.
+
       </Step>
+
     </Steps>
 
   </Tab>
@@ -63,6 +66,7 @@ Choose your preferred auth method and follow the setup steps.
         export AWS_PROFILE="default"
         export AWS_REGION="us-west-2"
         ```
+
       </Step>
       <Step title="Verify models are discovered">
         ```bash
@@ -70,11 +74,14 @@ Choose your preferred auth method and follow the setup steps.
         ```
 
         Velaclaw generates a Mantle bearer token from the credential chain automatically.
+
       </Step>
+
     </Steps>
 
     <Tip>
     When `AWS_BEARER_TOKEN_BEDROCK` is not set, Velaclaw mints the bearer token for you from the AWS default credential chain, including shared credentials/config profiles, SSO, web identity, and instance or task roles.
+
     </Tip>
 
   </Tab>
@@ -139,12 +146,14 @@ If you prefer explicit config instead of auto-discovery:
     Reasoning support is inferred from model IDs containing patterns like
     `thinking`, `reasoner`, or `gpt-oss-120b`. Velaclaw sets `reasoning: true`
     automatically for matching models during discovery.
+
   </Accordion>
 
   <Accordion title="Endpoint unavailability">
     If the Mantle endpoint is unavailable or returns no models, the provider is
     silently skipped. Velaclaw does not error; other configured providers
     continue to work normally.
+
   </Accordion>
 
   <Accordion title="Relationship to Amazon Bedrock provider">
@@ -164,14 +173,18 @@ If you prefer explicit config instead of auto-discovery:
 <CardGroup cols={2}>
   <Card title="Amazon Bedrock" href="/providers/bedrock" icon="cloud">
     Native Bedrock provider for Anthropic Claude, Titan, and other models.
+
   </Card>
   <Card title="Model selection" href="/concepts/model-providers" icon="layers">
     Choosing providers, model refs, and failover behavior.
+
   </Card>
   <Card title="OAuth and auth" href="/gateway/authentication" icon="key">
     Auth details and credential reuse rules.
+
   </Card>
   <Card title="Troubleshooting" href="/help/troubleshooting" icon="wrench">
     Common issues and how to resolve them.
+
   </Card>
 </CardGroup>

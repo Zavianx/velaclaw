@@ -19,6 +19,7 @@ extraction (highlights, text, summaries).
   <Step title="Create an account">
     Sign up at [exa.ai](https://exa.ai/) and generate an API key from your
     dashboard.
+
   </Step>
   <Step title="Store the key">
     Set `EXA_API_KEY` in the Gateway environment, or configure via:

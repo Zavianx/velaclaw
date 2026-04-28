@@ -7,7 +7,7 @@ read_when:
   - Updating community project highlights
 ---
 
-<!-- markdownlint-disable MD033 -->
+{/_ markdownlint-disable MD033 _/}
 
 # Showcase
 
@@ -463,11 +463,14 @@ Have something to share? We'd love to feature it!
 <Steps>
   <Step title="Share It">
     Post in [#self-promotion on Discord](https://discord.gg/clawd) or [tweet @velaclaw](https://x.com/velaclaw)
+
   </Step>
   <Step title="Include Details">
     Tell us what it does, link to the repo/demo, share a screenshot if you have one
+
   </Step>
   <Step title="Get Featured">
     We'll add standout projects to this page
+
   </Step>
 </Steps>

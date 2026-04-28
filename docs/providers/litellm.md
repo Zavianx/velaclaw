@@ -18,7 +18,8 @@ read_when:
 - **Virtual keys** — Create keys with spend limits for Velaclaw
 - **Logging** — Full request/response logs for debugging
 - **Fallbacks** — Automatic failover if your primary provider is down
-  </Tip>
+
+</Tip>
 
 ## Quick start
 
@@ -31,7 +32,9 @@ read_when:
         ```bash
         velaclaw onboard --auth-choice litellm-api-key
         ```
+
       </Step>
+
     </Steps>
 
   </Tab>
@@ -45,6 +48,7 @@ read_when:
         pip install 'litellm[proxy]'
         litellm --model claude-opus-4-6
         ```
+
       </Step>
       <Step title="Point Velaclaw to LiteLLM">
         ```bash
@@ -54,7 +58,9 @@ read_when:
         ```
 
         That's it. Velaclaw now routes through LiteLLM.
+
       </Step>
+
     </Steps>
 
   </Tab>
@@ -172,6 +178,7 @@ export LITELLM_API_KEY="sk-litellm-key"
       OpenAI reasoning-compat payload shaping
     - Hidden Velaclaw attribution headers (`originator`, `version`, `User-Agent`)
       are not injected on custom LiteLLM base URLs
+
   </Accordion>
 </AccordionGroup>
 
@@ -184,14 +191,18 @@ For general provider configuration and failover behavior, see [Model Providers](
 <CardGroup cols={2}>
   <Card title="LiteLLM Docs" href="https://docs.litellm.ai" icon="book">
     Official LiteLLM documentation and API reference.
+
   </Card>
   <Card title="Model providers" href="/concepts/model-providers" icon="layers">
     Overview of all providers, model refs, and failover behavior.
+
   </Card>
   <Card title="Configuration" href="/gateway/configuration" icon="gear">
     Full config reference.
+
   </Card>
   <Card title="Model selection" href="/concepts/models" icon="brain">
     How to choose and configure models.
+
   </Card>
 </CardGroup>
