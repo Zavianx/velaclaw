@@ -22,6 +22,9 @@ export async function maybeHandleResetCommand(
   if (!resetMatch) {
     return null;
   }
+  if (/^\/new\s+claw(?:\s|$)/i.test(params.command.commandBodyNormalized)) {
+    return null;
+  }
   if (!params.command.isAuthorizedSender) {
     logVerbose(
       `Ignoring /reset from unauthorized sender: ${params.command.senderId || "<unknown>"}`,

@@ -92,6 +92,19 @@ export function buildExecOverridePromptHint(params: {
     .join("\n");
 }
 
+function buildClawSessionPrompt(ctx: TemplateContext): string | undefined {
+  const name = normalizeOptionalString(ctx.ClawSessionName);
+  const rolePrompt = normalizeOptionalString(ctx.ClawSessionRolePrompt);
+  if (!name || !rolePrompt) {
+    return undefined;
+  }
+  return [
+    `Current named claw session: ${name}.`,
+    "Apply this user-managed role instruction inside this claw session:",
+    rolePrompt,
+  ].join("\n");
+}
+
 let piEmbeddedRuntimePromise: Promise<typeof import("../../agents/pi-embedded.runtime.js")> | null =
   null;
 let agentRunnerRuntimePromise: Promise<typeof import("./agent-runner.runtime.js")> | null = null;
@@ -290,6 +303,7 @@ export async function runPreparedReply(
   );
   const extraSystemPromptParts = [
     inboundMetaPrompt,
+    buildClawSessionPrompt(sessionCtx),
     groupChatContext,
     groupIntro,
     groupSystemPrompt,

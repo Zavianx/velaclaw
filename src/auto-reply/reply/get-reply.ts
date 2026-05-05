@@ -9,6 +9,8 @@ import { resolveModelRefFromString } from "../../agents/model-selection.js";
 import { resolveAgentTimeoutMs } from "../../agents/timeout.js";
 import { DEFAULT_AGENT_WORKSPACE_DIR, ensureAgentWorkspace } from "../../agents/workspace.js";
 import { resolveChannelModelOverride } from "../../channels/model-overrides.js";
+import { applyActiveClawToContext } from "../../claws/claw-sessions.js";
+import { resolveClawSkillFilter } from "../../claws/claw-skill-filter.js";
 import { type VelaclawConfig, loadConfig } from "../../config/config.js";
 import { defaultRuntime } from "../../runtime.js";
 import { normalizeOptionalString } from "../../shared/string-coerce.js";
@@ -72,31 +74,6 @@ function loadOriginRouting() {
   return originRoutingPromise;
 }
 
-function mergeSkillFilters(channelFilter?: string[], agentFilter?: string[]): string[] | undefined {
-  const normalize = (list?: string[]) => {
-    if (!Array.isArray(list)) {
-      return undefined;
-    }
-    return normalizeStringEntries(list);
-  };
-  const channel = normalize(channelFilter);
-  const agent = normalize(agentFilter);
-  if (!channel && !agent) {
-    return undefined;
-  }
-  if (!channel) {
-    return agent;
-  }
-  if (!agent) {
-    return channel;
-  }
-  if (channel.length === 0 || agent.length === 0) {
-    return [];
-  }
-  const agentSet = new Set(agent);
-  return channel.filter((name) => agentSet.has(name));
-}
-
 function hasInboundMedia(ctx: MsgContext): boolean {
   return Boolean(
     ctx.StickerMediaIncluded ||
@@ -154,6 +131,19 @@ export async function getReplyFromConfig(
     isFastTestEnv,
     configOverride,
   });
+  const initialTargetSessionKey =
+    ctx.CommandSource === "native"
+      ? normalizeOptionalString(ctx.CommandTargetSessionKey)
+      : undefined;
+  const initialAgentId = resolveSessionAgentId({
+    sessionKey: initialTargetSessionKey || ctx.SessionKey,
+    config: cfg,
+  });
+  const clawRoute = applyActiveClawToContext({
+    agentId: initialAgentId,
+    ctx,
+  });
+  ctx = clawRoute.ctx;
   const useFastTestBootstrap = shouldUseReplyFastTestBootstrap({
     isFastTestEnv,
     configOverride,
@@ -171,10 +161,11 @@ export async function getReplyFromConfig(
     sessionKey: agentSessionKey,
     config: cfg,
   });
-  const mergedSkillFilter = mergeSkillFilters(
-    opts?.skillFilter,
-    resolveAgentSkillsFilter(cfg, agentId),
-  );
+  const mergedSkillFilter = resolveClawSkillFilter({
+    requestFilter: opts?.skillFilter ? normalizeStringEntries(opts.skillFilter) : undefined,
+    clawFilter: ctx.ClawSkillFilter ? normalizeStringEntries(ctx.ClawSkillFilter) : undefined,
+    agentFilter: resolveAgentSkillsFilter(cfg, agentId),
+  });
   const resolvedOpts =
     mergedSkillFilter !== undefined ? { ...opts, skillFilter: mergedSkillFilter } : opts;
   const agentCfg = cfg.agents?.defaults;

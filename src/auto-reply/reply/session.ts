@@ -233,6 +233,34 @@ function resolveBoundConversationSessionKey(params: {
   return binding.targetSessionKey;
 }
 
+function deriveClawSessionMetaPatch(ctx: MsgContext): Partial<SessionEntry> | undefined {
+  const name = normalizeOptionalString(ctx.ClawSessionName);
+  const sessionKey = normalizeOptionalString(ctx.ClawSessionKey);
+  if (!name || !sessionKey) {
+    return undefined;
+  }
+  const patch: Partial<SessionEntry> = {
+    label: `claw:${name}`,
+    displayName: `Claw: ${name}`,
+  };
+  const providerOverride = normalizeOptionalString(ctx.ClawProviderOverride);
+  const modelOverride = normalizeOptionalString(ctx.ClawModelOverride);
+  if (providerOverride && modelOverride) {
+    patch.providerOverride = providerOverride;
+    patch.modelOverride = modelOverride;
+    patch.modelOverrideSource = "user";
+  }
+  const thinkingLevel = normalizeOptionalString(ctx.ClawThinkingLevel);
+  if (thinkingLevel) {
+    patch.thinkingLevel = thinkingLevel;
+  }
+  const reasoningLevel = normalizeOptionalString(ctx.ClawReasoningLevel);
+  if (reasoningLevel) {
+    patch.reasoningLevel = reasoningLevel;
+  }
+  return patch;
+}
+
 export async function initSessionState(params: {
   ctx: MsgContext;
   cfg: VelaclawConfig;
@@ -355,6 +383,9 @@ export async function initSessionState(params: {
   for (const trigger of resetTriggers) {
     if (!trigger) {
       continue;
+    }
+    if (/^\/new\s+claw(?:\s|$)/i.test(strippedForReset)) {
+      break;
     }
     if (!resetAuthorized) {
       break;
@@ -627,6 +658,10 @@ export async function initSessionState(params: {
   });
   if (metaPatch) {
     sessionEntry = { ...sessionEntry, ...metaPatch };
+  }
+  const clawMetaPatch = deriveClawSessionMetaPatch(sessionCtxForState);
+  if (clawMetaPatch) {
+    sessionEntry = { ...sessionEntry, ...clawMetaPatch };
   }
   if (isSystemEvent && !isThread) {
     sessionEntry = {

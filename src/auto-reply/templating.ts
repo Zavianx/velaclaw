@@ -150,6 +150,16 @@ export type MsgContext = {
   CommandAuthorized?: boolean;
   CommandSource?: "text" | "native";
   CommandTargetSessionKey?: string;
+  /** Active user-managed named claw session, if this turn was routed to one. */
+  ClawSessionId?: string;
+  ClawSessionName?: string;
+  ClawSessionKey?: string;
+  ClawSessionRolePrompt?: string;
+  ClawSkillFilter?: string[];
+  ClawProviderOverride?: string;
+  ClawModelOverride?: string;
+  ClawThinkingLevel?: string;
+  ClawReasoningLevel?: string;
   /**
    * Internal flag: command handling prepared trailing prompt text for ACP dispatch.
    * Used for `/new <prompt>` and `/reset <prompt>` on ACP-bound sessions.
