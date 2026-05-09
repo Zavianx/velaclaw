@@ -308,6 +308,39 @@ export async function velaclawTeamAssetProposeCommand(
   });
 }
 
+export async function velaclawTeamWikiProposeCommand(
+  params: CommonParams & {
+    slug: string;
+    vault: string;
+  },
+) {
+  const root = resolveRoot(params.root);
+  await ensureVelaclawWorkspace(root);
+  const result = await withVelaclawData(root, (d) =>
+    d.proposeTeamAssetsFromWikiDigest({
+      teamSlug: params.slug,
+      vaultPath: params.vault,
+    }),
+  );
+  printResult(result, params.json, (v) => {
+    const r = v as {
+      teamSlug: string;
+      proposedCount: number;
+      skippedCount: number;
+      proposals: Array<{ id: string; category: string; status: string; title: string }>;
+      warnings: string[];
+    };
+    const lines = [
+      `Wiki proposals for ${r.teamSlug}: proposed=${r.proposedCount} skipped=${r.skippedCount}`,
+      ...r.proposals.map(
+        (asset) => `${asset.id.slice(0, 8)} ${asset.category} [${asset.status}] ${asset.title}`,
+      ),
+      ...r.warnings.map((warning) => `warning: ${warning}`),
+    ];
+    return lines.join("\n");
+  });
+}
+
 export async function velaclawTeamAssetApproveCommand(
   params: CommonParams & { slug: string; assetId: string; approvedByMemberId?: string },
 ) {
