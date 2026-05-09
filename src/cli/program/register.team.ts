@@ -19,6 +19,7 @@ import {
   velaclawTeamRestoreCommand,
   velaclawTeamsListCommand,
   velaclawTeamShowCommand,
+  velaclawTeamWikiProposeCommand,
 } from "../../commands/velaclaw-team.js";
 import { defaultRuntime } from "../../runtime.js";
 import { runCommandWithRuntime } from "../cli-utils.js";
@@ -333,6 +334,25 @@ export function registerTeamCommands(program: Command) {
           root: opts.root,
           json: Boolean(opts.json),
           slug: String(slug),
+        });
+      });
+    });
+
+  const wiki = team.command("wiki").description("Manage team wiki integrations");
+
+  wiki
+    .command("propose <slug>")
+    .description("Create reviewed team asset proposals from a compiled memory wiki digest")
+    .requiredOption("--vault <path>", "Path to the memory wiki vault")
+    .option("--root <dir>")
+    .option("--json", "", false)
+    .action(async (slug, opts) => {
+      await runCommandWithRuntime(defaultRuntime, async () => {
+        await velaclawTeamWikiProposeCommand({
+          root: opts.root,
+          json: Boolean(opts.json),
+          slug: String(slug),
+          vault: String(opts.vault),
         });
       });
     });

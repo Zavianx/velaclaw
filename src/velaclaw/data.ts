@@ -32,6 +32,11 @@ import { safeEqualSecret } from "../security/secret-equal.js";
 import { parseAssetRouterJsonObject } from "./asset-router-json.js";
 import { buildAssetServerKindList, resolveTeamAssetTypeRuntime } from "./asset-types.js";
 import {
+  proposeTeamAssetsFromWikiDigestWithDeps,
+  type ProposeTeamAssetsFromWikiDigestInput,
+  type TeamWikiAssetProposalResult,
+} from "./wiki-team-assets.js";
+import {
   ensureVelaclawControlPlaneStateInitialized,
   readVelaclawControlPlaneStateSync,
   resolveActiveVelaclawRoot,
@@ -881,6 +886,13 @@ function defaultAssetRolePolicies(): TeamAssetRolePolicy[] {
       canApprove: false,
       canPromote: false,
     },
+    {
+      role: "system-wiki",
+      canPropose: true,
+      publishWithoutApproval: false,
+      canApprove: false,
+      canPromote: false,
+    },
   ];
 }
 
@@ -1114,6 +1126,7 @@ function resolveMemberPermissions(
     "member",
     "viewer",
     "system-evolution",
+    "system-wiki",
   ]);
   const normalized = memberId.toLowerCase();
   if (knownRoles.has(normalized)) {
@@ -1220,6 +1233,16 @@ export async function getTeamOverviewBySlug(slug: string) {
       assetPublishedCount: team.assets.filter((a) => a.status === "published").length,
     },
   };
+}
+
+export async function proposeTeamAssetsFromWikiDigest(
+  input: ProposeTeamAssetsFromWikiDigestInput,
+): Promise<TeamWikiAssetProposalResult> {
+  const overview = await getTeamOverviewBySlug(input.teamSlug);
+  return await proposeTeamAssetsFromWikiDigestWithDeps(input, {
+    existingAssets: [...overview.assets.records],
+    createProposal: createTeamAssetProposal,
+  });
 }
 
 // ============ Invitations ============
