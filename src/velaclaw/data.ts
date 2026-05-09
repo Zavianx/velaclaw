@@ -877,7 +877,7 @@ function defaultAssetRolePolicies(): TeamAssetRolePolicy[] {
     {
       role: "system-evolution",
       canPropose: true,
-      publishWithoutApproval: true,
+      publishWithoutApproval: false,
       canApprove: false,
       canPromote: false,
     },
