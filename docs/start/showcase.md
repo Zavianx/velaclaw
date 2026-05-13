@@ -20,7 +20,7 @@ read_when:
   <div className="showcase-actions">
     <a href="#videos">Watch demos</a>
     <a href="#fresh-from-discord">Browse projects</a>
-    <a href="https://discord.gg/clawd">Share yours</a>
+    <a href="https://discord.gg/BMtnggD9SM">Share yours</a>
   </div>
   <div className="showcase-highlights">
     <div className="showcase-highlight">
@@ -39,7 +39,7 @@ read_when:
 </div>
 
 <Info>
-**Want to be featured?** Share your project in [#self-promotion on Discord](https://discord.gg/clawd) or [tag @velaclaw on X](https://x.com/velaclaw).
+**Want to be featured?** Share your project in [#self-promotion on Discord](https://discord.gg/BMtnggD9SM) or [tag @velaclaw on X](https://x.com/velaclaw).
 </Info>
 
 <div className="showcase-jump-links">
@@ -462,7 +462,7 @@ Have something to share? We'd love to feature it!
 
 <Steps>
   <Step title="Share It">
-    Post in [#self-promotion on Discord](https://discord.gg/clawd) or [tweet @velaclaw](https://x.com/velaclaw)
+    Post in [#self-promotion on Discord](https://discord.gg/BMtnggD9SM) or [tweet @velaclaw](https://x.com/velaclaw)
   </Step>
   <Step title="Include Details">
     Tell us what it does, link to the repo/demo, share a screenshot if you have one

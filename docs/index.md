@@ -26,8 +26,14 @@ title: "VelaClaw"
   <Card title="Get Started" href="/start/getting-started" icon="rocket">
     Install VelaClaw and bring up the Gateway in minutes.
   </Card>
+  <Card title="Introduction" href="/start/introduction" icon="compass">
+    A quick map of the system, the docs, and the main workflows.
+  </Card>
   <Card title="Run Onboarding" href="/start/wizard" icon="sparkles">
     Guided setup with `velaclaw onboard` and pairing flows.
+  </Card>
+  <Card title="Agent Team & Teams" href="/start/teams" icon="users">
+    Learn how temporary helper agents and persistent team workspaces work.
   </Card>
   <Card title="Open the Control UI" href="/web/control-ui" icon="layout-dashboard">
     Launch the browser dashboard for chat, config, and sessions.

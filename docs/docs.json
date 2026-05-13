@@ -46,7 +46,7 @@
       },
       {
         "label": "Discord",
-        "href": "https://discord.com/invite/clawd",
+        "href": "https://discord.gg/BMtnggD9SM",
         "icon": "discord"
       }
     ]
@@ -927,7 +927,13 @@
             "groups": [
               {
                 "group": "Overview",
-                "pages": ["index", "start/showcase", "concepts/features"]
+                "pages": [
+                  "index",
+                  "start/introduction",
+                  "start/teams",
+                  "start/showcase",
+                  "concepts/features"
+                ]
               },
               {
                 "group": "First steps",
